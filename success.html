@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("paid") !== "1") {
+      window.location.replace("paid.html");
+    }
+  })();
+</script>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Download · Pricing Assistant</title>
+    <meta
+      name="description"
+      content="Thanks for your purchase. Choose your platform to download Pricing Assistant."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="bg">
+      <header class="header">
+        <div class="container nav">
+          <div class="brand">
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Purchase complete</div>
+            </div>
+          </div>
+
+          <div class="nav-links">
+            <a class="nav-link" href="index.html#products">Back to site</a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="container">
+            <div class="product-card" style="max-width: 860px; margin: 0 auto;">
+              <div class="product-top">
+                <div class="product-badge">Success</div>
+                <div class="product-version">Pricing Assistant</div>
+              </div>
+
+              <h3 style="margin-top: 4px;">Thanks for your purchase.</h3>
+              <p class="product-lead">
+                Choose your platform below to download <strong>Pricing Assistant</strong>.
+              </p>
+
+              <div class="btn-grid" style="margin-top: 14px;">
+                <a class="btn primary" href="downloads/PricingAssistant-mac.zip" download>
+                  Download for Mac
+                  <span class="btn-sub">.zip</span>
+                </a>
+
+                <a class="btn secondary" href="downloads/PricingAssistant-windows.zip" download>
+                  Download for Windows
+                  <span class="btn-sub">.zip</span>
+                </a>
+              </div>
+
+              <div class="fine" style="margin-top: 14px;">
+                If your download doesn’t start, right-click the button and choose “Save link as…”.
+              </div>
+
+              <div class="fine" style="margin-top: 8px;">
+                Need help? Contact <strong>support@yourdomain.com</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-inner">
+          <div class="footer-left">
+            <div class="footer-title">Faraj Software Solutions</div>
+            <div class="footer-sub">Thank you for supporting independent software.</div>
+          </div>
+
+          <div class="footer-right">
+            <a class="footer-link" href="index.html#support">Support</a>
+            <a class="footer-link" href="index.html#products">Products</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
