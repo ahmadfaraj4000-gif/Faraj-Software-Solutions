@@ -41,6 +41,67 @@
       font-size: 1rem;
     }
     
+    /* Top Buy Button Sticky Bar */
+    .sticky-buy-bar {
+      position: sticky;
+      top: 70px; /* Just below header */
+      z-index: 5;
+      background: rgba(11, 22, 36, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--teal);
+      border-radius: 60px;
+      padding: 12px 24px;
+      margin: 20px auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      box-shadow: 0 10px 30px rgba(34,211,197,0.2);
+    }
+    
+    .sticky-price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .sticky-old {
+      text-decoration: line-through;
+      color: var(--muted2);
+      font-size: 1.2rem;
+    }
+    
+    .sticky-current {
+      font-size: 1.8rem;
+      font-weight: 950;
+      color: var(--teal);
+    }
+    
+    .sticky-badge {
+      background: rgba(34,211,197,0.2);
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+    
+    .sticky-button {
+      background: var(--teal);
+      color: #07131f;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform 0.2s;
+      white-space: nowrap;
+    }
+    
+    .sticky-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(34,211,197,0.3);
+    }
+    
     .video-wrapper {
       position: relative;
       padding-bottom: 56.25%; /* 16:9 */
@@ -226,7 +287,8 @@
       font-style: normal;
     }
     
-    @media (max-width: 760px) {
+    /* Mobile Responsive Improvements */
+    @media (max-width: 980px) {
       .feature-grid {
         grid-template-columns: 1fr;
       }
@@ -238,6 +300,146 @@
       .price-tag {
         flex-direction: column;
         align-items: flex-start;
+        width: 100%;
+      }
+      
+      /* Fix sticky bar for mobile */
+      .sticky-buy-bar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+        padding: 16px;
+        top: 60px;
+        border-radius: 20px;
+        margin: 10px auto 20px;
+      }
+      
+      .sticky-price {
+        justify-content: center;
+      }
+      
+      .sticky-button {
+        text-align: center;
+        padding: 14px;
+      }
+      
+      /* Make summary cards more readable */
+      .summary-card {
+        padding: 20px;
+      }
+      
+      .summary-value {
+        font-size: 1.4rem;
+      }
+      
+      /* Improve table readability on mobile */
+      .comparison-table {
+        font-size: 0.9rem;
+      }
+      
+      .comparison-table td:first-child {
+        width: 120px;
+      }
+      
+      /* Adjust button sizes */
+      .btn-large {
+        padding: 16px 24px;
+        font-size: 1.2rem;
+        width: 100%;
+      }
+      
+      .btn-sub-large {
+        font-size: 0.8rem;
+      }
+      
+      /* Fix hero spacing */
+      .product-hero {
+        padding: 20px 0 10px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .lead {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 560px) {
+      .container {
+        width: min(1120px, calc(100% - 20px));
+      }
+      
+      .sticky-buy-bar {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      
+      .feature-card {
+        padding: 18px;
+      }
+      
+      .feature-title {
+        font-size: 1.2rem;
+      }
+      
+      .summary-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .summary-value {
+        font-size: 1.3rem;
+      }
+      
+      .comparison-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      
+      .comparison-table td {
+        white-space: normal;
+        min-width: 120px;
+      }
+      
+      .pill {
+        font-size: 11px;
+        padding: 6px 10px;
+      }
+      
+      .support-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+      
+      .footer-right {
+        flex-wrap: wrap;
+      }
+    }
+    
+    /* Improve touch targets on mobile */
+    @media (max-width: 768px) {
+      .btn, 
+      .sticky-button,
+      .nav-link,
+      .footer-link {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .pill {
+        padding: 10px 14px;
       }
     }
   </style>
@@ -289,6 +491,20 @@
         </div>
       </section>
 
+      <!-- TOP BUY BUTTON - STICKY BAR -->
+      <div class="container">
+        <div class="sticky-buy-bar">
+          <div class="sticky-price">
+            <span class="sticky-old">$199</span>
+            <span class="sticky-current">$89.99</span>
+            <span class="sticky-badge">55% OFF</span>
+          </div>
+          <a href="https://farajsolutions.gumroad.com/l/nwaaks" target="_blank" rel="noopener" class="sticky-button">
+            Buy Now → Secure Checkout
+          </a>
+        </div>
+      </div>
+
       <!-- Video + Summary Section -->
       <section class="section">
         <div class="container">
@@ -323,7 +539,7 @@
         </div>
       </section>
 
-      <!-- The Problem Section (New) -->
+      <!-- The Problem Section -->
       <section class="section">
         <div class="container">
           <h2 style="text-align: center; margin-bottom: 40px;">The <span class="accent">Challenge</span> of Restaurant Pricing</h2>
@@ -354,7 +570,7 @@
         </div>
       </section>
 
-      <!-- Core Features Grid (Rewritten) -->
+      <!-- Core Features Grid -->
       <section class="section">
         <div class="container">
           <h2 style="text-align: center; margin-bottom: 20px;">Everything you need for <span class="accent">menu engineering</span></h2>
@@ -452,68 +668,70 @@
         </div>
       </section>
 
-      <!-- Honest Comparison (No Bashing) -->
+      <!-- Honest Comparison -->
       <section class="section">
         <div class="container">
           <h2 style="text-align: center; margin-bottom: 20px;">How Pricing Assistant <span class="accent">fits into</span> your toolkit</h2>
           <p class="lead" style="text-align: center; max-width: 700px; margin: 0 auto 30px;">Different tools serve different purposes. Here's where Pricing Assistant excels.</p>
           
-          <table class="comparison-table">
-            <tr>
-              <th></th>
-              <th>QuickBooks</th>
-              <th>Excel / Spreadsheets</th>
-              <th>Pricing Assistant</th>
-            </tr>
-            <tr>
-              <td>Primary purpose</td>
-              <td>Accounting, payroll, financial reporting</td>
-              <td>Flexible data analysis, custom calculations</td>
-              <td>Restaurant menu pricing & cost analysis</td>
-            </tr>
-            <tr>
-              <td>Waste tracking</td>
-              <td>—</td>
-              <td>Manual setup</td>
-              <td><span class="check-mark">✓</span> Per ingredient with global defaults</td>
-            </tr>
-            <tr>
-              <td>Weighted labor tiers</td>
-              <td>—</td>
-              <td>Complex formulas</td>
-              <td><span class="check-mark">✓</span> Built-in with hours/week weighting</td>
-            </tr>
-            <tr>
-              <td>Overhead allocation</td>
-              <td>Total overhead only</td>
-              <td>Manual allocation</td>
-              <td><span class="check-mark">✓</span> Per-item based on monthly volume</td>
-            </tr>
-            <tr>
-              <td>What-if scenarios</td>
-              <td>—</td>
-              <td><span class="check-mark">✓</span> With manual setup</td>
-              <td><span class="check-mark">✓</span> One-click ingredient, labor, overhead scenarios</td>
-            </tr>
-            <tr>
-              <td>Competitor pricing</td>
-              <td>—</td>
-              <td>Manual tracking</td>
-              <td><span class="check-mark">✓</span> Track up to 3 competitors per item</td>
-            </tr>
-            <tr>
-              <td>Menu management</td>
-              <td>—</td>
-              <td>Manual spreadsheets</td>
-              <td><span class="check-mark">✓</span> Save, load, export full menus</td>
-            </tr>
-            <tr>
-              <td>Batch labor calculator</td>
-              <td>—</td>
-              <td>Manual formulas</td>
-              <td><span class="check-mark">✓</span> Prep time + yield = minutes per item</td>
-            </tr>
-          </table>
+          <div style="overflow-x: auto;">
+            <table class="comparison-table">
+              <tr>
+                <th></th>
+                <th>QuickBooks</th>
+                <th>Excel / Spreadsheets</th>
+                <th>Pricing Assistant</th>
+              </tr>
+              <tr>
+                <td>Primary purpose</td>
+                <td>Accounting, payroll, financial reporting</td>
+                <td>Flexible data analysis, custom calculations</td>
+                <td>Restaurant menu pricing & cost analysis</td>
+              </tr>
+              <tr>
+                <td>Waste tracking</td>
+                <td>—</td>
+                <td>Manual setup</td>
+                <td><span class="check-mark">✓</span> Per ingredient with global defaults</td>
+              </tr>
+              <tr>
+                <td>Weighted labor tiers</td>
+                <td>—</td>
+                <td>Complex formulas</td>
+                <td><span class="check-mark">✓</span> Built-in with hours/week weighting</td>
+              </tr>
+              <tr>
+                <td>Overhead allocation</td>
+                <td>Total overhead only</td>
+                <td>Manual allocation</td>
+                <td><span class="check-mark">✓</span> Per-item based on monthly volume</td>
+              </tr>
+              <tr>
+                <td>What-if scenarios</td>
+                <td>—</td>
+                <td><span class="check-mark">✓</span> With manual setup</td>
+                <td><span class="check-mark">✓</span> One-click ingredient, labor, overhead scenarios</td>
+              </tr>
+              <tr>
+                <td>Competitor pricing</td>
+                <td>—</td>
+                <td>Manual tracking</td>
+                <td><span class="check-mark">✓</span> Track up to 3 competitors per item</td>
+              </tr>
+              <tr>
+                <td>Menu management</td>
+                <td>—</td>
+                <td>Manual spreadsheets</td>
+                <td><span class="check-mark">✓</span> Save, load, export full menus</td>
+              </tr>
+              <tr>
+                <td>Batch labor calculator</td>
+                <td>—</td>
+                <td>Manual formulas</td>
+                <td><span class="check-mark">✓</span> Prep time + yield = minutes per item</td>
+              </tr>
+            </table>
+          </div>
           
           <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 16px;">
             <p class="lead" style="margin: 0;"><span class="accent">QuickBooks</span> gives you a clear picture of your restaurant's financial health — invaluable for taxes, payroll, and overall business management.</p>
@@ -542,7 +760,7 @@
         </div>
       </section>
 
-      <!-- Testimonials (Placeholder) -->
+      <!-- Testimonials -->
       <section class="section">
         <div class="container">
           <h2 style="text-align: center;">Trusted by <span class="accent">restaurant owners</span></h2>
@@ -550,7 +768,7 @@
             <div class="testimonial-card">
               "Pricing Assistant showed me I was undercharging by $2.50 on my signature burger. That's $7,500/year in lost profit I'm now recovering."
               <div class="testimonial-author">— Michael R.</div>
-              <div class="testimonial-role">Independent Restaurant Owner</div>
+              <div class="testimonial-role">Restaurant Owner</div>
             </div>
             <div class="testimonial-card">
               "The weighted labor tiers are a game-changer. Finally accounting for the fact that my manager's time costs more than my prep cooks."
@@ -561,7 +779,7 @@
         </div>
       </section>
 
-      <!-- Call to Action -->
+      <!-- Bottom Call to Action -->
       <section class="cta-section">
         <div class="container">
           <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Take control of your menu pricing</h2>
