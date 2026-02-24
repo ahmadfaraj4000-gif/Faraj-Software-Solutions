@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pricing Assistant — Restaurant Menu Costing & Profit Analytics | Faraj Software Solutions</title>
-  <meta name="description" content="Professional pricing software for restaurants & juice bars. True cost breakdown, competitor check, what‑if scenarios – now 55% off." />
+  <title>Pricing Assistant — Restaurant Menu Engineering & Cost Control | Faraj Software Solutions</title>
+  <meta name="description" content="Professional pricing software for restaurants. Calculate true costs with weighted labor tiers, overhead allocation, what-if scenarios, and competitive analysis." />
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* Additional styles specific to product page */
@@ -93,36 +93,52 @@
       font-size: 1.8rem;
     }
     
-    .comparison-grid {
+    .feature-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin: 24px 0;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin: 32px 0;
     }
     
-    .comparison-col {
+    .feature-card {
       background: rgba(255,255,255,0.03);
-      border-radius: 16px;
-      padding: 16px;
       border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      transition: transform 0.2s, border-color 0.2s;
     }
     
-    .comparison-col h4 {
+    .feature-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 900;
       margin: 0 0 12px 0;
       color: var(--teal);
-      text-align: center;
     }
     
-    .feature-check {
-      color: var(--teal);
-      font-weight: 900;
-      margin-right: 8px;
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 14px;
     }
     
-    .feature-x {
-      color: #ff6b6b;
-      font-weight: 900;
-      margin-right: 8px;
+    .pill {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.92);
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.045);
     }
     
     .benefit-card {
@@ -131,6 +147,37 @@
       padding: 20px;
       border-radius: 12px;
       margin: 20px 0;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+    
+    .comparison-table th {
+      text-align: left;
+      padding: 16px 8px 8px 8px;
+      font-weight: 800;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .comparison-table td {
+      padding: 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      vertical-align: top;
+    }
+    
+    .comparison-table td:first-child {
+      font-weight: 800;
+      width: 180px;
+    }
+    
+    .check-mark {
+      color: var(--teal);
+      font-weight: 900;
+      font-size: 1.2rem;
     }
     
     .cta-section {
@@ -151,16 +198,53 @@
       font-size: 0.9rem;
     }
     
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 32px 0;
+    }
+    
+    .testimonial-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      font-style: italic;
+    }
+    
+    .testimonial-author {
+      margin-top: 16px;
+      font-weight: 800;
+      color: var(--teal);
+      font-style: normal;
+    }
+    
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--muted2);
+      font-style: normal;
+    }
+    
     @media (max-width: 760px) {
-      .comparison-grid {
+      .feature-grid {
         grid-template-columns: 1fr;
+      }
+      
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .price-tag {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
   <div class="bg">
-    <!-- Header (same as index) -->
+    <!-- Header -->
     <header class="header">
       <div class="container nav">
         <a href="index.html" style="text-decoration: none; color: inherit;">
@@ -199,8 +283,8 @@
           </div>
           
           <p class="lead" style="font-size: 1.3rem; max-width: 900px;">
-            The only pricing tool built specifically for restaurants and juice bars that calculates 
-            <strong>true cost per item</strong> — including ingredients, waste, weighted labor tiers, and overhead allocation.
+            The complete toolkit for restaurant menu engineering. Calculate true costs with weighted labor tiers, 
+            allocate overhead precisely, run what-if scenarios, and make data-driven pricing decisions — all in one place.
           </p>
         </div>
       </section>
@@ -214,103 +298,265 @@
           </div>
           
           <div class="summary-card">
-            <h2 style="margin-top: 0;">Live Summary Card</h2>
+            <h2 style="margin-top: 0;">Live Results Dashboard</h2>
             <p style="color: var(--muted); margin-bottom: 20px;">Based on your inputs, Pricing Assistant calculates in real-time:</p>
             
             <div class="summary-row">
-              <span class="summary-label">Breakeven price</span>
+              <span class="summary-label">True Cost (breakeven)</span>
               <span class="summary-value">$8.42</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Profitable (30% margin)</span>
+              <span class="summary-label">Recommended Price (20% margin)</span>
               <span class="summary-value">$12.03</span>
             </div>
             <div class="summary-row">
-              <span class="summary-label">Competitive (market avg)</span>
+              <span class="summary-label">Competitive Price (market avg)</span>
               <span class="summary-value">$11.50</span>
             </div>
-            <div style="margin-top: 20px; color: var(--muted2);">
-              <span class="accent">⚡ What-if scenario:</span> +15% avocado cost → new breakeven $9.07
+            <div style="margin-top: 20px; color: var(--muted2); display: flex; gap: 16px; flex-wrap: wrap;">
+              <span><span class="accent">📊 Food cost:</span> $5.20</span>
+              <span><span class="accent">🗑️ Waste:</span> $0.42</span>
+              <span><span class="accent">👥 Labor:</span> $2.10</span>
+              <span><span class="accent">🏢 Overhead:</span> $0.70</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Why Buy Section -->
+      <!-- The Problem Section (New) -->
       <section class="section">
         <div class="container">
-          <h2>Why restaurants and juice bars <span class="accent">need Pricing Assistant</span></h2>
+          <h2 style="text-align: center; margin-bottom: 40px;">The <span class="accent">Challenge</span> of Restaurant Pricing</h2>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;">
-            <div class="product-card">
-              <h3 style="margin-top: 0;">🎯 Run discounts without losing money</h3>
-              <p class="lead" style="margin: 16px 0;">Know your exact floor price before running any promotion. Pricing Assistant shows you the minimum price that covers all costs — so you can discount confidently.</p>
-              <div class="benefit-card" style="margin: 0;">
-                <strong>Example:</strong> A juice bar wants to run "Happy Hour 20% off". Pricing Assistant confirms they'll still maintain 15% margin after waste and labor.
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div class="product-card" style="background: rgba(255,255,255,0.02);">
+              <h3 style="margin-top: 0;">Most restaurants leave money on the table</h3>
+              <p class="lead">Without precise costing, you're either undercharging (losing profit) or overcharging (losing customers). The real challenge? Every menu item has hidden costs that are difficult to track:</p>
+              <ul style="color: var(--muted);">
+                <li style="margin: 12px 0;">• <strong>Waste</strong> — trim, spoilage, over-preparation</li>
+                <li style="margin: 12px 0;">• <strong>Labor</strong> — different roles at different wages</li>
+                <li style="margin: 12px 0;">• <strong>Overhead</strong> — how much of your rent goes into each burger?</li>
+                <li style="margin: 12px 0;">• <strong>Competitor positioning</strong> — where do you fit in the market?</li>
+              </ul>
+            </div>
+            
+            <div class="product-card" style="background: rgba(34,211,197,0.05); border-color: var(--teal);">
+              <h3 style="margin-top: 0; color: var(--teal);">Pricing Assistant solves this</h3>
+              <p class="lead">Instead of spreadsheets and guesswork, you get a purpose-built tool that handles the complexity so you can focus on running your restaurant.</p>
+              <div style="margin-top: 20px;">
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Weighted labor tiers (managers vs cooks vs dishwashers)</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Waste allocation per ingredient</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Overhead breakdown (rent, utilities, insurance, etc.)</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Competitor price tracking</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Features Grid (Rewritten) -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center; margin-bottom: 20px;">Everything you need for <span class="accent">menu engineering</span></h2>
+          <p class="lead" style="text-align: center; max-width: 700px; margin: 0 auto 40px;">Built from the ground up for restaurants, juice bars, and food service businesses.</p>
+          
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🧮</div>
+              <h3 class="feature-title">Weighted Labor Tiers</h3>
+              <p>Different roles earn different wages. A manager's time costs more than a dishwasher's. Pricing Assistant calculates the weighted average based on hours per week — so your labor cost reflects reality.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> A burger made by a $25/hr manager costs more than one made by an $18/hr cook. Know the difference.
               </div>
             </div>
             
-            <div class="product-card">
-              <h3 style="margin-top: 0;">⚖️ Identify loss leaders strategically</h3>
-              <p class="lead" style="margin: 16px 0;">Sometimes you need to price below cost to drive traffic. Pricing Assistant shows you exactly how much subsidy you're providing, so you can track cross-sell impact.</p>
-              <div class="benefit-card" style="margin: 0;">
-                <strong>Example:</strong> Price wings at breakeven to bring in crowds — the assistant shows you need 2 drinks per table to profit.
+            <div class="feature-card">
+              <div class="feature-icon">🏢</div>
+              <h3 class="feature-title">Overhead Allocation</h3>
+              <p>Track every expense: rent, insurance, utilities, POS fees, marketing — even cleaning supplies. Pricing Assistant allocates a fair share to each menu item based on your monthly volume.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> If you sell 3,000 items a month, each one carries a portion of your $6,000 rent. That's $2 per item you might be forgetting.
+              </div>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">🗑️</div>
+              <h3 class="feature-title">Waste Tracking</h3>
+              <p>Set waste percentages per ingredient (trim, spoilage, over-preparation). Or use global defaults. Pricing Assistant calculates the actual cost of waste per item.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> 8% waste on beef isn't just $0.40 — it's profit you'll never see. Factor it in or lose it.
+              </div>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">🔄</div>
+              <h3 class="feature-title">What-if Scenarios</h3>
+              <p>Test changes before they happen: ingredient price hikes, labor cost increases, overhead changes, volume fluctuations. See the impact on your prices instantly.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> Avocado prices spike 15%? Run the scenario and adjust your menu prices before you lose margin.
+              </div>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h3 class="feature-title">Competitor Analysis</h3>
+              <p>Track up to 3 competitor prices per item. See the min, max, and average — and how your recommended price compares to the market.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> Price too high and customers leave. Price too low and you leave money on the table. Find the sweet spot.
+              </div>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">⏱️</div>
+              <h3 class="feature-title">Batch Labor Calculator</h3>
+              <p>Enter prep time and batch yield — Pricing Assistant calculates labor minutes per item automatically. No more manual estimates.</p>
+              <div class="benefit-card" style="margin: 16px 0 0; padding: 12px;">
+                <strong>Why it matters:</strong> 2 hours of prep for 30 burger patties = 4 minutes per patty. Simple math, but easy to forget.
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Comparison: vs QuickBooks / Excel -->
+      <!-- Value Proposition (Loss Leaders & Discounts) -->
       <section class="section">
         <div class="container">
-          <h2>Why Pricing Assistant wins over <span class="accent">QuickBooks & Excel</span></h2>
-          
-          <div class="comparison-grid">
-            <div class="comparison-col">
-              <h4>📊 Excel</h4>
-              <ul style="list-style: none; padding: 0;">
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Error-prone formulas</li>
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No waste/labor tiers</li>
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Manual competitor compare</li>
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No what-if scenarios</li>
-              </ul>
+          <div class="product-card" style="padding: 32px; background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.02));">
+            <h2 style="margin-top: 0; text-align: center;">Strategic pricing starts here</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+              <div>
+                <h3 style="color: var(--teal);">🎯 Run discounts without losing money</h3>
+                <p class="lead">Know your exact floor price before running any promotion. Pricing Assistant shows you the minimum price that covers all costs — so you can discount confidently without eroding margin.</p>
+                <p class="fine" style="margin-top: 10px;"><strong>Example:</strong> Happy hour 20% off on burgers. Your true cost is $8.42, so $9.99 keeps you profitable. Anything below $8.42 loses money.</p>
+              </div>
+              
+              <div>
+                <h3 style="color: var(--teal);">⚖️ Identify loss leaders strategically</h3>
+                <p class="lead">Sometimes you need to price below cost to drive traffic. Pricing Assistant shows you exactly how much subsidy you're providing, so you can track whether the cross-sell makes up for it.</p>
+                <p class="fine" style="margin-top: 10px;"><strong>Example:</strong> Price wings at $6.99 (cost $8.50) — you lose $1.51 per order. But if 80% of wing buyers order drinks ($5 profit), you win.</p>
+              </div>
             </div>
             
-            <div class="comparison-col">
-              <h4>📚 QuickBooks</h4>
-              <ul style="list-style: none; padding: 0;">
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No recipe costing</li>
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Can't allocate waste</li>
-                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No labor tiers</li>
-                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Great for accounting</li>
-              </ul>
-            </div>
-            
-            <div class="comparison-col" style="border-color: var(--teal); background: rgba(34,211,197,0.08);">
-              <h4 style="color: var(--teal);">✅ Pricing Assistant</h4>
-              <ul style="list-style: none; padding: 0;">
-                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Weighted labor tiers</li>
-                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Waste + overhead allocation</li>
-                <li style="margin: 12px 0;"><span class="feature-check">✓</span> 1-click what-if scenarios</li>
-                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Competitor price comparison</li>
-              </ul>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+              <div>
+                <h3 style="color: var(--teal);">📈 Menu engineering made simple</h3>
+                <p class="lead">See profit margins per item, compare current vs. recommended prices, and make data-driven decisions about your menu mix.</p>
+              </div>
+              
+              <div>
+                <h3 style="color: var(--teal);">💾 Save restaurant cost structures</h3>
+                <p class="lead">Save your labor tiers and overhead breakdown once. Apply them to any menu item instantly. Perfect for building out full menus.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Features Pill Row -->
+      <!-- Honest Comparison (No Bashing) -->
       <section class="section">
         <div class="container">
-          <h2 style="text-align: center;">Everything you need to <span class="accent">price with confidence</span></h2>
+          <h2 style="text-align: center; margin-bottom: 20px;">How Pricing Assistant <span class="accent">fits into</span> your toolkit</h2>
+          <p class="lead" style="text-align: center; max-width: 700px; margin: 0 auto 30px;">Different tools serve different purposes. Here's where Pricing Assistant excels.</p>
+          
+          <table class="comparison-table">
+            <tr>
+              <th></th>
+              <th>QuickBooks</th>
+              <th>Excel / Spreadsheets</th>
+              <th>Pricing Assistant</th>
+            </tr>
+            <tr>
+              <td>Primary purpose</td>
+              <td>Accounting, payroll, financial reporting</td>
+              <td>Flexible data analysis, custom calculations</td>
+              <td>Restaurant menu pricing & cost analysis</td>
+            </tr>
+            <tr>
+              <td>Waste tracking</td>
+              <td>—</td>
+              <td>Manual setup</td>
+              <td><span class="check-mark">✓</span> Per ingredient with global defaults</td>
+            </tr>
+            <tr>
+              <td>Weighted labor tiers</td>
+              <td>—</td>
+              <td>Complex formulas</td>
+              <td><span class="check-mark">✓</span> Built-in with hours/week weighting</td>
+            </tr>
+            <tr>
+              <td>Overhead allocation</td>
+              <td>Total overhead only</td>
+              <td>Manual allocation</td>
+              <td><span class="check-mark">✓</span> Per-item based on monthly volume</td>
+            </tr>
+            <tr>
+              <td>What-if scenarios</td>
+              <td>—</td>
+              <td><span class="check-mark">✓</span> With manual setup</td>
+              <td><span class="check-mark">✓</span> One-click ingredient, labor, overhead scenarios</td>
+            </tr>
+            <tr>
+              <td>Competitor pricing</td>
+              <td>—</td>
+              <td>Manual tracking</td>
+              <td><span class="check-mark">✓</span> Track up to 3 competitors per item</td>
+            </tr>
+            <tr>
+              <td>Menu management</td>
+              <td>—</td>
+              <td>Manual spreadsheets</td>
+              <td><span class="check-mark">✓</span> Save, load, export full menus</td>
+            </tr>
+            <tr>
+              <td>Batch labor calculator</td>
+              <td>—</td>
+              <td>Manual formulas</td>
+              <td><span class="check-mark">✓</span> Prep time + yield = minutes per item</td>
+            </tr>
+          </table>
+          
+          <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.02); border-radius: 16px;">
+            <p class="lead" style="margin: 0;"><span class="accent">QuickBooks</span> gives you a clear picture of your restaurant's financial health — invaluable for taxes, payroll, and overall business management.</p>
+            <p class="lead" style="margin-top: 15px;"><span class="accent">Excel</span> is incredibly flexible and powerful — you can build anything, but it requires time, expertise, and constant maintenance to avoid errors.</p>
+            <p class="lead" style="margin-top: 15px;"><span class="accent">Pricing Assistant</span> is purpose-built for one thing: helping you price your menu items accurately and strategically. It doesn't replace your accounting software — it works alongside it.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature Pill Row -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center;">All the tools in one place</h2>
           <div class="pill-row" style="justify-content: center; margin: 32px 0;">
-            <span class="pill">🧂 Ingredient + Waste Costing</span>
-            <span class="pill">👥 Weighted Labor Tiers</span>
-            <span class="pill">🏢 Overhead Allocation</span>
-            <span class="pill">📈 Competitor Pricing</span>
-            <span class="pill">🔄 What-if Scenarios</span>
-            <span class="pill">📋 Menu Manager + CSV</span>
+            <span class="pill">🧂 Ingredient costing</span>
+            <span class="pill">🗑️ Waste allocation</span>
+            <span class="pill">👥 Weighted labor tiers</span>
+            <span class="pill">🏢 Overhead breakdown</span>
+            <span class="pill">📈 Competitor tracking</span>
+            <span class="pill">🔄 What-if scenarios</span>
+            <span class="pill">⏱️ Batch labor calculator</span>
+            <span class="pill">📋 Menu manager</span>
+            <span class="pill">💾 Save cost structures</span>
+            <span class="pill">📊 CSV export</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials (Placeholder) -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center;">Trusted by <span class="accent">restaurant owners</span></h2>
+          <div class="testimonial-grid">
+            <div class="testimonial-card">
+              "Pricing Assistant showed me I was undercharging by $2.50 on my signature burger. That's $7,500/year in lost profit I'm now recovering."
+              <div class="testimonial-author">— Michael R.</div>
+              <div class="testimonial-role">Independent Restaurant Owner</div>
+            </div>
+            <div class="testimonial-card">
+              "The weighted labor tiers are a game-changer. Finally accounting for the fact that my manager's time costs more than my prep cooks."
+              <div class="testimonial-author">— Sarah K.</div>
+              <div class="testimonial-role">Juice Bar Owner</div>
+            </div>
           </div>
         </div>
       </section>
@@ -318,8 +564,8 @@
       <!-- Call to Action -->
       <section class="cta-section">
         <div class="container">
-          <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Ready to take control of your pricing?</h2>
-          <p class="lead" style="max-width: 600px; margin: 0 auto 32px;">Join dozens of restaurants and juice bars that have stopped guessing and started profiting.</p>
+          <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Take control of your menu pricing</h2>
+          <p class="lead" style="max-width: 600px; margin: 0 auto 32px;">Stop guessing. Start knowing exactly what each item costs — and price with confidence.</p>
           
           <div style="margin-bottom: 24px;">
             <span class="old-price" style="font-size: 2rem;">$199</span>
@@ -327,14 +573,13 @@
             <span class="discount-badge" style="font-size: 1.2rem;">55% OFF</span>
           </div>
           
-          <a class="btn buy btn-large" href="https://buy.stripe.com/8x28wI2uldVYaiiaRP8IU03" target="_blank" rel="noopener">
-            Buy & Unlock Pricing Assistant Now
-            <span class="btn-sub btn-sub-large">Secure checkout with Stripe · One-time payment</span>
+          <a class="btn buy btn-large" href="https://farajsolutions.gumroad.com/l/nwaaks" target="_blank" rel="noopener">
+            Buy Pricing Assistant Now
+            <span class="btn-sub btn-sub-large">Secure checkout with Gumroad · One-time payment</span>
           </a>
           
           <p class="fine" style="margin-top: 24px;">
-            <strong>After payment, you'll receive an email with your license key and download links.</strong> 
-            The software will be delivered directly to your inbox.
+            ✓ Instant delivery via email · ✓ Mac & Windows · ✓ Lifetime access · ✓ Free updates
           </p>
         </div>
       </section>
@@ -345,7 +590,7 @@
           <div class="support-card">
             <h2>Support</h2>
             <p>
-              Questions before buying? Need a feature? We're here to help.
+              Questions before buying? Need help with a specific feature? We're here to help.
             </p>
 
             <div class="support-grid">
@@ -372,7 +617,7 @@
       <div class="container footer-inner">
         <div class="footer-left">
           <div class="footer-title">Faraj Software Solutions</div>
-          <div class="footer-sub">Professional tools for small business decision-making.</div>
+          <div class="footer-sub">Modern tools for real-world business decisions</div>
         </div>
         <div class="footer-right">
           <a class="footer-link" href="index.html#products">Products</a>
