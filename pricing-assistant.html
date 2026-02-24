@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Assistant — Restaurant Menu Costing & Profit Analytics | Faraj Software Solutions</title>
+  <meta name="description" content="Professional pricing software for restaurants & juice bars. True cost breakdown, competitor check, what‑if scenarios – now 55% off." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Additional styles specific to product page */
+    .product-hero {
+      padding: 40px 0 20px;
+    }
+    
+    .price-tag {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .old-price {
+      text-decoration: line-through;
+      color: var(--muted2);
+      font-size: 1.4rem;
+    }
+    
+    .current-price {
+      font-size: 2.8rem;
+      font-weight: 950;
+      color: var(--teal);
+      letter-spacing: -0.03em;
+    }
+    
+    .discount-badge {
+      background: rgba(34, 211, 197, 0.2);
+      border: 1px solid var(--teal);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      margin: 24px 0;
+    }
+    
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    
+    .summary-card {
+      background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
+      border: 1px solid rgba(34,211,197,0.25);
+      border-radius: 24px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 0;
+    }
+    
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+    
+    .summary-label {
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    
+    .summary-value {
+      font-weight: 950;
+      color: var(--teal);
+      font-size: 1.8rem;
+    }
+    
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    
+    .comparison-col {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    
+    .comparison-col h4 {
+      margin: 0 0 12px 0;
+      color: var(--teal);
+      text-align: center;
+    }
+    
+    .feature-check {
+      color: var(--teal);
+      font-weight: 900;
+      margin-right: 8px;
+    }
+    
+    .feature-x {
+      color: #ff6b6b;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+    
+    .benefit-card {
+      background: rgba(34,211,197,0.05);
+      border-left: 4px solid var(--teal);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    
+    .cta-section {
+      text-align: center;
+      margin: 48px 0;
+      padding: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius: 32px;
+      border: 1px solid var(--border);
+    }
+    
+    .btn-large {
+      padding: 20px 40px;
+      font-size: 1.4rem;
+    }
+    
+    .btn-sub-large {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 760px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <!-- Header (same as index) -->
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+          <div class="brand">
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Modern tools for real-world business decisions</div>
+            </div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="index.html#products">Products</a>
+          <a class="nav-link" href="index.html#support">Support</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Product Hero -->
+      <section class="product-hero">
+        <div class="container">
+          <a href="index.html#products" class="nav-link" style="display: inline-block; margin-bottom: 20px;">← Back to products</a>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+            <h1 style="margin:0;">Pricing Assistant <span class="accent">v1</span></h1>
+            <div class="price-tag">
+              <span class="old-price">$199.00</span>
+              <span class="current-price">$89.99</span>
+              <span class="discount-badge">55% OFF</span>
+            </div>
+          </div>
+          
+          <p class="lead" style="font-size: 1.3rem; max-width: 900px;">
+            The only pricing tool built specifically for restaurants and juice bars that calculates 
+            <strong>true cost per item</strong> — including ingredients, waste, weighted labor tiers, and overhead allocation.
+          </p>
+        </div>
+      </section>
+
+      <!-- Video + Summary Section -->
+      <section class="section">
+        <div class="container">
+          <div class="video-wrapper">
+            <!-- Replace with your actual YouTube tutorial ID -->
+            <iframe src="https://www.youtube.com/embed/YOUR_TUTORIAL_ID" title="Pricing Assistant tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          
+          <div class="summary-card">
+            <h2 style="margin-top: 0;">Live Summary Card</h2>
+            <p style="color: var(--muted); margin-bottom: 20px;">Based on your inputs, Pricing Assistant calculates in real-time:</p>
+            
+            <div class="summary-row">
+              <span class="summary-label">Breakeven price</span>
+              <span class="summary-value">$8.42</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Profitable (30% margin)</span>
+              <span class="summary-value">$12.03</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Competitive (market avg)</span>
+              <span class="summary-value">$11.50</span>
+            </div>
+            <div style="margin-top: 20px; color: var(--muted2);">
+              <span class="accent">⚡ What-if scenario:</span> +15% avocado cost → new breakeven $9.07
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Buy Section -->
+      <section class="section">
+        <div class="container">
+          <h2>Why restaurants and juice bars <span class="accent">need Pricing Assistant</span></h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;">
+            <div class="product-card">
+              <h3 style="margin-top: 0;">🎯 Run discounts without losing money</h3>
+              <p class="lead" style="margin: 16px 0;">Know your exact floor price before running any promotion. Pricing Assistant shows you the minimum price that covers all costs — so you can discount confidently.</p>
+              <div class="benefit-card" style="margin: 0;">
+                <strong>Example:</strong> A juice bar wants to run "Happy Hour 20% off". Pricing Assistant confirms they'll still maintain 15% margin after waste and labor.
+              </div>
+            </div>
+            
+            <div class="product-card">
+              <h3 style="margin-top: 0;">⚖️ Identify loss leaders strategically</h3>
+              <p class="lead" style="margin: 16px 0;">Sometimes you need to price below cost to drive traffic. Pricing Assistant shows you exactly how much subsidy you're providing, so you can track cross-sell impact.</p>
+              <div class="benefit-card" style="margin: 0;">
+                <strong>Example:</strong> Price wings at breakeven to bring in crowds — the assistant shows you need 2 drinks per table to profit.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison: vs QuickBooks / Excel -->
+      <section class="section">
+        <div class="container">
+          <h2>Why Pricing Assistant wins over <span class="accent">QuickBooks & Excel</span></h2>
+          
+          <div class="comparison-grid">
+            <div class="comparison-col">
+              <h4>📊 Excel</h4>
+              <ul style="list-style: none; padding: 0;">
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Error-prone formulas</li>
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No waste/labor tiers</li>
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Manual competitor compare</li>
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No what-if scenarios</li>
+              </ul>
+            </div>
+            
+            <div class="comparison-col">
+              <h4>📚 QuickBooks</h4>
+              <ul style="list-style: none; padding: 0;">
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No recipe costing</li>
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> Can't allocate waste</li>
+                <li style="margin: 12px 0;"><span class="feature-x">✗</span> No labor tiers</li>
+                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Great for accounting</li>
+              </ul>
+            </div>
+            
+            <div class="comparison-col" style="border-color: var(--teal); background: rgba(34,211,197,0.08);">
+              <h4 style="color: var(--teal);">✅ Pricing Assistant</h4>
+              <ul style="list-style: none; padding: 0;">
+                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Weighted labor tiers</li>
+                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Waste + overhead allocation</li>
+                <li style="margin: 12px 0;"><span class="feature-check">✓</span> 1-click what-if scenarios</li>
+                <li style="margin: 12px 0;"><span class="feature-check">✓</span> Competitor price comparison</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Pill Row -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center;">Everything you need to <span class="accent">price with confidence</span></h2>
+          <div class="pill-row" style="justify-content: center; margin: 32px 0;">
+            <span class="pill">🧂 Ingredient + Waste Costing</span>
+            <span class="pill">👥 Weighted Labor Tiers</span>
+            <span class="pill">🏢 Overhead Allocation</span>
+            <span class="pill">📈 Competitor Pricing</span>
+            <span class="pill">🔄 What-if Scenarios</span>
+            <span class="pill">📋 Menu Manager + CSV</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="container">
+          <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Ready to take control of your pricing?</h2>
+          <p class="lead" style="max-width: 600px; margin: 0 auto 32px;">Join dozens of restaurants and juice bars that have stopped guessing and started profiting.</p>
+          
+          <div style="margin-bottom: 24px;">
+            <span class="old-price" style="font-size: 2rem;">$199</span>
+            <span style="font-size: 3.5rem; font-weight: 950; color: var(--teal); margin: 0 16px;">$89.99</span>
+            <span class="discount-badge" style="font-size: 1.2rem;">55% OFF</span>
+          </div>
+          
+          <a class="btn buy btn-large" href="https://buy.stripe.com/8x28wI2uldVYaiiaRP8IU03" target="_blank" rel="noopener">
+            Buy & Unlock Pricing Assistant Now
+            <span class="btn-sub btn-sub-large">Secure checkout with Stripe · One-time payment</span>
+          </a>
+          
+          <p class="fine" style="margin-top: 24px;">
+            <strong>After payment, you'll receive an email with your license key and download links.</strong> 
+            The software will be delivered directly to your inbox.
+          </p>
+        </div>
+      </section>
+
+      <!-- Support Section -->
+      <section class="section" id="support">
+        <div class="container support">
+          <div class="support-card">
+            <h2>Support</h2>
+            <p>
+              Questions before buying? Need a feature? We're here to help.
+            </p>
+
+            <div class="support-grid">
+              <div class="support-item">
+                <div class="support-label">Email</div>
+                <div class="support-value">farajsoftwaresolutions@gmail.com</div>
+              </div>
+              <div class="support-item">
+                <div class="support-label">Response Time</div>
+                <div class="support-value">&lt; 24 hours</div>
+              </div>
+              <div class="support-item">
+                <div class="support-label">Custom Work</div>
+                <div class="support-value">Multi-location · API · Forecasting</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <div class="footer-title">Faraj Software Solutions</div>
+          <div class="footer-sub">Professional tools for small business decision-making.</div>
+        </div>
+        <div class="footer-right">
+          <a class="footer-link" href="index.html#products">Products</a>
+          <a class="footer-link" href="index.html#support">Support</a>
+          <a class="footer-link" href="#">Privacy</a>
+          <a class="footer-link" href="#">Terms</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
