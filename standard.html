@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Assistant Standard — Menu Costing for Small Restaurants | Faraj Software Solutions</title>
+  <meta name="description" content="Pricing Assistant Standard: calculate true food cost, labor, overhead, and get a clear recommended price — all in one clean tool. $49.99 one-time purchase." />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .product-hero { padding: 40px 0 20px; }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      margin: 24px 0;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    .price-tag {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .current-price {
+      font-size: 2.8rem;
+      font-weight: 950;
+      color: var(--teal);
+      letter-spacing: -0.03em;
+    }
+
+    /* Sticky buy bar */
+    .sticky-buy-bar {
+      position: sticky;
+      top: 70px;
+      z-index: 5;
+      background: rgba(11, 22, 36, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--teal);
+      border-radius: 60px;
+      padding: 12px 24px;
+      margin: 20px auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      box-shadow: 0 10px 30px rgba(34,211,197,0.2);
+    }
+
+    .sticky-price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .sticky-current {
+      font-size: 1.8rem;
+      font-weight: 950;
+      color: var(--teal);
+    }
+
+    .sticky-label {
+      background: rgba(34,211,197,0.15);
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--teal);
+    }
+
+    .sticky-button {
+      background: var(--teal);
+      color: #07131f;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform 0.2s;
+      white-space: nowrap;
+    }
+    .sticky-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(34,211,197,0.3);
+    }
+
+    .summary-card {
+      background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
+      border: 1px solid rgba(34,211,197,0.25);
+      border-radius: 24px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 16px 0;
+    }
+    .summary-row:last-child { border-bottom: none; }
+
+    .summary-label {
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .summary-value {
+      font-weight: 950;
+      color: var(--teal);
+      font-size: 1.8rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin: 32px 0;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin: 0 0 12px;
+      color: var(--teal);
+    }
+
+    .benefit-card {
+      background: rgba(34,211,197,0.05);
+      border-left: 4px solid var(--teal);
+      padding: 12px;
+      border-radius: 12px;
+      margin: 16px 0 0;
+    }
+
+    .check-mark {
+      color: var(--teal);
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    /* Edition comparison strip */
+    .upgrade-strip {
+      background: linear-gradient(145deg, rgba(34,211,197,0.06), rgba(34,211,197,0.02));
+      border: 1px solid rgba(34,211,197,0.22);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .upgrade-strip-text h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .upgrade-strip-text p  { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+
+    .upgrade-strip-btn {
+      background: rgba(34,211,197,0.12);
+      border: 1px solid rgba(34,211,197,0.35);
+      color: var(--teal);
+      padding: 12px 24px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .upgrade-strip-btn:hover {
+      background: rgba(34,211,197,0.20);
+      transform: translateY(-1px);
+    }
+
+    /* Included / not-included feature list */
+    .two-col-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 32px;
+      margin: 20px 0 0;
+    }
+
+    .two-col-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.88);
+      list-style: none;
+      line-height: 1.4;
+    }
+
+    .two-col-list .ico {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 7px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+
+    .ico-yes {
+      background: rgba(34,211,197,0.12);
+      border: 1px solid rgba(34,211,197,0.22);
+      color: var(--teal);
+    }
+
+    .ico-no {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(185,199,214,0.40);
+    }
+
+    .feat-muted { color: rgba(185,199,214,0.42); }
+
+    .cta-section {
+      text-align: center;
+      margin: 48px 0;
+      padding: 32px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius: 32px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-large { padding: 20px 40px; font-size: 1.4rem; }
+    .btn-sub-large { font-size: 0.9rem; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+    .pill {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.92);
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.045);
+    }
+
+    @media (max-width: 980px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .two-col-list { grid-template-columns: 1fr; }
+      .sticky-buy-bar { flex-direction: column; gap: 15px; align-items: stretch; padding: 16px; top: 60px; border-radius: 20px; }
+      .sticky-price { justify-content: center; }
+      .sticky-button { text-align: center; padding: 14px; }
+      .upgrade-strip { flex-direction: column; }
+      h1 { font-size: 2rem; }
+    }
+
+    @media (max-width: 560px) {
+      .container { width: min(1120px, calc(100% - 20px)); }
+      .btn-large { padding: 16px 24px; font-size: 1.2rem; width: 100%; }
+      .summary-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .summary-value { font-size: 1.3rem; }
+    }
+
+    @media (max-width: 768px) {
+      .btn, .sticky-button, .nav-link, .footer-link {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+          <div class="brand">
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Modern tools for real-world business decisions</div>
+            </div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="index.html#products">Products</a>
+          <a class="nav-link" href="index.html#support">Support</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- Hero -->
+      <section class="product-hero">
+        <div class="container">
+          <a href="index.html#products" class="nav-link" style="display: inline-block; margin-bottom: 20px;">← Back to products</a>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; margin-bottom: 12px;">
+            <div>
+              <div style="display: inline-block; font-size: 12px; font-weight: 900; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(185,199,214,0.30); background: rgba(185,199,214,0.10); color: var(--muted); margin-bottom: 12px; letter-spacing: 0.02em;">Standard Edition</div>
+              <h1 style="margin: 0;">Pricing Assistant <span class="accent">Standard</span></h1>
+            </div>
+            <div class="price-tag">
+              <span class="current-price">$49.99</span>
+              <span style="color: var(--muted); font-size: 1rem; font-weight: 800;">one-time purchase</span>
+            </div>
+          </div>
+
+          <p class="lead" style="font-size: 1.3rem; max-width: 860px;">
+            A clean, focused pricing tool for restaurants and food businesses. Enter your ingredients, labor, and overhead — and instantly see your true cost per item and a recommended profitable price.
+          </p>
+        </div>
+      </section>
+
+      <!-- Sticky buy bar -->
+      <div class="container">
+        <div class="sticky-buy-bar">
+          <div class="sticky-price">
+            <span class="sticky-current">$49.99</span>
+            <span class="sticky-label">Standard Edition</span>
+          </div>
+          <a href="#" target="_blank" rel="noopener" class="sticky-button">
+            Buy Now → Secure Checkout
+          </a>
+        </div>
+      </div>
+
+      <!-- What it calculates -->
+      <section class="section">
+        <div class="container">
+          <div class="video-wrapper">
+            <!-- Replace YOUR_TUTORIAL_ID with your YouTube video ID when ready -->
+            <iframe src="https://www.youtube.com/embed/YOUR_TUTORIAL_ID" title="Pricing Assistant Standard tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+
+          <div class="summary-card">
+            <h2 style="margin-top: 0;">What you see, instantly</h2>
+            <p style="color: var(--muted); margin-bottom: 20px;">Every time you update an input, Pricing Assistant recalculates automatically:</p>
+
+            <div class="summary-row">
+              <span class="summary-label">True Cost (all-in)</span>
+              <span class="summary-value">$6.84</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Break-Even Price</span>
+              <span class="summary-value">$6.84</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Recommended Price (20% margin)</span>
+              <span class="summary-value">$8.55</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Current Price Status</span>
+              <span class="summary-value" style="font-size: 1.3rem; color: #4CAF50;">✓ ON TARGET</span>
+            </div>
+
+            <div style="margin-top: 20px; color: var(--muted2); display: flex; gap: 16px; flex-wrap: wrap;">
+              <span><span class="accent">🧂 Food cost:</span> $4.10</span>
+              <span><span class="accent">🗑️ Waste:</span> $0.33</span>
+              <span><span class="accent">👥 Labor:</span> $1.75</span>
+              <span><span class="accent">🏢 Overhead:</span> $0.66</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problem / Solution -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center; margin-bottom: 40px;">Why <span class="accent">guessing your price</span> costs you money</h2>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div class="product-card" style="background: rgba(255,255,255,0.02);">
+              <h3 style="margin-top: 0;">The hidden costs most owners miss</h3>
+              <p class="lead">A plate's price isn't just ingredients. Every item you sell carries a slice of your rent, your team's wages, the trimmed fat you throw away, and every utility bill you pay.</p>
+              <ul style="color: var(--muted);">
+                <li style="margin: 12px 0;">• <strong>Waste</strong> — trim, spoilage, over-prep</li>
+                <li style="margin: 12px 0;">• <strong>Labor</strong> — the minutes your team spends per item</li>
+                <li style="margin: 12px 0;">• <strong>Overhead</strong> — rent, utilities, insurance divided per item</li>
+              </ul>
+            </div>
+
+            <div class="product-card" style="background: rgba(34,211,197,0.05); border-color: var(--teal);">
+              <h3 style="margin-top: 0; color: var(--teal);">Pricing Assistant does the math</h3>
+              <p class="lead">Fill in your numbers once. Every field updates the result in real time — no formulas to maintain, no spreadsheet to break.</p>
+              <div style="margin-top: 20px;">
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> All costs rolled into one true cost number</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Recommended price based on your target margin</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Instant UNDERPRICED / ON TARGET / OVERPRICED signal</div>
+                <div style="margin: 10px 0;"><span class="check-mark">✓</span> Save profiles to reuse for different items</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core Features -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center; margin-bottom: 20px;">Everything <span class="accent">Standard</span> includes</h2>
+          <p class="lead" style="text-align: center; max-width: 680px; margin: 0 auto 40px;">Purpose-built for single-item costing. Simple enough to use every day, accurate enough to trust.</p>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🧂</div>
+              <h3 class="feature-title">Ingredient Costing</h3>
+              <p>Add up to 8 ingredients per item. Enter your purchase price and package size — Pricing Assistant handles unit conversions (lb → oz, kg → g, l → ml, and more) automatically.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> Bought a 5 lb bag of flour for $3.20 but only use 4 oz per batch? Pricing Assistant converts and costs it precisely.
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🗑️</div>
+              <h3 class="feature-title">Waste Tracking</h3>
+              <p>Set a global waste percentage that applies to all ingredients, or override it per ingredient. Pricing Assistant folds waste into the true cost so it never gets forgotten.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> 8% trim on chicken breast isn't just wasted food — it's lost margin on every plate you sell.
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">👥</div>
+              <h3 class="feature-title">Labor Cost</h3>
+              <p>Enter your hourly rate and the minutes it takes to make one item. Pricing Assistant calculates the exact labor cost per plate — no guessing, no rounding.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> 6 minutes of $15/hr labour adds $1.50 to every item. Multiply that by 200 plates a day and it adds up fast.
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🏢</div>
+              <h3 class="feature-title">Overhead Allocation</h3>
+              <p>Enter your total monthly overhead (rent, utilities, insurance, etc.) and how many items you sell per month. Pricing Assistant splits the overhead fairly across every item.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> $4,000/month in overhead across 2,000 items = $2.00 per item. That's real money you need to recover.
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h3 class="feature-title">Recommended Price</h3>
+              <p>Set your target profit margin and Pricing Assistant tells you exactly what to charge. It also shows your break-even price — the minimum you can charge without losing money.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> Stop pricing by feel. Know the floor, know the target, price with confidence.
+              </div>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">💾</div>
+              <h3 class="feature-title">Save & Load Profiles</h3>
+              <p>Save any item as a profile (.json file) and load it back any time. Perfect for building out your menu item by item, or revisiting costs when ingredient prices change.</p>
+              <div class="benefit-card">
+                <strong>Why it matters:</strong> Price your whole menu once, update individual items when costs change — without starting from scratch.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Full feature list -->
+      <section class="section">
+        <div class="container">
+          <div class="product-card" style="padding: 28px;">
+            <h2 style="margin-top: 0;">What's included in Standard</h2>
+            <ul class="two-col-list" style="padding: 0;">
+              <li><span class="ico ico-yes">✓</span>Up to 8 ingredients per item</li>
+              <li><span class="ico ico-yes">✓</span>Automatic unit conversion (weight, volume, count)</li>
+              <li><span class="ico ico-yes">✓</span>Per-ingredient waste % override</li>
+              <li><span class="ico ico-yes">✓</span>Global waste % default</li>
+              <li><span class="ico ico-yes">✓</span>Labor cost (hourly rate + minutes per item)</li>
+              <li><span class="ico ico-yes">✓</span>Monthly overhead allocation</li>
+              <li><span class="ico ico-yes">✓</span>Break-even price calculation</li>
+              <li><span class="ico ico-yes">✓</span>Recommended price at target margin</li>
+              <li><span class="ico ico-yes">✓</span>Current price status (Under / On / Over)</li>
+              <li><span class="ico ico-yes">✓</span>Profit & margin at current price</li>
+              <li><span class="ico ico-yes">✓</span>Live auto-recalculate on every input</li>
+              <li><span class="ico ico-yes">✓</span>Save & load item profiles</li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">Competitor price analysis</span></li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">What-if scenario planner</span></li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">Menu Manager + CSV export</span></li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">Advanced weighted labor tiers</span></li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">Itemized overhead builder</span></li>
+              <li><span class="ico ico-no">–</span><span class="feat-muted">Batch prep calculator</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Upgrade nudge -->
+      <section class="section">
+        <div class="container">
+          <div class="upgrade-strip">
+            <div class="upgrade-strip-text">
+              <h3>Need more power? There's a Pro edition.</h3>
+              <p>Pro adds competitor analysis, a what-if scenario planner, full menu manager, advanced labor tiers, itemized overhead builder, batch prep calculator, CC & delivery app fee pass-through, and CSV export — for $119.99.</p>
+            </div>
+            <a href="pricing-assistant.html" class="upgrade-strip-btn">View Pro Edition →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature pills -->
+      <section class="section">
+        <div class="container">
+          <h2 style="text-align: center;">All Standard tools in one place</h2>
+          <div class="pill-row" style="justify-content: center; margin: 32px 0;">
+            <span class="pill">🧂 Ingredient costing</span>
+            <span class="pill">🔄 Unit conversion</span>
+            <span class="pill">🗑️ Waste allocation</span>
+            <span class="pill">👥 Labor costing</span>
+            <span class="pill">🏢 Overhead allocation</span>
+            <span class="pill">🎯 Recommended price</span>
+            <span class="pill">📊 Margin & profit display</span>
+            <span class="pill">💾 Save & load profiles</span>
+            <span class="pill">⚡ Live auto-calculate</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom CTA -->
+      <section class="cta-section">
+        <div class="container">
+          <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Know exactly what your item costs</h2>
+          <p class="lead" style="max-width: 580px; margin: 0 auto 32px;">Stop pricing by gut feel. Pricing Assistant Standard gives you the numbers — in seconds.</p>
+
+          <div style="margin-bottom: 24px;">
+            <span style="font-size: 3.5rem; font-weight: 950; color: var(--teal);">$49.99</span>
+            <span style="color: var(--muted); font-size: 1.1rem; margin-left: 12px; font-weight: 800;">one-time · no subscription</span>
+          </div>
+
+          <a class="btn buy btn-large" href="#" target="_blank" rel="noopener">
+            Buy Pricing Assistant Standard
+            <span class="btn-sub btn-sub-large">Secure checkout with Gumroad · One-time payment</span>
+          </a>
+
+          <p class="fine" style="margin-top: 24px;">
+            ✓ Instant delivery via email &nbsp;·&nbsp; ✓ Mac & Windows &nbsp;·&nbsp; ✓ Lifetime access &nbsp;·&nbsp; ✓ One Year of Free Updates
+          </p>
+
+          <p style="margin-top: 16px; font-size: 13px; color: var(--muted);">
+            Want the full toolkit? <a href="pricing-assistant.html" style="color: var(--teal); font-weight: 800;">View Pricing Assistant Pro ($119.99) →</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- Support -->
+      <section class="section" id="support">
+        <div class="container support">
+          <div class="support-card">
+            <h2>Support</h2>
+            <p>Questions before buying? Need help getting set up? We're here.</p>
+            <div class="support-grid">
+              <div class="support-item">
+                <div class="support-label">Email</div>
+                <div class="support-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d7b1b6a5b6bda4b8b1a3a0b6a5b2a4b8bba2a3beb8b9a497b0bab6bebbf9b4b8ba">[email&#160;protected]</a></div>
+              </div>
+              <div class="support-item">
+                <div class="support-label">Response Time</div>
+                <div class="support-value">&lt; 24 hours</div>
+              </div>
+              <div class="support-item">
+                <div class="support-label">Custom Work</div>
+                <div class="support-value">SMB pricing + forecasting tools</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <div class="footer-title">Faraj Software Solutions</div>
+          <div class="footer-sub">Modern tools for real-world business decisions</div>
+        </div>
+        <div class="footer-right">
+          <a class="footer-link" href="index.html#products">Products</a>
+          <a class="footer-link" href="index.html#support">Support</a>
+          <a class="footer-link" href="
