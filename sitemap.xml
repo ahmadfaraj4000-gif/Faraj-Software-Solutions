@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.farajsolutions.com/</loc>
+    <loc>https://farajsolutions.com/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/pricing-assistant.html</loc>
+    <loc>https://farajsolutions.com/pricing-assistant.html</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/standard.html</loc>
+    <loc>https://farajsolutions.com/standard.html</loc>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/paid.html</loc>
+    <loc>https://farajsolutions.com/paid.html</loc>
     <priority>0.3</priority>
     <changefreq>never</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/pricing-assistant-demo.html</loc>
+    <loc>https://farajsolutions.com/pricing-assistant-demo.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/spa-calculator-demo.html</loc>
+    <loc>https://farajsolutions.com/spa-calculator-demo.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/shift-planner-demo.html</loc>
+    <loc>https://farajsolutions.com/shift-planner-demo.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://www.farajsolutions.com/custom-software.html</loc>
+    <loc>https://farajsolutions.com/custom-software.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
