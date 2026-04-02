@@ -127,6 +127,9 @@
             </div>
           </div>
         </a>
+
+         <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+         
         <div class="nav-links">
           <a class="nav-link" href="index.html#products">Products</a>
           <a class="nav-link" href="market-signals.html">Market Signals</a>
@@ -261,9 +264,7 @@
   </div>
 
   <script>
-    const FRED_API_KEY = "ca6b474ee414d3715a20fd1c418ed39d";
-
-    const seriesMeta = {
+        const seriesMeta = {
       CPIAUCSL: {
         name: 'Inflation (CPI)',
         unit: '% YoY',
@@ -418,7 +419,7 @@
 
     async function getFREDSeries(seriesId) {
       const meta = seriesMeta[seriesId];
-      const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${FRED_API_KEY}&file_type=json&sort_order=asc`;
+      const url = `/api/fred?series_id=${seriesId}`;
 
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Failed to fetch ${seriesId}`);
@@ -455,12 +456,6 @@
 
     async function loadIndicators() {
       const seriesIds = ['CPIAUCSL', 'PPIACO', 'DCOILWTICO', 'FEDFUNDS', 'M2SL'];
-
-      if (!FRED_API_KEY || FRED_API_KEY === 'PASTE_YOUR_FRED_API_KEY_HERE') {
-        console.error('FRED API key missing. Indicators will remain blank.');
-        renderPage(blankIndicators);
-        return;
-      }
 
       const liveIndicators = [];
       const failedSeries = [];
@@ -562,5 +557,34 @@
 
     loadIndicators();
   </script>
+  <script>
+    (function () {
+      var btn = document.getElementById('hamburger');
+      var menu = document.querySelector('.nav-links');
+      var resTrigger = document.querySelector('.resources-trigger');
+      var resMenu = document.querySelector('.resources-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('is-open');
+        btn.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      if (resTrigger && resMenu) {
+        resTrigger.addEventListener('click', function (e) {
+          if (window.innerWidth <= 700) {
+            e.preventDefault();
+            resMenu.classList.toggle('res-open');
+          }
+        });
+      }
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.remove('is-open');
+          btn.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+    </script>
 </body>
 </html>
