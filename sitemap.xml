@@ -20,4 +20,24 @@
     <priority>0.3</priority>
     <changefreq>never</changefreq>
   </url>
+  <url>
+    <loc>https://www.farajsolutions.com/pricing-assistant-demo.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.farajsolutions.com/spa-calculator-demo.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.farajsolutions.com/shift-planner-demo.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.farajsolutions.com/custom-software.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

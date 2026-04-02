@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Assistant Web Demo — Free Restaurant Food Cost Calculator | Faraj Software Solutions</title>
+  <meta name="description" content="Try the free Pricing Assistant web demo. Estimate food cost, waste, labor, overhead, break-even price, and recommended menu price online before upgrading to the full app." />
+  <meta name="keywords" content="food cost calculator, restaurant pricing calculator, menu cost calculator, labor cost per dish, overhead calculator restaurant, pricing assistant web demo" />
+  <link rel="canonical" href="https://www.farajsolutions.com/pricing-assistant-demo.html" />
+  <meta property="og:title" content="Pricing Assistant Web Demo | Free Menu Cost Calculator" />
+  <meta property="og:description" content="Calculate food cost, waste, labor, and overhead online. Then upgrade to Pricing Assistant Standard or Pro to save, export, and manage your pricing." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.farajsolutions.com/pricing-assistant-demo.html" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Pricing Assistant Web Demo",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Any",
+    "isAccessibleForFree": true,
+    "description": "A free web demo that helps restaurant owners estimate food cost, waste, labor, overhead, and recommended menu prices online.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Faraj Software Solutions",
+      "url": "https://www.farajsolutions.com"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate food cost per dish?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To calculate food cost per dish, add together ingredient cost, waste, labor cost, and overhead allocation per item. This calculator helps restaurant owners estimate all of those inputs in one place."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should you charge for a menu item?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A profitable menu price should cover ingredient cost, waste, labor, and overhead while leaving room for your target margin. This demo shows a recommended selling price based on those real costs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this calculator include labor and overhead?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Unlike basic food cost calculators, this demo includes labor cost and monthly overhead allocation so you can estimate a truer cost per item."
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .demo-hero { padding: 34px 0 14px; }
+    .demo-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(34,211,197,0.24);
+      background: rgba(34,211,197,0.08);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .demo-layout {
+      display: grid;
+      grid-template-columns: 1.06fr 0.94fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .demo-card {
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .demo-card h2, .demo-card h3 { margin-top: 0; }
+    .demo-sub { color: var(--muted); line-height: 1.65; }
+    .demo-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .input-group { margin-bottom: 14px; }
+    .input-group label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.92);
+    }
+    .input-group small {
+      display: block;
+      margin-top: 6px;
+      color: rgba(185,199,214,0.72);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .demo-input, .demo-select {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      padding: 12px 13px;
+      font: inherit;
+      outline: none;
+    }
+    .demo-input:focus, .demo-select:focus {
+      border-color: rgba(34,211,197,0.42);
+      box-shadow: 0 0 0 4px rgba(34,211,197,0.08);
+    }
+    .ingredients-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0 12px;
+    }
+    .ingredients-note { color: var(--muted2); font-size: 12px; }
+    .ingredient-row {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .ingredient-row-title {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--teal);
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .ingredient-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .mini-grid { display:grid; grid-template-columns: 1fr 100px; gap: 10px; }
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .result-card {
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .result-label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .result-value {
+      font-size: 1.65rem;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+    }
+    .result-card.highlight {
+      border-color: rgba(34,211,197,0.30);
+      background: linear-gradient(160deg, rgba(34,211,197,0.12), rgba(34,211,197,0.04));
+    }
+    .status-pill {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    .status-pill.under { color: #ff8d8d; border-color: rgba(231,76,60,0.26); background: rgba(231,76,60,0.08); }
+    .status-pill.over { color: #f7c16b; border-color: rgba(243,156,18,0.26); background: rgba(243,156,18,0.08); }
+    .status-pill.on { color: #8ce7b3; border-color: rgba(76,175,80,0.26); background: rgba(76,175,80,0.08); }
+    .status-pill.neutral { color: var(--muted); }
+    .demo-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .demo-lock {
+      margin-top: 16px;
+      padding: 15px 16px;
+      border-left: 4px solid var(--teal);
+      border-radius: 14px;
+      background: rgba(34,211,197,0.06);
+      color: rgba(255,255,255,0.90);
+      line-height: 1.6;
+    }
+    .demo-callout {
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(34,211,197,0.18);
+      background: linear-gradient(160deg, rgba(34,211,197,0.09), rgba(255,255,255,0.02));
+      padding: 18px;
+    }
+    .calc-breakdown {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+    .calc-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.92);
+    }
+    .calc-line:last-child { border-bottom: 0; padding-bottom: 0; }
+    .helper-list {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+      display: grid;
+      gap: 10px;
+    }
+    .helper-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.45;
+    }
+    .helper-list li span {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(34,211,197,0.12);
+      border: 1px solid rgba(34,211,197,0.18);
+      color: var(--teal);
+      font-weight: 900;
+    }
+    @media (max-width: 980px) {
+      .demo-layout, .demo-grid-2, .ingredient-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .demo-card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <header class="header">
+      <div class="container nav">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+          <div class="brand">
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Modern tools for real-world business decisions</div>
+            </div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="index.html#products">Products</a>
+          <a class="nav-link" href="index.html#support">Support</a>
+          <div class="resources-menu">
+            <button class="resources-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+              Resources
+              <span class="resources-caret">▾</span>
+            </button>
+            <div class="resources-dropdown" role="menu" aria-label="Resources">
+              <a class="resources-item" href="pricing-assistant-demo.html">Pricing Assistant Web Demo</a>
+              <a class="resources-item" href="spa-calculator-demo.html">Spa Service Cost Demo</a>
+              <a class="resources-item" href="shift-planner-demo.html">Shift Planner Web Demo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="demo-hero">
+        <div class="container">
+          <a href="index.html#products" class="nav-link" style="display:inline-block; margin-bottom: 14px; padding-left:0;">← Back to products</a>
+          <div class="demo-eyebrow">Free Web Demo</div>
+          <h1>Pricing Assistant <span class="accent">Web Demo</span></h1>
+          <h2 style="margin-top:10px;">Free Restaurant Food Cost &amp; Menu Pricing Calculator</h2>
+          <p class="lead" style="max-width: 920px;">
+            Test the core Pricing Assistant Standard workflow online. Add ingredients, waste, labor, and overhead to estimate your true cost, break-even price, recommended selling price, and margin status — then upgrade if you want to save, load, or price your menu more seriously.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 8px;">
+        <div class="container demo-layout">
+          <div class="demo-card">
+            <h2>Build your item</h2>
+            <p class="demo-sub">This demo stays close to the Standard edition: one item at a time, up to 8 ingredients, no saving, no exporting, no competitor analysis.</p>
+
+            <div class="demo-grid-2">
+              <div class="input-group">
+                <label for="itemName">Item name</label>
+                <input class="demo-input" id="itemName" type="text" value="My Item" />
+              </div>
+              <div class="input-group">
+                <label for="currentPrice">Current menu price ($)</label>
+                <input class="demo-input" id="currentPrice" type="number" step="0.01" min="0" placeholder="Optional" />
+              </div>
+            </div>
+
+            <div class="demo-grid-2">
+              <div class="input-group">
+                <label for="globalWaste">Global waste %</label>
+                <input class="demo-input" id="globalWaste" type="number" step="0.01" min="0" value="0.05" />
+                <small>Use decimals like 0.05 for 5%. This is used only when an ingredient waste field is 0.</small>
+              </div>
+              <div class="input-group">
+                <label for="targetMargin">Target margin</label>
+                <input class="demo-input" id="targetMargin" type="number" step="0.01" min="0" max="0.95" value="0.20" />
+                <small>Use decimals like 0.20 for 20%.</small>
+              </div>
+            </div>
+
+            <div class="ingredients-head">
+              <div>
+                <h3 style="margin:0;">Ingredients</h3>
+                <div class="ingredients-note">Standard supports up to 8 ingredients.</div>
+              </div>
+              <button class="btn secondary" id="addIngredientBtn" type="button">Add ingredient</button>
+            </div>
+
+            <div id="ingredientsWrap"></div>
+
+            <div class="demo-grid-2" style="margin-top: 18px;">
+              <div class="demo-card" style="padding:18px; background: rgba(255,255,255,0.03); box-shadow:none;">
+                <h3>Labor</h3>
+                <div class="demo-grid-2">
+                  <div class="input-group">
+                    <label for="laborRate">Hourly rate ($)</label>
+                    <input class="demo-input" id="laborRate" type="number" step="0.01" min="0" value="15" />
+                  </div>
+                  <div class="input-group">
+                    <label for="laborMinutes">minutes spent</label>
+                    <input class="demo-input" id="laborMinutes" type="number" step="0.01" min="0" value="5" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="demo-card" style="padding:18px; background: rgba(255,255,255,0.03); box-shadow:none;">
+                <h3>Monthly overhead</h3>
+                <div class="demo-grid-2">
+                  <div class="input-group">
+                    <label for="monthlyOverhead">Total monthly overhead ($)</label>
+                    <input class="demo-input" id="monthlyOverhead" type="number" step="0.01" min="0" value="0" />
+                  </div>
+                  <div class="input-group">
+                    <label for="monthlyUnits">Units sold per month</label>
+                    <input class="demo-input" id="monthlyUnits" type="number" step="1" min="0" value="0" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="demo-actions">
+              <button class="btn primary" id="calculateBtn" type="button">Calculate</button>
+              <button class="btn secondary" id="resetBtn" type="button">Reset demo</button>
+            </div>
+
+            <div class="demo-lock">
+              <strong>Web demo limits:</strong> no save/load, no templates, no CSV export, no competitor analysis, no full menu manager. The desktop editions unlock those features.
+            </div>
+          </div>
+
+          <div class="demo-card">
+            <h2>Live results</h2>
+            <p class="demo-sub">Use this to spot underpricing fast. The results update when you click calculate.</p>
+
+            <div class="results-grid">
+              <div class="result-card"><div class="result-label">Food cost</div><div class="result-value" id="foodCost">$0.00</div></div>
+              <div class="result-card"><div class="result-label">Waste cost</div><div class="result-value" id="wasteCost">$0.00</div></div>
+              <div class="result-card"><div class="result-label">Labor cost</div><div class="result-value" id="laborCost">$0.00</div></div>
+              <div class="result-card"><div class="result-label">Overhead / item</div><div class="result-value" id="overheadCost">$0.00</div></div>
+              <div class="result-card highlight"><div class="result-label">True cost</div><div class="result-value" id="trueCost">$0.00</div></div>
+              <div class="result-card"><div class="result-label">Break-even price</div><div class="result-value" id="breakEven">$0.00</div></div>
+              <div class="result-card highlight"><div class="result-label">Recommended price</div><div class="result-value" id="recommendedPrice">$0.00</div></div>
+              <div class="result-card"><div class="result-label">Profit @ current</div><div class="result-value" id="profitCurrent">—</div></div>
+              <div class="result-card"><div class="result-label">Margin @ current</div><div class="result-value" id="marginCurrent">—</div></div>
+            </div>
+
+            <div class="status-pill neutral" id="statusPill">Enter a current price to see whether this item is underpriced, on target, or overpriced.</div>
+
+            <div class="demo-callout">
+              <h3 style="margin-bottom:6px;">Calculation breakdown</h3>
+              <p class="demo-sub" style="margin-bottom:0;">This is the story behind the number so the page teaches while it sells.</p>
+              <div class="calc-breakdown">
+                <div class="calc-line"><span>Ingredient + waste cost</span><strong id="ingredientWasteLine">$0.00</strong></div>
+                <div class="calc-line"><span>Labor + overhead</span><strong id="laborOverheadLine">$0.00</strong></div>
+                <div class="calc-line"><span>True cost per item</span><strong id="trueCostLine">$0.00</strong></div>
+                <div class="calc-line"><span>Recommended selling price</span><strong id="recommendedLine">$0.00</strong></div>
+              </div>
+            </div>
+            <ul class="helper-list">
+              <li><span>✓</span><div><strong>Food businesses:</strong> burgers, smoothies, sandwiches, meal prep, coffee drinks, desserts.</div></li>
+              <li><span>✓</span><div><strong>Quick gut check:</strong> enter your current menu price and immediately see if you are missing your target margin.</div></li>
+              <li><span>✓</span><div><strong>Upgrade path:</strong> once you know the math works, buy Standard for saving or Pro for advanced menu engineering.</div></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="product-card">
+            <div class="product-top">
+              <div class="product-badge">Free Resource</div>
+              <div class="product-version">SEO Guide</div>
+            </div>
+
+            <h2 style="margin: 0 0 10px;">Food Cost Calculator for Restaurants</h2>
+            <p class="product-lead">
+              Use this free food cost calculator to determine the true cost of your menu items.
+              Enter your ingredients, labor, and overhead to instantly calculate your cost per dish,
+              recommended selling price, and profit margin.
+            </p>
+
+            <div style="display:grid; gap:16px; margin-top:18px;">
+              <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+                <h3 style="margin:0 0 8px; font-size:18px;">How to Calculate Food Cost Per Dish</h3>
+                <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+                  To calculate food cost per dish, you need to include ingredient cost, waste percentage,
+                  labor cost, and overhead allocation. This calculator automatically combines all of these
+                  factors so you can see your true cost per item and avoid underpricing your menu.
+                </p>
+              </div>
+
+              <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+                <h3 style="margin:0 0 8px; font-size:18px;">What Should You Charge for a Menu Item?</h3>
+                <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+                  Most restaurant owners underprice their menu items because they only consider ingredient cost.
+                  To stay profitable, your pricing must also include labor, overhead, and waste.
+                  This calculator shows you a recommended selling price based on your true costs so you can
+                  maintain consistent profit margins.
+                </p>
+              </div>
+
+              <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+                <h3 style="margin:0 0 8px; font-size:18px;">Are You Underpricing Your Menu?</h3>
+                <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+                  If your restaurant is busy but not profitable, your pricing may be the problem.
+                  Many restaurant owners unknowingly underprice their menu items by 20–40%.
+                  Use this calculator to quickly determine if your current pricing is leaving money on the table.
+                </p>
+              </div>
+               <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+                <h3 style="margin:0 0 8px; font-size:18px;">How Do You Allocate Overhead Costs Per Item?</h3>
+                <p style="margin:0 0 10px; color:rgba(185,199,214,0.86); line-height:1.65;">
+                  To allocate overhead costs per item, divide your total monthly overhead by the number of items you expect to sell in that month.
+                </p>
+
+                <div style="font-weight:800; color:var(--teal); margin-bottom:10px;">
+                  Overhead Cost Per Item = Total Monthly Overhead ÷ Monthly Units Sold
+                </div>
+
+                <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+                  This ensures every menu item contributes to covering rent, utilities, and other fixed business expenses.
+                  This calculator automatically includes overhead allocation so your pricing reflects your true cost.
+                </p>
+            </div>
+            <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+            <h3 style="margin:0 0 8px; font-size:18px;">How Do You Calculate Labor Cost Per Dish?</h3>
+            <p style="margin:0 0 10px; color:rgba(185,199,214,0.86); line-height:1.65;">
+              To calculate labor cost per dish, multiply your hourly wage by the time it takes to prepare the item.
+            </p>
+
+            <div style="font-weight:800; color:var(--teal); margin-bottom:10px;">
+              Labor Cost Per Dish = Hourly Wage × (Minutes Per Item ÷ 60)
+            </div>
+
+            <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+              This ensures each menu item accounts for the time required to prepare it. This calculator automatically converts minutes into labor cost so your pricing stays accurate.
+            </p>
+          </div>
+          <div style="padding:18px; border-radius:14px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+            <h3 style="margin:0 0 8px; font-size:18px;">How Do You Calculate Food Cost Percentage?</h3>
+            <p style="margin:0 0 10px; color:rgba(185,199,214,0.86); line-height:1.65;">
+              Food cost percentage shows how much of your selling price goes toward the cost of making the item.
+            </p>
+
+            <div style="font-weight:800; color:var(--teal); margin-bottom:10px;">
+              Food Cost % = (Total Cost Per Dish ÷ Selling Price) × 100
+            </div>
+
+            <p style="margin:0; color:rgba(185,199,214,0.86); line-height:1.65;">
+              Keeping this percentage under control is key to maintaining profitability. This calculator helps you stay within target margins automatically.
+            </p>
+          </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+
+      <section class="section" style="padding-top: 10px;">
+        <div class="container">
+          <div class="editions-header">
+            <h2 class="editions-title">Own the full <span class="accent">Pricing Assistant</span></h2>
+            <p class="editions-sub">Use the free demo for quick checks. Buy the desktop edition when you want to keep your work and build a repeatable pricing workflow.</p>
+          </div>
+
+          <div class="editions-grid">
+            <article class="edition-card" id="pricing-assistant-standard-demo-cta">
+              <div class="edition-top">
+                <div class="edition-badge standard-badge">Standard</div>
+                <div class="product-version">v1.0</div>
+              </div>
+              <p class="product-lead">Perfect for pricing one menu item at a time with ingredients, waste, labor, and overhead — plus save and load support inside the desktop app.</p>
+              <ul class="feature-list">
+                <li><span class="check">✓</span>Up to 8 ingredients with unit conversion</li>
+                <li><span class="check">✓</span>Per-ingredient &amp; global waste %</li>
+                <li><span class="check">✓</span>Labor cost (rate + minutes per item)</li>
+                <li><span class="check">✓</span>Monthly overhead allocation</li>
+                <li><span class="check">✓</span>Recommended price + break-even</li>
+                <li><span class="check">✓</span>Current price status (Under/On/Over)</li>
+                <li><span class="check">✓</span>Save &amp; load item profiles</li>
+                <li><span class="check muted-check">–</span><span class="muted-feat">Competitor analysis</span></li>
+                <li><span class="check muted-check">–</span><span class="muted-feat">What-if scenario planner</span></li>
+                <li><span class="check muted-check">–</span><span class="muted-feat">Menu Manager + CSV export</span></li>
+              </ul>
+              <div class="product-bottom">
+                <div class="price">
+                  <div class="price-amt">$49.99</div>
+                  <div class="price-sub">one-time purchase</div>
+                </div>
+                <div class="btn-grid">
+                  <a class="btn primary" href="standard.html">Learn More<span class="btn-sub">full details &amp; tutorial</span></a>
+                  <a class="btn secondary" href="#" target="_blank" rel="noopener noreferrer">Buy Now<span class="btn-sub">secure checkout</span></a>
+                </div>
+                <div class="fine">After payment, choose Mac or Windows on the download page.</div>
+              </div>
+            </article>
+
+            <article class="edition-card edition-card--pro" id="pricing-assistant-pro-demo-cta">
+              <div class="edition-top">
+                <div class="edition-badge pro-badge">Pro ⭐</div>
+                <div class="product-version">v1.0</div>
+              </div>
+              <p class="product-lead">The complete restaurant profitability toolkit — built for operators who want deeper pricing decisions across a real menu, not just one item.</p>
+              <ul class="feature-list">
+                <li><span class="check">✓</span>Everything in Standard</li>
+                <li><span class="check">✓</span>Unlimited ingredients per item</li>
+                <li><span class="check">✓</span>Competitor price analysis &amp; positioning</li>
+                <li><span class="check">✓</span>What-if scenario planner</li>
+                <li><span class="check">✓</span>Menu Manager + CSV export</li>
+                <li><span class="check">✓</span>Advanced weighted labor tiers</li>
+                <li><span class="check">✓</span>Itemized overhead builder (20 categories)</li>
+                <li><span class="check">✓</span>Batch prep calculator → auto labor minutes</li>
+                <li><span class="check">✓</span>CC &amp; delivery app fee pass-through</li>
+                <li><span class="check">✓</span>Save &amp; recall full cost configurations</li>
+              </ul>
+              <div class="product-bottom">
+                <div class="price">
+                  <div class="price-amt">$89.99</div>
+                  <div class="price-sub">one-time purchase</div>
+                </div>
+                <div class="btn-grid">
+                  <a class="btn primary" href="pricing-assistant.html">Learn More<span class="btn-sub">full details &amp; tutorial</span></a>
+                  <a class="btn secondary" href="https://farajsolutions.gumroad.com/l/nwaaks?_gl=1*z7f51m*_ga*NjczMTc0NjU3LjE3NjgzMzY0NzM.*_ga_6LJN6D94N6*czE3NzE5NjU0NDYkbzMkZzEkdDE3NzE5NjY3MTEkajE3JGwwJGgw" target="_blank" rel="noopener noreferrer">Buy Now<span class="btn-sub">secure checkout</span></a>
+                </div>
+                <div class="fine">After payment, choose Mac or Windows on the download page.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <div class="footer-title">Faraj Software Solutions</div>
+          <div class="footer-sub">Modern tools for real-world business decisions</div>
+        </div>
+        <div class="footer-right">
+          <a class="footer-link" href="index.html#products">Products</a>
+          <a class="footer-link" href="pricing-assistant-demo.html">Pricing Demo</a>
+          <a class="footer-link" href="index.html#support">Support</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const UNIT_GROUPS = {
+      weight: { lb: 453.59237, oz: 28.349523125, g: 1, kg: 1000 },
+      volume: { ml: 1, l: 1000, floz: 29.5735295625, gal: 3785.411784 },
+      each: { each: 1 }
+    };
+
+    const UNIT_CATEGORY = {};
+    Object.entries(UNIT_GROUPS).forEach(([group, units]) => {
+      Object.keys(units).forEach((unit) => { UNIT_CATEGORY[unit] = group; });
+    });
+
+    const unitOptions = ['lb','oz','g','kg','ml','l','floz','gal','each'];
+    const ingredientsWrap = document.getElementById('ingredientsWrap');
+    const addIngredientBtn = document.getElementById('addIngredientBtn');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function money(value) {
+      return `$${(Number.isFinite(value) ? value : 0).toFixed(2)}`;
+    }
+
+    function pct(value) {
+      return `${(Number.isFinite(value) ? value : 0).toFixed(1)}%`;
+    }
+
+    function parseNum(value, fallback = 0) {
+      const parsed = parseFloat(value);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function convertUnits(qty, fromUnit, toUnit) {
+      if (!qty || !fromUnit || !toUnit) return 0;
+      if (fromUnit === toUnit) return qty;
+      const fromCategory = UNIT_CATEGORY[fromUnit];
+      const toCategory = UNIT_CATEGORY[toUnit];
+      if (!fromCategory || !toCategory || fromCategory !== toCategory) return null;
+      const fromBase = UNIT_GROUPS[fromCategory][fromUnit];
+      const toBase = UNIT_GROUPS[toCategory][toUnit];
+      return qty * fromBase / toBase;
+    }
+
+    function ingredientTemplate(index) {
+      const title = index + 1;
+      return `
+        <div class="ingredient-row" data-index="${index}">
+          <div class="ingredient-row-title">Ingredient ${title}</div>
+          <div class="ingredient-grid">
+            <div class="input-group">
+              <label>Name</label>
+              <input class="demo-input ingredient-name" type="text" placeholder="Ground beef" />
+            </div>
+            <div class="input-group">
+              <label>Purchase price</label>
+              <input class="demo-input ingredient-purchase-price" type="number" step="0.01" min="0" placeholder="18.99" />
+            </div>
+            <div class="input-group">
+              <label>Purchase qty</label>
+              <input class="demo-input ingredient-purchase-qty" type="number" step="0.01" min="0" placeholder="5" />
+            </div>
+            <div class="input-group">
+              <label>Purchase unit</label>
+              <select class="demo-select ingredient-purchase-unit">${unitOptions.map(unit => `<option value="${unit}">${unit}</option>`).join('')}</select>
+            </div>
+          </div>
+          <div class="ingredient-grid">
+            <div class="input-group">
+              <label>Recipe qty used</label>
+              <input class="demo-input ingredient-recipe-qty" type="number" step="0.01" min="0" placeholder="6" />
+            </div>
+            <div class="input-group">
+              <label>Recipe unit</label>
+              <select class="demo-select ingredient-recipe-unit">${unitOptions.map(unit => `<option value="${unit}" ${unit === 'oz' ? 'selected' : ''}>${unit}</option>`).join('')}</select>
+            </div>
+            <div class="input-group">
+              <label>Waste %</label>
+              <input class="demo-input ingredient-waste" type="number" step="0.01" min="0" value="0" />
+            </div>
+            <div class="input-group" style="display:flex; align-items:flex-end;">
+              <button class="btn secondary remove-ingredient-btn" type="button" style="width:100%;">Remove</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function addIngredient(prefill = null) {
+      const rows = ingredientsWrap.querySelectorAll('.ingredient-row');
+      if (rows.length >= 8) return;
+      ingredientsWrap.insertAdjacentHTML('beforeend', ingredientTemplate(rows.length));
+      const row = ingredientsWrap.lastElementChild;
+      if (prefill) {
+        row.querySelector('.ingredient-name').value = prefill.name || '';
+        row.querySelector('.ingredient-purchase-price').value = prefill.purchasePrice || '';
+        row.querySelector('.ingredient-purchase-qty').value = prefill.purchaseQty || '';
+        row.querySelector('.ingredient-purchase-unit').value = prefill.purchaseUnit || 'lb';
+        row.querySelector('.ingredient-recipe-qty').value = prefill.recipeQty || '';
+        row.querySelector('.ingredient-recipe-unit').value = prefill.recipeUnit || 'oz';
+        row.querySelector('.ingredient-waste').value = prefill.waste || 0;
+      }
+    }
+
+    function normalizeIngredientTitles() {
+      ingredientsWrap.querySelectorAll('.ingredient-row').forEach((row, idx) => {
+        row.dataset.index = idx;
+        const title = row.querySelector('.ingredient-row-title');
+        title.textContent = `Ingredient ${idx + 1}`;
+      });
+    }
+
+    function ingredientRows() {
+      return Array.from(ingredientsWrap.querySelectorAll('.ingredient-row'));
+    }
+
+    function calculate() {
+      const globalWaste = Math.max(0, parseNum(document.getElementById('globalWaste').value, 0.05));
+      const targetMargin = Math.min(Math.max(parseNum(document.getElementById('targetMargin').value, 0.20), 0), 0.95);
+      const currentPriceRaw = document.getElementById('currentPrice').value.trim();
+      const currentPrice = currentPriceRaw ? parseNum(currentPriceRaw, NaN) : null;
+      const laborRate = Math.max(0, parseNum(document.getElementById('laborRate').value));
+      const laborMinutes = Math.max(0, parseNum(document.getElementById('laborMinutes').value));
+      const monthlyOverhead = Math.max(0, parseNum(document.getElementById('monthlyOverhead').value));
+      const monthlyUnits = Math.max(0, parseNum(document.getElementById('monthlyUnits').value));
+
+      let foodCost = 0;
+      let wasteCost = 0;
+
+      ingredientRows().forEach((row) => {
+        const name = row.querySelector('.ingredient-name').value.trim();
+        const purchasePrice = Math.max(0, parseNum(row.querySelector('.ingredient-purchase-price').value));
+        const purchaseQty = Math.max(0, parseNum(row.querySelector('.ingredient-purchase-qty').value));
+        const purchaseUnit = row.querySelector('.ingredient-purchase-unit').value;
+        const recipeQty = Math.max(0, parseNum(row.querySelector('.ingredient-recipe-qty').value));
+        const recipeUnit = row.querySelector('.ingredient-recipe-unit').value;
+        const wastePctEntered = Math.max(0, parseNum(row.querySelector('.ingredient-waste').value));
+
+        if (!name && !purchasePrice && !purchaseQty && !recipeQty) return;
+        const convertedPurchaseQty = convertUnits(purchaseQty, purchaseUnit, recipeUnit);
+        if (!convertedPurchaseQty || convertedPurchaseQty <= 0) return;
+        const unitCost = purchasePrice / convertedPurchaseQty;
+        const baseCost = unitCost * recipeQty;
+        const wastePct = wastePctEntered > 0 ? wastePctEntered : globalWaste;
+        const thisWasteCost = baseCost * wastePct;
+        foodCost += baseCost;
+        wasteCost += thisWasteCost;
+      });
+
+      const laborCost = laborRate * (laborMinutes / 60);
+      const overheadCost = monthlyUnits > 0 ? monthlyOverhead / monthlyUnits : 0;
+      const trueCost = foodCost + wasteCost + laborCost + overheadCost;
+      const breakEven = trueCost;
+      const recommendedPrice = targetMargin >= 0.999 ? trueCost : (1 - targetMargin) > 0 ? trueCost / (1 - targetMargin) : trueCost;
+
+      document.getElementById('foodCost').textContent = money(foodCost);
+      document.getElementById('wasteCost').textContent = money(wasteCost);
+      document.getElementById('laborCost').textContent = money(laborCost);
+      document.getElementById('overheadCost').textContent = money(overheadCost);
+      document.getElementById('trueCost').textContent = money(trueCost);
+      document.getElementById('breakEven').textContent = money(breakEven);
+      document.getElementById('recommendedPrice').textContent = money(recommendedPrice);
+      document.getElementById('ingredientWasteLine').textContent = money(foodCost + wasteCost);
+      document.getElementById('laborOverheadLine').textContent = money(laborCost + overheadCost);
+      document.getElementById('trueCostLine').textContent = money(trueCost);
+      document.getElementById('recommendedLine').textContent = money(recommendedPrice);
+
+      const statusPill = document.getElementById('statusPill');
+      if (currentPrice !== null && Number.isFinite(currentPrice) && currentPrice > 0) {
+        const profitCurrent = currentPrice - trueCost;
+        const marginCurrent = currentPrice > 0 ? (profitCurrent / currentPrice) * 100 : 0;
+        document.getElementById('profitCurrent').textContent = money(profitCurrent);
+        document.getElementById('marginCurrent').textContent = pct(marginCurrent);
+
+        const tolerance = 0.01;
+        if (currentPrice + tolerance < recommendedPrice) {
+          statusPill.className = 'status-pill under';
+          statusPill.textContent = `⚠ UNDERPRICED — your current price is about ${money(recommendedPrice - currentPrice)} below the recommended price for your target margin.`;
+        } else if (currentPrice - tolerance > recommendedPrice) {
+          statusPill.className = 'status-pill over';
+          statusPill.textContent = `▲ OVER TARGET — you are pricing about ${money(currentPrice - recommendedPrice)} above the recommended price. That may be fine if your demand supports it.`;
+        } else {
+          statusPill.className = 'status-pill on';
+          statusPill.textContent = '✓ ON TARGET — your current price is right around the recommended price for your target margin.';
+        }
+      } else {
+        document.getElementById('profitCurrent').textContent = '—';
+        document.getElementById('marginCurrent').textContent = '—';
+        statusPill.className = 'status-pill neutral';
+        statusPill.textContent = 'Enter a current price to see whether this item is underpriced, on target, or overpriced.';
+      }
+    }
+
+    function resetDemo() {
+      document.getElementById('itemName').value = 'My Item';
+      document.getElementById('currentPrice').value = '';
+      document.getElementById('globalWaste').value = '0.05';
+      document.getElementById('targetMargin').value = '0.20';
+      document.getElementById('laborRate').value = '15';
+      document.getElementById('laborMinutes').value = '5';
+      document.getElementById('monthlyOverhead').value = '0';
+      document.getElementById('monthlyUnits').value = '0';
+      ingredientsWrap.innerHTML = '';
+      addIngredient({ name: 'Ground beef', purchasePrice: '18.99', purchaseQty: '5', purchaseUnit: 'lb', recipeQty: '6', recipeUnit: 'oz', waste: '0.08' });
+      addIngredient({ name: 'Burger bun', purchasePrice: '4.99', purchaseQty: '8', purchaseUnit: 'each', recipeQty: '1', recipeUnit: 'each', waste: '0' });
+      addIngredient({ name: 'Cheese slice', purchasePrice: '6.50', purchaseQty: '24', purchaseUnit: 'each', recipeQty: '1', recipeUnit: 'each', waste: '0' });
+      normalizeIngredientTitles();
+      calculate();
+    }
+
+    addIngredientBtn.addEventListener('click', () => {
+      if (ingredientRows().length >= 8) return;
+      addIngredient();
+      normalizeIngredientTitles();
+    });
+
+    ingredientsWrap.addEventListener('click', (event) => {
+      if (event.target.classList.contains('remove-ingredient-btn')) {
+        event.target.closest('.ingredient-row').remove();
+        normalizeIngredientTitles();
+        calculate();
+      }
+    });
+
+    calculateBtn.addEventListener('click', calculate);
+    resetBtn.addEventListener('click', resetDemo);
+
+    document.addEventListener('input', (event) => {
+      if (event.target.matches('.demo-input, .demo-select')) {
+        // keep the page responsive without forcing immediate recalc on every keystroke-heavy change
+      }
+    });
+
+    resetDemo();
+  </script>
+</body>
+</html>

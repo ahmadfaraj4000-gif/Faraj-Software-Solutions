@@ -783,3 +783,131 @@ h1 {
     align-items: flex-start;
   }
 }
+
+
+/* ─── Resources dropdown ─────────────────────────────────────────────── */
+.resources-menu {
+  position: relative;
+  padding-bottom: 14px;
+  margin-bottom: -14px;
+}
+
+.resources-trigger {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(185,199,214,0.92);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 10px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.resources-trigger:hover,
+.resources-menu:focus-within .resources-trigger {
+  color: rgba(34,211,197,0.95);
+  background: rgba(34,211,197,0.08);
+}
+
+.resources-caret {
+  font-size: 11px;
+  opacity: 0.85;
+  transition: transform 0.18s ease;
+}
+
+.resources-menu:hover .resources-caret,
+.resources-menu:focus-within .resources-caret {
+  transform: rotate(180deg);
+}
+
+.resources-dropdown {
+  position: absolute;
+  top: calc(100% + 2px);
+  right: 0;
+  min-width: 260px;
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(11, 22, 36, 0.97);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  display: grid;
+  gap: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  z-index: 30;
+}
+
+.resources-menu:hover .resources-dropdown,
+.resources-menu:focus-within .resources-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.resources-dropdown::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 14px;
+}
+
+.support-inline-btn {
+  padding: 10px 14px;
+  min-height: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.resources-item {
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,0.92);
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1.35;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid transparent;
+}
+
+.resources-item:hover {
+  color: var(--teal);
+  border-color: rgba(34,211,197,0.20);
+  background: rgba(34,211,197,0.08);
+}
+
+@media (max-width: 700px) {
+  .nav-links {
+    gap: 4px;
+  }
+
+  .resources-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 560px) {
+  .nav {
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
