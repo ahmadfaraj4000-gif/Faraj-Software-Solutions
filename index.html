@@ -335,7 +335,7 @@
                   <div class="note-dot"></div>
                   Notify me when it launches
                 </div>
-                <a href="/cdn-cgi/l/email-protection#5f393e2d3e352c30392b283e2d3a2c30332a2b3630312c1f38323e3633713c3032602c2a3d353a3c2b620c3736392b7f0f333e31313a2d7f1a3e2d33267f1e3c3c3a2c2c" class="btn secondary" style="width:fit-content;padding:12px 22px;">
+                <a href="/cdn-cgi/l/email-protection#caacabb8aba0b9a5acbebdabb8afb9a5a6bfbea3a5a4b98aada7aba3a6e4a9a5a7f5b9bfa8a0afa9bef799a2a3acbeea9aa6aba4a4afb8ea8fabb8a6b3ea8ba9a9afb9b9" class="btn secondary" style="width:fit-content;padding:12px 22px;">
                   Get Early Access
                   <span class="btn-sub">be first to know</span>
                 </a>
@@ -398,7 +398,7 @@
               <div class="support-grid">
                 <div class="support-item">
                   <div class="support-label">Email</div>
-                  <div class="support-value"><a href="/cdn-cgi/l/email-protection#61070013000b120e071516001304120e0d1415080e0f1221060c00080d4f020e0c" style="color:inherit;text-decoration:none;"><span class="__cf_email__" data-cfemail="dbbdbaa9bab1a8b4bdafacbaa9bea8b4b7aeafb2b4b5a89bbcb6bab2b7f5b8b4b6">[email&#160;protected]</span></a></div>
+                  <div class="support-value"><a href="/cdn-cgi/l/email-protection#2f494e5d4e455c40495b584e5d4a5c40435a5b4640415c6f48424e4643014c4042" style="color:inherit;text-decoration:none;"><span class="__cf_email__" data-cfemail="e28483908388918d849695839087918d8e97968b8d8c91a2858f838b8ecc818d8f">[email&#160;protected]</span></a></div>
                 </div>
                 <div class="support-item">
                   <div class="support-label">Phone</div>
@@ -472,33 +472,46 @@
         flex-shrink: 0;
         transition: transform 0.2s;
       }
-      .faq-item[open] 
-<script>
-(function () {
-  var btn = document.getElementById('hamburger');
-  var menu = document.querySelector('.nav-links');
-  var resTrigger = document.querySelector('.resources-trigger');
-  var resMenu = document.querySelector('.resources-menu');
-  if (!btn || !menu) return;
-  btn.addEventListener('click', function () {
-    var open = menu.classList.toggle('is-open');
-    btn.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', String(open));
-  });
-  if (resTrigger && resMenu) {
-    resTrigger.addEventListener('click', function (e) {
-      if (window.innerWidth <= 700) {
-        e.preventDefault();
-        resMenu.classList.toggle('res-open');
+      .faq-item[open] .faq-q::after {
+        transform: rotate(45deg);
       }
-    });
-  }
-  document.addEventListener('click', function (e) {
-    if (!menu.contains(e.target) && !btn.contains(e.target)) {
-      menu.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-})();
-</script>
+      .faq-a {
+        margin: 0;
+        padding: 0 18px 16px;
+        color: rgba(185,199,214,0.85);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+    </style>
+
+    <script>
+    (function () {
+      var btn = document.getElementById('hamburger');
+      var menu = document.querySelector('.nav-links');
+      var resTrigger = document.querySelector('.resources-trigger');
+      var resMenu = document.querySelector('.resources-menu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('is-open');
+        btn.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      if (resTrigger && resMenu) {
+        resTrigger.addEventListener('click', function (e) {
+          if (window.innerWidth <= 700) {
+            e.preventDefault();
+            resMenu.classList.toggle('res-open');
+          }
+        });
+      }
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.remove('is-open');
+          btn.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    })();
+    </script>
+  </body>
+</html>
