@@ -297,7 +297,7 @@
       },
       M2SL: {
         name: 'Money Supply (M2)',
-        unit: '% YoY',
+        unit: 'Billions of Dollars',
         cadence: 'year-over-year',
         impact: 'M2 helps frame long-term monetary inflation pressure even when CPI looks slower in the short run.',
         comparisonPeriods: 12
@@ -405,11 +405,26 @@
       return { status: 'Mixed signal', summary: 'This indicator is moving, but the business impact depends on context.', action: 'Monitor changes alongside pricing and margin data.' };
     }
 
-    function formatStat(indicator, valueType = 'change') {
+   function formatStat(indicator, valueType = 'change') {
       const value = valueType === 'current' ? indicator.current : indicator.change;
       if (!Number.isFinite(value)) return '—';
-      if (indicator.series === 'DCOILWTICO' && valueType === 'current') return `$${indicator.current.toFixed(1)}`;
-      if (valueType === 'current') return `${indicator.current.toFixed(1)}${indicator.unit.includes('%') ? '%' : ''}`;
+
+      if (valueType === 'current') {
+        if (indicator.series === 'M2SL') {
+          return `$${Math.round(indicator.current).toLocaleString()}B`;
+        }
+
+        if (indicator.series === 'DCOILWTICO') {
+          return `$${indicator.current.toFixed(2)}`;
+        }
+
+        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO' || indicator.series === 'FEDFUNDS') {
+          return `${indicator.current.toFixed(1)}%`;
+        }
+
+        return indicator.current.toFixed(1);
+      }
+
       const sign = indicator.change > 0 ? '+' : '';
       return `${sign}${indicator.change.toFixed(1)}%`;
     }
