@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Signals for Small Businesses | Faraj Software Solutions</title>
+  <meta name="description" content="Track inflation, supplier cost pressure, oil prices, interest rates, and money supply with plain-English explanations for restaurant owners and small businesses." />
+  <meta name="keywords" content="economic indicators for small businesses, restaurant inflation dashboard, CPI for restaurant owners, PPI small business, oil prices business costs, M2 money supply business, interest rates small business" />
+  <link rel="canonical" href="https://www.farajsolutions.com/market-signals.html" />
+  <meta property="og:title" content="Market Signals for Small Businesses | Faraj Software Solutions" />
+  <meta property="og:description" content="A simple indicator dashboard showing the macro signals that affect pricing, supplier costs, transport costs, borrowing, and long-term inflation pressure." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.farajsolutions.com/market-signals.html" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .market-hero { padding: 40px 0 18px; }
+    .market-wide { width: min(1360px, calc(100% - 48px)); margin: 0 auto; }
+    .market-intro-grid {
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    .market-kicker {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 12px; border-radius: 999px;
+      background: rgba(34,211,197,0.10); border:1px solid rgba(34,211,197,0.22);
+      color: var(--teal); font-size: 12px; font-weight: 900; letter-spacing: 0.02em;
+      margin-bottom: 12px;
+    }
+    .market-lead { max-width: 860px; }
+    .signal-overview {
+      display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px;
+    }
+    .signal-mini {
+      padding: 14px; border-radius: 16px; border:1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+    }
+    .signal-mini-label { font-size: 12px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; }
+    .signal-mini-value { font-size: 26px; font-weight: 950; letter-spacing: -0.03em; margin-top: 4px; }
+    .signal-mini-sub { margin-top: 6px; font-size: 12px; color: var(--muted2); line-height: 1.5; }
+    .market-panel {
+      border-radius: 22px; border:1px solid var(--border); padding: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+    }
+    .api-callout { display:grid; gap: 12px; }
+    .api-note { color: var(--muted); line-height: 1.6; }
+    .pill-row-tight { display:flex; flex-wrap:wrap; gap: 10px; margin-top: 6px; }
+    .pill-tight {
+      font-size: 12px; color: rgba(255,255,255,0.92);
+      padding: 8px 11px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.045);
+    }
+    .page-section { padding: 18px 0 24px; }
+    .section-title { margin: 0 0 10px; font-size: 28px; letter-spacing: -0.02em; }
+    .section-sub { margin:0; color: var(--muted); max-width: 880px; line-height: 1.65; }
+    .signals-grid {
+      display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px;
+    }
+    .signal-card {
+      border-radius: 22px; border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow); padding: 22px;
+    }
+    .signal-card-top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom: 12px; }
+    .signal-name { margin:0; font-size: 22px; letter-spacing: -0.02em; }
+    .signal-series { color: var(--muted2); font-size: 12px; font-weight: 800; margin-top: 6px; }
+    .signal-chip {
+      padding: 7px 10px; border-radius: 999px; font-size: 12px; font-weight: 900;
+      border:1px solid rgba(34,211,197,0.25); background: rgba(34,211,197,0.10); color: var(--teal);
+      white-space: nowrap;
+    }
+    .signal-stats { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 16px; }
+    .stat-box {
+      padding: 12px; border-radius: 16px; background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+    }
+    .stat-label { font-size: 11px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; }
+    .stat-value { margin-top: 5px; font-size: 22px; font-weight: 950; letter-spacing: -0.03em; }
+    .signal-impact, .signal-explainer, .signal-action {
+      border-radius: 16px; padding: 14px 16px; margin-top: 10px;
+      border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);
+    }
+    .signal-impact strong, .signal-explainer strong, .signal-action strong { display:block; margin-bottom: 6px; }
+    .signal-impact p, .signal-explainer p, .signal-action p { margin:0; color: var(--muted); line-height: 1.6; }
+    .signal-action { border-color: rgba(34,211,197,0.22); background: rgba(34,211,197,0.06); }
+    .formula-grid { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+    .formula-card {
+      padding: 18px; border-radius: 18px; border:1px solid var(--border); background: rgba(255,255,255,0.04);
+    }
+    .formula-card h3 { margin: 0 0 8px; font-size: 18px; }
+    .formula { color: var(--teal); font-weight: 900; line-height: 1.5; }
+    .cta-strip {
+      margin-top: 24px; padding: 22px; border-radius: 24px; border:1px solid rgba(34,211,197,0.24);
+      background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
+      display:flex; justify-content:space-between; gap: 18px; align-items:center; flex-wrap:wrap;
+    }
+    .cta-strip p { margin: 6px 0 0; color: var(--muted); max-width: 720px; }
+    .data-source-note { margin-top: 16px; color: var(--muted2); font-size: 13px; line-height: 1.6; }
+    @media (max-width: 1100px) {
+      .market-intro-grid, .signals-grid, .formula-grid { grid-template-columns: 1fr; }
+      .signal-overview, .signal-stats { grid-template-columns: 1fr 1fr; }
+      .market-wide { width: min(1360px, calc(100% - 28px)); }
+    }
+    @media (max-width: 700px) {
+      .signal-overview, .signal-stats { grid-template-columns: 1fr; }
+      .market-hero { padding-top: 24px; }
+      .signal-card-top { flex-direction: column; }
+      .market-wide { width: min(1360px, calc(100% - 20px)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <header class="header">
+      <div class="market-wide nav">
+        <a href="index.html" style="text-decoration:none;color:inherit;">
+          <div class="brand">
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Modern tools for real-world business decisions</div>
+            </div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="index.html#products">Products</a>
+          <a class="nav-link" href="market-signals.html">Market Signals</a>
+          <div class="resources-menu">
+            <button class="resources-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+              Free Tools
+              <span class="resources-caret">▾</span>
+            </button>
+            <div class="resources-dropdown" role="menu" aria-label="Free Tools">
+              <a class="resources-item" href="pricing-assistant-demo.html">Pricing Assistant Web Demo</a>
+              <a class="resources-item" href="spa-calculator-demo.html">Spa Cost Estimator Demo</a>
+              <a class="resources-item" href="shift-planner-demo.html">Shift Planner Web Demo</a>
+            </div>
+          </div>
+          <a class="nav-link" href="custom-software.html">Custom Software</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="market-hero">
+        <div class="market-wide market-intro-grid">
+          <div class="market-panel">
+            <div class="market-kicker">Macro dashboard for owners</div>
+            <h1 style="margin:0 0 14px;">Market Signals for <span class="accent">Small Businesses</span></h1>
+            <p class="lead market-lead">
+              Track the indicators that matter most to pricing, supplier costs, transport costs, borrowing decisions,
+              and long-term inflation pressure. This page is built for restaurant owners first, but the signals also matter
+              to service businesses that need clearer pricing and planning decisions.
+            </p>
+            <p style="color:var(--muted); max-width:700px; line-height:1.65; margin: 0 0 10px;">
+              Real-time economic indicators that impact pricing, labor costs, and profitability for small businesses.
+            </p>
+            <div class="signal-overview" id="overviewStats"></div>
+          </div>
+
+          <div class="market-panel api-callout">
+            <div>
+              <div class="glass-title">Mock data for now</div>
+              <p class="api-note">
+                This page is currently using placeholder values so you can design and test the experience first.
+                When you're ready, swap in your FRED API key and the live series IDs below.
+              </p>
+            </div>
+            <div class="pill-row-tight">
+              <span class="pill-tight">CPIAUCSL</span>
+              <span class="pill-tight">PPIACO</span>
+              <span class="pill-tight">DCOILWTICO</span>
+              <span class="pill-tight">FEDFUNDS</span>
+              <span class="pill-tight">M2SL</span>
+            </div>
+            <div class="signal-action">
+              <strong>Why this page matters</strong>
+              <p>
+                Owners usually see inflation in the abstract. This page translates it into plain English: what it means for
+                pricing, cost control, and whether you should review margins, negotiate suppliers, or slow down borrowing.
+              </p>
+            </div>
+            <div class="data-source-note">
+              When you connect live FRED data later, keep the smart explanations rule-based so the page stays clear and trustworthy.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="market-wide">
+          <h2 class="section-title">The five signals worth watching first</h2>
+          <p class="section-sub">
+            These indicators cover both short-term cost pressure and longer-term monetary conditions. Together they help explain
+            why margins get squeezed even when sales look steady.
+          </p>
+          <div class="signals-grid" id="signalsGrid"></div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="market-wide">
+          <h2 class="section-title">Simple formulas behind the dashboard</h2>
+          <p class="section-sub">
+            The value of this page is not just the data — it's the interpretation. These formulas show how the cards turn raw numbers into owner-friendly signals.
+          </p>
+          <div class="formula-grid">
+            <div class="formula-card">
+              <h3>Year-over-year change</h3>
+              <p class="formula">YoY % = ((Current Value − Value 12 Months Ago) ÷ Value 12 Months Ago) × 100</p>
+              <p class="product-lead" style="margin:10px 0 0;">Used for CPI, PPI, and M2 to show whether inflation pressure is accelerating or easing.</p>
+            </div>
+            <div class="formula-card">
+              <h3>Price trend change</h3>
+              <p class="formula">Trend Change % = ((Current Value − Prior Value) ÷ Prior Value) × 100</p>
+              <p class="product-lead" style="margin:10px 0 0;">Used for oil to flag transport and supplier cost pressure when energy prices move sharply.</p>
+            </div>
+            <div class="formula-card">
+              <h3>Cost pressure signal</h3>
+              <p class="formula">Pressure Score = Weighted mix of CPI, PPI, Oil, Rates, and M2 trend</p>
+              <p class="product-lead" style="margin:10px 0 0;">A simplified owner view so the page can summarize whether conditions are mild, moderate, or high pressure.</p>
+            </div>
+          </div>
+
+          <div class="cta-strip">
+            <div>
+              <div class="glass-title">Want to act on the data?</div>
+              <p>Use Pricing Assistant to test price changes against real-world cost pressure, or reach out if you want a custom dashboard built for your business.</p>
+            </div>
+            <div class="hero-cta">
+              <a class="btn primary" href="pricing-assistant-demo.html">Try Pricing Assistant Demo<span class="btn-sub">free web demo</span></a>
+              <a class="btn secondary" href="custom-software.html">Custom Software<span class="btn-sub">request a quote</span></a>
+            </div>
+          </div>
+
+          <p class="data-source-note">
+            This version uses mocked values for layout and copy testing only. When you add live data, replace the <code>mockIndicators</code> object in this file and wire each card to the FRED API endpoint.
+          </p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="market-wide footer-inner">
+          <div class="footer-left">
+            <div class="footer-title">Faraj Software Solutions</div>
+            <div class="footer-sub">Custom software and business tools for pricing, planning, and operations.</div>
+          </div>
+          <div class="footer-right">
+            <a class="footer-link" href="index.html#products">Products</a>
+            <a class="footer-link" href="market-signals.html">Market Signals</a>
+            <a class="footer-link" href="custom-software.html">Custom Software</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const FRED_API_KEY = "ca6b474ee414d3715a20fd1c418ed39d";
+
+    const seriesMeta = {
+      CPIAUCSL: {
+        name: 'Inflation (CPI)',
+        unit: '% YoY',
+        cadence: 'year-over-year',
+        impact: 'Ingredients, rent, and wages usually feel CPI pressure over time.',
+        comparisonPeriods: 12
+      },
+      PPIACO: {
+        name: 'Producer Price Index (PPI)',
+        unit: '% YoY',
+        cadence: 'year-over-year',
+        impact: 'Wholesale and supplier costs often show up in PPI before they hit menu prices.',
+        comparisonPeriods: 12
+      },
+      DCOILWTICO: {
+        name: 'Oil / Gas Prices',
+        unit: '$/barrel',
+        cadence: '90-day change',
+        impact: 'Fuel moves transport, delivery, and some supplier operating costs.',
+        comparisonPeriods: 90,
+        isDaily: true
+      },
+      FEDFUNDS: {
+        name: 'Fed Funds Rate',
+        unit: '%',
+        cadence: '12-month change',
+        impact: 'Borrowing, credit card balances, and expansion decisions all become more sensitive as rates rise.',
+        comparisonPeriods: 12
+      },
+      M2SL: {
+        name: 'Money Supply (M2)',
+        unit: '% YoY',
+        cadence: 'year-over-year',
+        impact: 'M2 helps frame long-term monetary inflation pressure even when CPI looks slower in the short run.',
+        comparisonPeriods: 12
+      }
+    };
+
+
+    const blankIndicators = ['CPIAUCSL', 'PPIACO', 'DCOILWTICO', 'FEDFUNDS', 'M2SL'].map(seriesId => ({
+      name: seriesMeta[seriesId].name,
+      series: seriesId,
+      current: NaN,
+      change: NaN,
+      unit: seriesMeta[seriesId].unit,
+      cadence: seriesMeta[seriesId].cadence,
+      impact: seriesMeta[seriesId].impact
+    }));
+
+    function explanationFor(indicator) {
+      const v = indicator.change;
+      if (indicator.series === 'CPIAUCSL') {
+        if (v >= 4.5) return {
+          status: 'High cost pressure',
+          summary: 'Consumer inflation is running hot. Expect more pressure on rent, wages, and everyday operating costs.',
+          action: 'Review menu pricing and margin targets more frequently than usual.'
+        };
+        if (v >= 2.5) return {
+          status: 'Moderate inflation',
+          summary: 'Inflation is still rising at a meaningful pace. Cost pressure is real, but not extreme.',
+          action: 'Track cost creep and avoid letting older menu prices go untouched for too long.'
+        };
+        return {
+          status: 'Milder inflation',
+          summary: 'Consumer inflation looks more stable. Near-term price pressure may be easier to manage.',
+          action: 'Use the breathing room to tighten operations and rebuild margin discipline.'
+        };
+      }
+      if (indicator.series === 'PPIACO') {
+        if (v >= 5) return {
+          status: 'Supplier costs rising',
+          summary: 'Producer prices are increasing fast. This usually signals cost pressure from wholesalers and suppliers.',
+          action: 'Audit supplier contracts, portion costs, and ingredient substitutions.'
+        };
+        if (v >= 2) return {
+          status: 'Moderate supplier pressure',
+          summary: 'Producer prices are still climbing, though not at a panic level.',
+          action: 'Watch purchasing costs closely and refresh your item costing before margins drift.'
+        };
+        return {
+          status: 'Supplier pressure easing',
+          summary: 'Wholesale cost pressure looks calmer right now.',
+          action: 'Use stable input costs to sharpen pricing and improve consistency.'
+        };
+      }
+      if (indicator.series === 'DCOILWTICO') {
+        if (v >= 10) return {
+          status: 'Transport costs watch',
+          summary: 'Oil has moved up sharply. Delivery and logistics costs may start creeping into supplier pricing.',
+          action: 'Expect some lagged pressure in freight, delivery fees, and vendor surcharges.'
+        };
+        if (v >= 3) return {
+          status: 'Energy costs rising',
+          summary: 'Oil is trending up, though not in a major spike.',
+          action: 'Keep an eye on transport-sensitive vendors and delivery-heavy items.'
+        };
+        return {
+          status: 'Energy costs stable',
+          summary: 'Oil is not adding major new pressure at the moment.',
+          action: 'Treat fuel costs as stable unless the trend changes quickly.'
+        };
+      }
+      if (indicator.series === 'FEDFUNDS') {
+        if (indicator.current >= 5) return {
+          status: 'Borrowing still expensive',
+          summary: 'Rates remain elevated, which keeps debt service, financing, and expansion decisions more expensive.',
+          action: 'Be more selective with borrowing and focus on fast-payback investments.'
+        };
+        if (indicator.current >= 3) return {
+          status: 'Moderate rate environment',
+          summary: 'Rates are not low, but they are manageable for disciplined growth decisions.',
+          action: 'Model financing costs carefully before adding major monthly obligations.'
+        };
+        return {
+          status: 'Lower rate pressure',
+          summary: 'Rates are relatively supportive for borrowing compared with tighter periods.',
+          action: 'Expansion and equipment financing become easier to justify when margins are healthy.'
+        };
+      }
+      if (indicator.series === 'M2SL') {
+        if (v >= 8) return {
+          status: 'Long-term inflation pressure building',
+          summary: 'Money supply has expanded rapidly. This suggests underlying inflation pressure may be stronger than CPI alone implies.',
+          action: 'Do not rely only on current CPI. Plan for gradual future cost increases and margin erosion.'
+        };
+        if (v >= 3) return {
+          status: 'Monetary conditions still expanding',
+          summary: 'Money supply is growing at a moderate pace, which can still support ongoing inflation pressure over time.',
+          action: 'Use this as a long-range planning signal rather than a same-month operating alarm.'
+        };
+        return {
+          status: 'Monetary pressure calmer',
+          summary: 'Money supply growth is limited, which may reduce long-term inflation pressure.',
+          action: 'Keep watching CPI and PPI for nearer-term cost signals.'
+        };
+      }
+      return { status: 'Mixed signal', summary: 'This indicator is moving, but the business impact depends on context.', action: 'Monitor changes alongside pricing and margin data.' };
+    }
+
+    function formatStat(indicator, valueType = 'change') {
+      const value = valueType === 'current' ? indicator.current : indicator.change;
+      if (!Number.isFinite(value)) return '—';
+      if (indicator.series === 'DCOILWTICO' && valueType === 'current') return `$${indicator.current.toFixed(1)}`;
+      if (valueType === 'current') return `${indicator.current.toFixed(1)}${indicator.unit.includes('%') ? '%' : ''}`;
+      const sign = indicator.change > 0 ? '+' : '';
+      return `${sign}${indicator.change.toFixed(1)}%`;
+    }
+
+    function getValidObservations(observations) {
+      return observations.filter(obs => obs.value !== '.' && obs.value !== null && obs.value !== undefined && !Number.isNaN(parseFloat(obs.value)));
+    }
+
+    async function getFREDSeries(seriesId) {
+      const meta = seriesMeta[seriesId];
+      const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${FRED_API_KEY}&file_type=json&sort_order=asc`;
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to fetch ${seriesId}`);
+      const data = await response.json();
+      if (!data.observations) throw new Error(`No observations returned for ${seriesId}`);
+
+      const valid = getValidObservations(data.observations);
+      if (!valid.length) throw new Error(`No valid observations for ${seriesId}`);
+
+      const latest = parseFloat(valid[valid.length - 1].value);
+      let compareIndex;
+
+      if (meta.isDaily) {
+        compareIndex = Math.max(0, valid.length - 91);
+      } else {
+        compareIndex = Math.max(0, valid.length - (meta.comparisonPeriods + 1));
+      }
+
+      const previous = parseFloat(valid[compareIndex].value);
+      const change = previous === 0 ? 0 : ((latest - previous) / previous) * 100;
+
+      console.log(seriesId, latest, change);
+
+      return {
+        name: meta.name,
+        series: seriesId,
+        current: latest,
+        change,
+        unit: meta.unit,
+        cadence: meta.cadence,
+        impact: meta.impact
+      };
+    }
+
+    async function loadIndicators() {
+      const seriesIds = ['CPIAUCSL', 'PPIACO', 'DCOILWTICO', 'FEDFUNDS', 'M2SL'];
+
+      if (!FRED_API_KEY || FRED_API_KEY === 'PASTE_YOUR_FRED_API_KEY_HERE') {
+        console.error('FRED API key missing. Indicators will remain blank.');
+        renderPage(blankIndicators);
+        return;
+      }
+
+      const liveIndicators = [];
+      const failedSeries = [];
+
+      for (const seriesId of seriesIds) {
+        try {
+          const indicator = await getFREDSeries(seriesId);
+          liveIndicators.push(indicator);
+        } catch (error) {
+          console.error(`FRED load failed for ${seriesId}.`, error);
+          failedSeries.push(seriesId);
+          liveIndicators.push({
+            name: seriesMeta[seriesId].name,
+            series: seriesId,
+            current: NaN,
+            change: NaN,
+            unit: seriesMeta[seriesId].unit,
+            cadence: seriesMeta[seriesId].cadence,
+            impact: seriesMeta[seriesId].impact
+          });
+        }
+      }
+
+      console.log('LIVE indicators:', liveIndicators);
+
+      if (failedSeries.length) {
+        console.warn('These series failed to load:', failedSeries);
+      }
+
+      renderPage(liveIndicators);
+    }
+
+    function renderPage(indicators) {
+      const grid = document.getElementById('signalsGrid');
+      grid.innerHTML = indicators.map(indicator => {
+        const x = explanationFor(indicator);
+        return `
+          <article class="signal-card">
+            <div class="signal-card-top">
+              <div>
+                <h3 class="signal-name">${indicator.name}</h3>
+                <div class="signal-series">FRED series: ${indicator.series}</div>
+              </div>
+              <div class="signal-chip">${x.status}</div>
+            </div>
+
+            <div class="signal-stats">
+              <div class="stat-box">
+                <div class="stat-label">Current</div>
+                <div class="stat-value">${formatStat(indicator, 'current')}</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Trend</div>
+                <div class="stat-value">${formatStat(indicator, 'change')}</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Cadence</div>
+                <div class="stat-value" style="font-size:15px;line-height:1.35;">${indicator.cadence}</div>
+              </div>
+            </div>
+
+            <div class="signal-impact">
+              <strong>Why owners should care</strong>
+              <p>${indicator.impact}</p>
+            </div>
+            <div class="signal-explainer">
+              <strong>What this means</strong>
+              <p>${x.summary}</p>
+            </div>
+            <div class="signal-action">
+              <strong>What to watch</strong>
+              <p>${x.action}</p>
+            </div>
+          </article>`;
+      }).join('');
+
+      const overview = document.getElementById('overviewStats');
+      const cpi = indicators.find(x => x.series === 'CPIAUCSL');
+      const ppi = indicators.find(x => x.series === 'PPIACO');
+      const m2 = indicators.find(x => x.series === 'M2SL');
+
+      overview.innerHTML = `
+        <div class="signal-mini">
+          <div class="signal-mini-label">Inflation</div>
+          <div class="signal-mini-value">${cpi.change > 0 ? '+' : ''}${cpi.change.toFixed(1)}%</div>
+          <div class="signal-mini-sub">Consumer inflation is still meaningful enough to pressure pricing decisions.</div>
+        </div>
+        <div class="signal-mini">
+          <div class="signal-mini-label">Supplier pressure</div>
+          <div class="signal-mini-value">${ppi.change > 0 ? '+' : ''}${ppi.change.toFixed(1)}%</div>
+          <div class="signal-mini-sub">Producer prices suggest wholesalers may still be passing cost increases downstream.</div>
+        </div>
+        <div class="signal-mini">
+          <div class="signal-mini-label">Monetary backdrop</div>
+          <div class="signal-mini-value">${m2.change > 0 ? '+' : ''}${m2.change.toFixed(1)}%</div>
+          <div class="signal-mini-sub">M2 growth suggests CPI may not be telling the full long-term inflation story.</div>
+        </div>`;
+    }
+
+    loadIndicators();
+  </script>
+</body>
+</html>

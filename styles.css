@@ -911,3 +911,91 @@ h1 {
     justify-content: flex-end;
   }
 }
+/* ─── Hamburger mobile menu ──────────────────────────────────────────────── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.hamburger:hover {
+  background: rgba(34,211,197,0.10);
+  border-color: rgba(34,211,197,0.30);
+}
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(185,199,214,0.92);
+  transition: transform 0.22s ease, opacity 0.22s ease, width 0.22s ease;
+}
+.hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 700px) {
+  .hamburger { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 80px 20px 32px;
+    background: rgba(9,17,27,0.98);
+    backdrop-filter: blur(16px);
+    overflow-y: auto;
+  }
+  .nav-links.is-open { display: flex; }
+
+  .nav-link {
+    font-size: 16px;
+    padding: 16px 14px;
+    border-radius: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .resources-menu {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  .resources-trigger {
+    width: 100%;
+    font-size: 16px;
+    padding: 16px 14px;
+    border-radius: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    justify-content: space-between;
+  }
+  .resources-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    box-shadow: none;
+    background: rgba(255,255,255,0.03);
+    border: none;
+    border-radius: 0;
+    padding: 6px 0 6px 16px;
+    display: none;
+    transition: none;
+  }
+  .resources-menu.res-open .resources-dropdown { display: grid; }
+  .resources-menu.res-open .resources-caret { transform: rotate(180deg); }
+  .resources-item { font-size: 14px; }
+}
