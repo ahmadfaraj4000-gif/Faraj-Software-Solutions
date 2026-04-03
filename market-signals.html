@@ -141,6 +141,72 @@
     }
     .formula-card h3 { margin: 0 0 8px; font-size: 18px; }
     .formula { color: var(--teal); font-weight: 900; line-height: 1.5; }
+    .formula-toggle {
+      margin-top: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.035);
+      overflow: hidden;
+    }
+    .formula-toggle summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 20px;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .formula-toggle summary::-webkit-details-marker { display: none; }
+    .formula-toggle summary::after {
+      content: '+';
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--teal);
+      line-height: 1;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .formula-toggle[open] summary::after { transform: rotate(45deg); }
+    .formula-toggle-body {
+      padding: 0 20px 20px;
+    }
+    .formula-intro {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 920px;
+    }
+    .max-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .max-pill {
+      padding: 12px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      text-align: center;
+    }
+    .max-pill-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .max-pill-value {
+      margin-top: 6px;
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
     .cta-strip {
       margin-top: 24px; padding: 22px; border-radius: 24px; border:1px solid rgba(34,211,197,0.24);
       background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
@@ -158,6 +224,15 @@
       .market-hero { padding-top: 24px; }
       .signal-card-top, .pressure-top, .pressure-score-wrap { flex-direction: column; grid-template-columns: 1fr; }
       .market-wide { width: min(1360px, calc(100% - 20px)); }
+      .formula-card { padding: 16px; }
+      .formula-card h3 { font-size: 16px; }
+      .formula { font-size: 14px; line-height: 1.6; word-break: break-word; overflow-wrap: anywhere; }
+      .formula-toggle summary { padding: 16px 16px; font-size: 17px; }
+      .formula-toggle-body { padding: 0 16px 16px; }
+      .formula-card .product-lead, .formula-intro { font-size: 13px; line-height: 1.6; }
+      .max-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .max-pill { padding: 11px 8px; }
+      .max-pill-value { font-size: 18px; }
     }
   </style>
 </head>
@@ -281,49 +356,63 @@
           <p class="section-sub">
             For transparency, each signal is converted to the same 0–100 scale using a defined maximum. The weighted formula below then turns those normalized scores into one owner-facing pressure reading.
           </p>
-          <div class="formula-grid">
-            <div class="formula-card" style="grid-column: span 3;">
-              <h3>Pressure calculation</h3>
-              <p class="formula">Pressure Score = (PPI Score × 0.30) + (Fuel Score × 0.25) + (Rates Score × 0.20) + (Labor Score × 0.15) + (CPI Score × 0.10)</p>
-              <p class="product-lead" style="margin:12px 0 0;">Each score is capped at 100 so one signal cannot run away indefinitely. The result maps to Low (0–34), Moderate (35–64), and High (65–100).</p>
-            </div>
 
-            <div class="formula-card">
-              <h3>CPI maximum</h3>
-              <p class="formula">CPI Score = min((CPI YoY ÷ 15) × 100, 100)</p>
-              <p class="product-lead" style="margin:10px 0 0;">15% is treated as an extreme inflation environment, so current CPI is measured against that ceiling before being weighted at 10%.</p>
-            </div>
+          <details class="formula-toggle">
+            <summary>View the maximums and calculation</summary>
+            <div class="formula-toggle-body">
+              <p class="formula-intro">Each signal is normalized against a defined ceiling, capped at 100, and then weighted into one blended pressure score. This keeps the math visible without crowding the page on mobile.</p>
 
-            <div class="formula-card">
-              <h3>PPI maximum</h3>
-              <p class="formula">PPI Score = min((PPI YoY ÷ 12) × 100, 100)</p>
-              <p class="product-lead" style="margin:10px 0 0;">12% represents very heavy supplier-side inflation, giving PPI a clear upper bound before its 30% weight is applied.</p>
-            </div>
+              <div class="formula-grid">
+                <div class="formula-card" style="grid-column: span 3;">
+                  <h3>Pressure calculation</h3>
+                  <p class="formula">Pressure Score = (PPI Score × 0.30) + (Fuel Score × 0.25) + (Rates Score × 0.20) + (Labor Score × 0.15) + (CPI Score × 0.10)</p>
+                  <p class="product-lead" style="margin:12px 0 0;">Each score is capped at 100 so one signal cannot run away indefinitely. The result maps to Low (0–34), Moderate (35–64), and High (65–100).</p>
+                </div>
 
-            <div class="formula-card">
-              <h3>Fuel maximum</h3>
-              <p class="formula">Fuel Score = min((Fuel Trend ÷ 40) × 100, 100)</p>
-              <p class="product-lead" style="margin:10px 0 0;">A 40% move is treated as a major transport and supplier-cost shock, which is why fuel carries a strong 25% weight.</p>
-            </div>
+                <div class="formula-card">
+                  <h3>CPI maximum</h3>
+                  <p class="formula">CPI Score = min((CPI YoY ÷ 15) × 100, 100)</p>
+                  <p class="product-lead" style="margin:10px 0 0;">15% is treated as an extreme inflation environment, so current CPI is measured against that ceiling before being weighted at 10%.</p>
+                </div>
 
-            <div class="formula-card">
-              <h3>Rates maximum</h3>
-              <p class="formula">Rates Score = min((|Rate Change| ÷ 6) × 100, 100)</p>
-              <p class="product-lead" style="margin:10px 0 0;">A 6-point rate swing is treated as a meaningful financing shock. The model uses magnitude so major moves register clearly.</p>
-            </div>
+                <div class="formula-card">
+                  <h3>PPI maximum</h3>
+                  <p class="formula">PPI Score = min((PPI YoY ÷ 12) × 100, 100)</p>
+                  <p class="product-lead" style="margin:10px 0 0;">12% represents very heavy supplier-side inflation, giving PPI a clear upper bound before its 30% weight is applied.</p>
+                </div>
 
-            <div class="formula-card">
-              <h3>Labor maximum</h3>
-              <p class="formula">Labor Score = min((Labor YoY ÷ 10) × 100, 100)</p>
-              <p class="product-lead" style="margin:10px 0 0;">10% labor growth is treated as strong wage pressure, making it a practical ceiling before labor is weighted at 15%.</p>
-            </div>
+                <div class="formula-card">
+                  <h3>Fuel maximum</h3>
+                  <p class="formula">Fuel Score = min((Fuel Trend ÷ 40) × 100, 100)</p>
+                  <p class="product-lead" style="margin:10px 0 0;">A 40% move is treated as a major transport and supplier-cost shock, which is why fuel carries a strong 25% weight.</p>
+                </div>
 
-            <div class="formula-card">
-              <h3>At-a-glance maximums</h3>
-              <p class="formula">CPI 15 · PPI 12 · Fuel 40 · Rates 6 · Labor 10</p>
-              <p class="product-lead" style="margin:10px 0 0;">These are the normalization ceilings currently used in the dashboard so visitors can see exactly how the pressure model is calibrated.</p>
+                <div class="formula-card">
+                  <h3>Rates maximum</h3>
+                  <p class="formula">Rates Score = min((|Rate Change| ÷ 6) × 100, 100)</p>
+                  <p class="product-lead" style="margin:10px 0 0;">A 6-point rate swing is treated as a meaningful financing shock. The model uses magnitude so major moves register clearly.</p>
+                </div>
+
+                <div class="formula-card">
+                  <h3>Labor maximum</h3>
+                  <p class="formula">Labor Score = min((Labor YoY ÷ 10) × 100, 100)</p>
+                  <p class="product-lead" style="margin:10px 0 0;">10% labor growth is treated as strong wage pressure, making it a practical ceiling before labor is weighted at 15%.</p>
+                </div>
+
+                <div class="formula-card">
+                  <h3>At-a-glance maximums</h3>
+                  <div class="max-grid">
+                    <div class="max-pill"><div class="max-pill-label">CPI</div><div class="max-pill-value">15</div></div>
+                    <div class="max-pill"><div class="max-pill-label">PPI</div><div class="max-pill-value">12</div></div>
+                    <div class="max-pill"><div class="max-pill-label">Fuel</div><div class="max-pill-value">40</div></div>
+                    <div class="max-pill"><div class="max-pill-label">Rates</div><div class="max-pill-value">6</div></div>
+                    <div class="max-pill"><div class="max-pill-label">Labor</div><div class="max-pill-value">10</div></div>
+                  </div>
+                  <p class="product-lead" style="margin:12px 0 0;">These are the normalization ceilings currently used in the dashboard so visitors can see exactly how the pressure model is calibrated.</p>
+                </div>
+              </div>
             </div>
-          </div>
+          </details>
 
           <div class="cta-strip">
             <div>
