@@ -1,0 +1,65 @@
+{
+  "updated_at": "2026-04-03T06:11:45+00:00",
+  "indicators": [
+    {
+      "series": "CPIAUCSL",
+      "name": "Customer Inflation (CPI)",
+      "current": 327.5,
+      "change": 2.7,
+      "unit": "% YoY",
+      "cadence": "year-over-year",
+      "impact": "CPI shows what consumers are already absorbing, which helps owners judge customer purchasing pressure.",
+      "source": "FRED"
+    },
+    {
+      "series": "PPIACO",
+      "name": "Producer Cost Pressure (PPI)",
+      "current": 267.8,
+      "change": 3.2,
+      "unit": "% YoY",
+      "cadence": "year-over-year",
+      "impact": "PPI tracks upstream supplier pressure and often matters to owners before CPI does.",
+      "source": "FRED"
+    },
+    {
+      "series": "ENERGY_FUEL",
+      "name": "Energy / Fuel Pressure",
+      "current": 104.69,
+      "change": 47.2,
+      "unit": "% Trend",
+      "cadence": "30-day change",
+      "impact": "Oil and fuel prices move quickly into delivery, freight, commuting, field service, and supplier surcharges.",
+      "source": "FRED"
+    },
+    {
+      "series": "FEDFUNDS",
+      "name": "Interest Rate Pressure",
+      "current": 3.64,
+      "change": -0.69,
+      "unit": "%",
+      "cadence": "12-month change",
+      "impact": "Rates affect credit lines, equipment financing, inventory financing, and expansion decisions.",
+      "source": "FRED"
+    },
+    {
+      "series": "LABOR_COST",
+      "name": "Labor Cost Pressure",
+      "current": 37.32,
+      "change": 3.8,
+      "unit": "% YoY",
+      "cadence": "year-over-year",
+      "impact": "Labor is one of the biggest recurring expenses for many small and medium-sized businesses, so wage pressure deserves its own card.",
+      "source": "BLS"
+    },
+    {
+      "series": "M2SL",
+      "name": "Monetary Backdrop (M2)",
+      "current": 22667.3,
+      "change": 4.9,
+      "unit": "Billions of Dollars",
+      "cadence": "year-over-year",
+      "impact": "M2 stays on the page as a separate macro backdrop for longer-range purchasing-power pressure.",
+      "source": "FRED"
+    }
+  ]
+}
