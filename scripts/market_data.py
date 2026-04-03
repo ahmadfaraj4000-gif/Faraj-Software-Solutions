@@ -136,6 +136,7 @@ def build_snapshot():
     rates_current, rates_prev12 = latest_and_12mo_ago_fred("FEDFUNDS")
     m2_current, m2_prev12 = latest_and_12mo_ago_fred("M2SL")
     fuel_current, fuel_prev4 = latest_and_4weeks_ago_fred_daily("DCOILWTICO")
+    fuel_current, fuel_prev12 = latest_and_12mo_ago_fred("DCOILWTICO")
 
     labor_current, labor_prev12 = bls_series_data(BLS_LABOR_SERIES)
 
@@ -164,10 +165,10 @@ def build_snapshot():
             "series": "ENERGY_FUEL",
             "name": "Energy / Fuel Pressure",
             "current": round_or_none(fuel_current, 2),
-            "change": round_or_none(pct_change(fuel_current, fuel_prev4), 1),
-            "unit": "% Trend",
-            "cadence": "30-day change",
-            "impact": "Oil and fuel prices move quickly into delivery, freight, commuting, field service, and supplier surcharges.",
+            "change": round_or_none(pct_change(fuel_current, fuel_prev12), 1),
+            "unit": "% YoY",
+            "cadence": "year-over-year",
+            "impact": "Oil and fuel prices affect delivery, freight, commuting, field service, and supplier costs over time.",
             "source": "FRED",
         },
         {
