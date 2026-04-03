@@ -342,7 +342,7 @@
 
       <section class="page-section">
         <div class="market-wide">
-          <h2 class="section-title">The six signals worth watching first</h2>
+          <h2 class="section-title">The seven signals worth watching first</h2>
           <p class="section-sub">
             These indicators cover the owner-facing pressures that usually matter first: supplier costs, fuel, financing, labor, customer pricing pressure, and the broader monetary backdrop.
           </p>
@@ -409,6 +409,7 @@
                     <div class="max-pill"><div class="max-pill-label">Labor</div><div class="max-pill-value">10</div></div>
                   </div>
                   <p class="product-lead" style="margin:12px 0 0;">These are the normalization ceilings currently used in the dashboard so visitors can see exactly how the pressure model is calibrated.</p>
+                  <p class="product-lead" style="margin:10px 0 0; color: var(--muted2); font-size:12px;">Note: M2 (Monetary Backdrop) and Consumer Sentiment are shown as context signals on this dashboard but are not included in the composite pressure score. M2 is a longer-range purchasing-power indicator, and sentiment is a leading demand signal — both are better read directionally alongside the score rather than folded into it.</p>
                 </div>
               </div>
             </div>
@@ -427,6 +428,7 @@
 
         <p class="data-source-note">
           This dashboard reads a local data snapshot so the page stays fast, clean, and simple for business owners.
+          <span id="lastUpdated" style="display:block; margin-top:4px;"></span>
         </p>
         </div>
       </section>
@@ -459,8 +461,8 @@
         comparisonPeriods: 12,
         sourceLabel: 'FRED'
       },
-      PPIACO: {
-        name: 'Producer Cost Pressure (PPI)',
+      PPIFIS: {
+        name: 'Producer Cost Pressure (PPI — Services)',
         unit: '% YoY',
         cadence: 'year-over-year',
         impact: 'PPI tracks upstream supplier pressure and often matters to owners before CPI does.',
@@ -498,10 +500,18 @@
         impact: 'M2 stays on the page as a separate macro backdrop for longer-range purchasing-power pressure.',
         comparisonPeriods: 12,
         sourceLabel: 'FRED'
+      },
+      UMCSENT: {
+        name: 'Consumer Sentiment',
+        unit: 'Index',
+        cadence: '12-month change',
+        impact: 'Consumer sentiment measures how confident your customers feel about spending. When sentiment drops, discretionary service spending — dining out, salon visits, spa treatments — weakens first.',
+        comparisonPeriods: 12,
+        sourceLabel: 'FRED'
       }
     };
 
-    const indicatorOrder = ['CPIAUCSL', 'PPIACO', 'ENERGY_FUEL', 'FEDFUNDS', 'LABOR_COST', 'M2SL'];
+    const indicatorOrder = ['CPIAUCSL', 'PPIFIS', 'ENERGY_FUEL', 'FEDFUNDS', 'LABOR_COST', 'M2SL', 'UMCSENT'];
 
     const pressureWeights = {
       ppi: 0.30,
@@ -539,6 +549,9 @@
       }
       if (s === 'LABOR' || s === 'WAGES' || s === 'AHE' || s === 'CES0500000003') {
         return 'LABOR_COST';
+      }
+      if (s === 'PPIACO') {
+        return 'PPIFIS';
       }
       return s;
     }
@@ -591,7 +604,7 @@
         };
       }
 
-      if (indicator.series === 'PPIACO') {
+      if (indicator.series === 'PPIFIS') {
         if (v >= 5) return {
           status: 'Supplier pressure high',
           summary: 'Upstream producer costs are rising fast, which can squeeze margins before customer prices fully catch up.',
@@ -681,6 +694,29 @@
         };
       }
 
+      if (indicator.series === 'UMCSENT') {
+        if (v <= -15) return {
+          status: 'Consumer sentiment weak',
+          summary: 'Customers are feeling notably pessimistic, which historically reduces discretionary spending on services like dining, salons, and spas.',
+          action: 'Focus on value messaging and retention offers — new customer acquisition becomes harder in weak sentiment environments.'
+        };
+        if (v <= -5) return {
+          status: 'Consumer sentiment softening',
+          summary: 'Sentiment has declined enough to signal some caution among your customers about discretionary spending.',
+          action: 'Watch booking patterns and repeat visit rates closely for early signs of pullback.'
+        };
+        if (v >= 5) return {
+          status: 'Consumer sentiment improving',
+          summary: 'Customers are feeling better about the economy, which tends to support discretionary service spending.',
+          action: 'A positive sentiment environment supports selective price increases and upsell opportunities.'
+        };
+        return {
+          status: 'Consumer sentiment steady',
+          summary: 'Sentiment is relatively stable, suggesting no major near-term shift in customer spending behavior.',
+          action: 'Maintain current pricing discipline and watch for changes in this signal over coming months.'
+        };
+      }
+
       return {
         status: 'Mixed signal',
         summary: 'This indicator is moving, but the business impact depends on context.',
@@ -690,7 +726,7 @@
 
     function buildPressureSignal(indicators) {
       const cpi = indicators.find(x => x.series === 'CPIAUCSL');
-      const ppi = indicators.find(x => x.series === 'PPIACO');
+      const ppi = indicators.find(x => x.series === 'PPIFIS');
       const fuel = indicators.find(x => x.series === 'ENERGY_FUEL');
       const rates = indicators.find(x => x.series === 'FEDFUNDS');
       const labor = indicators.find(x => x.series === 'LABOR_COST');
@@ -835,7 +871,7 @@
       barEl.style.width = `${pressure.score}%`;
 
       trendValueEl.textContent = `${pressure.trendIcon} ${pressure.trendLabel}`;
-      trendNoteEl.textContent = 'Direction based on weighted movement across key cost signals.';
+     trendNoteEl.textContent = pressure.trendNote;
       trendStripEl.style.cssText += pressure.trendStyle;
 
       const rows = [
@@ -864,11 +900,17 @@
         if (indicator.series === 'ENERGY_FUEL') return `$${indicator.current.toFixed(2)}`;
         if (indicator.series === 'FEDFUNDS') return `${indicator.current.toFixed(2)}%`;
         if (indicator.series === 'LABOR_COST') return `${indicator.current.toFixed(2)}`;
-        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO') return indicator.current.toFixed(1);
+        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIFIS') return indicator.current.toFixed(1);
         return indicator.current.toFixed(1);
       }
 
-      const sign = indicator.change > 0 ? '+' : '';
+     const sign = indicator.change > 0 ? '+' : '';
+
+      // Fix for Consumer Sentiment (index, not percent)
+      if (indicator.series === 'UMCSENT') {
+        return `${sign}${indicator.change.toFixed(1)}`;
+      }
+
       return `${sign}${indicator.change.toFixed(1)}%`;
     }
 
@@ -888,14 +930,14 @@
         }
 
         console.log("Loaded GitHub Actions market snapshot:", indicators);
-        renderPage(indicators);
+        renderPage(indicators, data.updated_at || null);
       } catch (error) {
         console.error("Failed to load market snapshot.", error);
-        renderPage(blankIndicators);
+        renderPage(blankIndicators, null);
       }
     }
 
-    function renderPage(indicators) {
+    function renderPage(indicators, updatedAt) {
       renderPressureSignal(indicators);
       const grid = document.getElementById('signalsGrid');
 
@@ -917,7 +959,7 @@
             <div class="signal-stats">
               <div class="stat-box">
                 <div class="stat-label">
-                  ${['CPIAUCSL', 'PPIACO'].includes(indicator.series)
+                  ${['CPIAUCSL', 'PPIFIS'].includes(indicator.series)
                     ? 'Index Level'
                     : indicator.series === 'LABOR_COST'
                       ? 'Current Level'
@@ -952,7 +994,20 @@
 
       const overview = document.getElementById('overviewStats');
       const pressure = buildPressureSignal(indicators);
-      const ppi = indicators.find(x => x.series === 'PPIACO');
+
+      // Render last updated timestamp
+      const lastUpdatedEl = document.getElementById('lastUpdated');
+      if (lastUpdatedEl && updatedAt) {
+        try {
+          const d = new Date(updatedAt);
+          const formatted = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+          lastUpdatedEl.textContent = `Data last updated ${formatted}`;
+        } catch(e) {
+          lastUpdatedEl.textContent = `Data last updated ${updatedAt}`;
+        }
+      }
+
+      const ppi = indicators.find(x => x.series === 'PPIFIS');
       const fuel = indicators.find(x => x.series === 'ENERGY_FUEL');
 
       const fmtMini = (x) => Number.isFinite(x?.change) ? `${x.change > 0 ? '+' : ''}${x.change.toFixed(1)}%` : '—';
