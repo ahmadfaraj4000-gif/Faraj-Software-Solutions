@@ -253,10 +253,9 @@
 
       <section class="page-section">
         <div class="market-wide">
-          <h2 class="section-title">The five signals worth watching first</h2>
+          <h2 class="section-title">The six signals worth watching first</h2>
           <p class="section-sub">
-            These indicators cover both short-term cost pressure and longer-term monetary conditions. Together they help explain
-            why margins get squeezed even when sales look steady.
+            These indicators cover the owner-facing pressures that usually matter first: supplier costs, fuel, financing, labor, customer pricing pressure, and the broader monetary backdrop.
           </p>
           <div class="signals-grid" id="signalsGrid"></div>
         </div>
@@ -277,12 +276,13 @@
             <div class="formula-card">
               <h3>Price trend change</h3>
               <p class="formula">Trend Change % = ((Current Value − Prior Value) ÷ Prior Value) × 100</p>
-              <p class="product-lead" style="margin:10px 0 0;">Used for oil to flag transport and supplier cost pressure when energy prices move sharply.</p>
+              <p class="product-lead" style="margin:10px 0 0;">Used for fuel and energy data to flag transport and supplier cost pressure when it moves sharply.</p>
             </div>
             <div class="formula-card">
               <h3>Pressure score + trend</h3>
-              <p class="formula">Pressure Score = (CPI × 0.35) + (PPI × 0.25) + (Rates × 0.20) + (Oil × 0.10) + (M2 × 0.10)</p>
-              <p class="product-lead" style="margin:10px 0 0;">The score shows current pressure after each input is normalized to a 0–100 scale. A separate trend signal then flags whether pressure is rising, cooling, or stable based on the direction of CPI, PPI, oil, rates, and M2.</p>
+              <p class="formula">Pressure Score = (PPI × 0.30) + (Fuel × 0.25) + (Rates × 0.20) + (Labor × 0.15) + (CPI × 0.10)</p>
+              <p class="formula" style="margin-top:10px;">Trend Signal = (PPI Trend × 0.30) + (Fuel Trend × 0.25) + (Rates Trend × 0.20) + (Labor Trend × 0.15) + (CPI Trend × 0.10)</p>
+              <p class="product-lead" style="margin:10px 0 0;">The score shows current owner-facing pressure after each input is normalized to a 0–100 scale. The trend signal uses the same weights and maps to Rising when above +15, Cooling when below -15, and Stable otherwise. M2 stays separate as a monetary backdrop.</p>
             </div>
           </div>
 
@@ -319,163 +319,76 @@
     </main>
   </div>
 
-  <script>
-        const FRED_DATA_URL = "data/fred/latest.json";
-        const seriesMeta = {
+    <script>
+    const MARKET_DATA_URL = "data/market/latest.json";
+
+    const seriesMeta = {
       CPIAUCSL: {
-        name: 'Inflation (CPI)',
+        name: 'Customer Inflation (CPI)',
         unit: '% YoY',
         cadence: 'year-over-year',
-        impact: 'Ingredients, rent, and wages usually feel CPI pressure over time.',
-        comparisonPeriods: 12
+        impact: 'CPI shows what consumers are already absorbing, which helps owners judge customer purchasing pressure.',
+        comparisonPeriods: 12,
+        sourceLabel: 'FRED'
       },
       PPIACO: {
-        name: 'Producer Price Index (PPI)',
+        name: 'Producer Cost Pressure (PPI)',
         unit: '% YoY',
         cadence: 'year-over-year',
-        impact: 'Wholesale and supplier costs often show up in PPI before they hit menu prices.',
-        comparisonPeriods: 12
+        impact: 'PPI tracks upstream supplier pressure and often matters to owners before CPI does.',
+        comparisonPeriods: 12,
+        sourceLabel: 'FRED'
       },
-      DCOILWTICO: {
-        name: 'Oil / Gas Prices',
-        unit: '$/barrel',
-        cadence: '90-day change',
-        impact: 'Fuel moves transport, delivery, and some supplier operating costs.',
-        comparisonPeriods: 90,
-        isDaily: true
+      ENERGY_FUEL: {
+        name: 'Energy / Fuel Pressure',
+        unit: '% Trend',
+        cadence: '30-day change',
+        impact: 'Fuel moves quickly into delivery, freight, commuting, field service, and supplier surcharges.',
+        comparisonPeriods: 30,
+        sourceLabel: 'EIA'
       },
       FEDFUNDS: {
-        name: 'Fed Funds Rate',
+        name: 'Interest Rate Pressure',
         unit: '%',
         cadence: '12-month change',
-        impact: 'Borrowing, credit card balances, and expansion decisions all become more sensitive as rates rise.',
-        comparisonPeriods: 12
+        impact: 'Rates affect credit lines, equipment financing, inventory financing, and expansion decisions.',
+        comparisonPeriods: 12,
+        sourceLabel: 'FRED'
+      },
+      LABOR_COST: {
+        name: 'Labor Cost Pressure',
+        unit: '% YoY',
+        cadence: 'year-over-year',
+        impact: 'Labor is one of the biggest recurring expenses for many small businesses, so wage pressure deserves its own card.',
+        comparisonPeriods: 12,
+        sourceLabel: 'BLS'
       },
       M2SL: {
-        name: 'Money Supply (M2)',
+        name: 'Monetary Backdrop (M2)',
         unit: 'Billions of Dollars',
         cadence: 'year-over-year',
-        impact: 'M2 helps frame long-term monetary inflation pressure even when CPI looks slower in the short run.',
-        comparisonPeriods: 12
+        impact: 'M2 stays on the page as a separate macro backdrop for longer-range purchasing-power pressure.',
+        comparisonPeriods: 12,
+        sourceLabel: 'FRED'
       }
     };
 
-
-    const blankIndicators = ['CPIAUCSL', 'PPIACO', 'DCOILWTICO', 'FEDFUNDS', 'M2SL'].map(seriesId => ({
-      name: seriesMeta[seriesId].name,
-      series: seriesId,
-      current: NaN,
-      change: NaN,
-      unit: seriesMeta[seriesId].unit,
-      cadence: seriesMeta[seriesId].cadence,
-      impact: seriesMeta[seriesId].impact
-    }));
-
-    function explanationFor(indicator) {
-      const v = indicator.change;
-      if (indicator.series === 'CPIAUCSL') {
-        if (v >= 4.5) return {
-          status: 'High cost pressure',
-          summary: 'Consumer inflation is running hot. Expect more pressure on rent, wages, and everyday operating costs.',
-          action: 'Review menu pricing and margin targets more frequently than usual.'
-        };
-        if (v >= 2.5) return {
-          status: 'Moderate inflation',
-          summary: 'Inflation is still rising at a meaningful pace. Cost pressure is real, but not extreme.',
-          action: 'Track cost creep and avoid letting older menu prices go untouched for too long.'
-        };
-        return {
-          status: 'Milder inflation',
-          summary: 'Consumer inflation looks more stable. Near-term price pressure may be easier to manage.',
-          action: 'Use the breathing room to tighten operations and rebuild margin discipline.'
-        };
-      }
-      if (indicator.series === 'PPIACO') {
-        if (v >= 5) return {
-          status: 'Supplier costs rising',
-          summary: 'Producer prices are increasing fast. This usually signals cost pressure from wholesalers and suppliers.',
-          action: 'Audit supplier contracts, portion costs, and ingredient substitutions.'
-        };
-        if (v >= 2) return {
-          status: 'Moderate supplier pressure',
-          summary: 'Producer prices are still climbing, though not at a panic level.',
-          action: 'Watch purchasing costs closely and refresh your item costing before margins drift.'
-        };
-        return {
-          status: 'Supplier pressure easing',
-          summary: 'Wholesale cost pressure looks calmer right now.',
-          action: 'Use stable input costs to sharpen pricing and improve consistency.'
-        };
-      }
-      if (indicator.series === 'DCOILWTICO') {
-        if (v >= 10) return {
-          status: 'Transport costs watch',
-          summary: 'Oil has moved up sharply. Delivery and logistics costs may start creeping into supplier pricing.',
-          action: 'Expect some lagged pressure in freight, delivery fees, and vendor surcharges.'
-        };
-        if (v >= 3) return {
-          status: 'Energy costs rising',
-          summary: 'Oil is trending up, though not in a major spike.',
-          action: 'Keep an eye on transport-sensitive vendors and delivery-heavy items.'
-        };
-        return {
-          status: 'Energy costs stable',
-          summary: 'Oil is not adding major new pressure at the moment.',
-          action: 'Treat fuel costs as stable unless the trend changes quickly.'
-        };
-      }
-      if (indicator.series === 'FEDFUNDS') {
-        if (indicator.current >= 5) return {
-          status: 'Borrowing still expensive',
-          summary: 'Rates remain elevated, which keeps debt service, financing, and expansion decisions more expensive.',
-          action: 'Be more selective with borrowing and focus on fast-payback investments.'
-        };
-        if (indicator.current >= 3) return {
-          status: 'Moderate rate environment',
-          summary: 'Rates are not low, but they are manageable for disciplined growth decisions.',
-          action: 'Model financing costs carefully before adding major monthly obligations.'
-        };
-        return {
-          status: 'Lower rate pressure',
-          summary: 'Rates are relatively supportive for borrowing compared with tighter periods.',
-          action: 'Expansion and equipment financing become easier to justify when margins are healthy.'
-        };
-      }
-      if (indicator.series === 'M2SL') {
-        if (v >= 8) return {
-          status: 'Long-term inflation pressure building',
-          summary: 'Money supply has expanded rapidly. This suggests underlying inflation pressure may be stronger than CPI alone implies.',
-          action: 'Do not rely only on current CPI. Plan for gradual future cost increases and margin erosion.'
-        };
-        if (v >= 3) return {
-          status: 'Monetary conditions still expanding',
-          summary: 'Money supply is growing at a moderate pace, which can still support ongoing inflation pressure over time.',
-          action: 'Use this as a long-range planning signal rather than a same-month operating alarm.'
-        };
-        return {
-          status: 'Monetary pressure calmer',
-          summary: 'Money supply growth is limited, which may reduce long-term inflation pressure.',
-          action: 'Keep watching CPI and PPI for nearer-term cost signals.'
-        };
-      }
-      return { status: 'Mixed signal', summary: 'This indicator is moving, but the business impact depends on context.', action: 'Monitor changes alongside pricing and margin data.' };
-    }
-
+    const indicatorOrder = ['CPIAUCSL', 'PPIACO', 'ENERGY_FUEL', 'FEDFUNDS', 'LABOR_COST', 'M2SL'];
 
     const pressureWeights = {
-      cpi: 0.35,
-      ppi: 0.25,
+      ppi: 0.30,
+      fuel: 0.25,
       rates: 0.20,
-      oil: 0.10,
-      m2: 0.10
+      labor: 0.15,
+      cpi: 0.10
     };
 
     const trendWeights = {
-      cpi: 0.30,
-      ppi: 0.25,
-      oil: 0.20,
-      rates: 0.15,
-      m2: 0.10
+      ppi: 0.30,
+      fuel: 0.25,
+      rates: 0.20,
+      labor: 0.15,
+      cpi: 0.10
     };
 
     const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, value));
@@ -491,61 +404,218 @@
       return clamp(scaled, -100, 100);
     }
 
+    function canonicalSeries(series) {
+      const s = String(series || '').toUpperCase();
+      if (s === 'DCOILWTICO' || s === 'OIL' || s === 'FUEL_BUSINESS' || s === 'ENERGY' || s === 'GASOLINE' || s === 'DIESEL') {
+        return 'ENERGY_FUEL';
+      }
+      if (s === 'LABOR' || s === 'WAGES' || s === 'AHE' || s === 'CES0500000003') {
+        return 'LABOR_COST';
+      }
+      return s;
+    }
+
+    function normalizeIndicator(indicator) {
+      const series = canonicalSeries(indicator.series);
+      const meta = seriesMeta[series] || {};
+      return {
+        ...indicator,
+        series,
+        name: indicator.name || meta.name || series,
+        unit: indicator.unit || meta.unit || '',
+        cadence: indicator.cadence || meta.cadence || '',
+        impact: indicator.impact || meta.impact || '',
+        source: indicator.source || meta.sourceLabel || 'Official source',
+        current: Number(indicator.current),
+        change: Number(indicator.change)
+      };
+    }
+
+    const blankIndicators = indicatorOrder.map(seriesId => ({
+      name: seriesMeta[seriesId].name,
+      series: seriesId,
+      current: NaN,
+      change: NaN,
+      unit: seriesMeta[seriesId].unit,
+      cadence: seriesMeta[seriesId].cadence,
+      impact: seriesMeta[seriesId].impact,
+      source: seriesMeta[seriesId].sourceLabel
+    }));
+
+    function explanationFor(indicator) {
+      const v = indicator.change;
+
+      if (indicator.series === 'CPIAUCSL') {
+        if (v >= 4.5) return {
+          status: 'Consumer pressure high',
+          summary: 'Customers are facing real inflation pressure, which can reduce flexibility around price increases.',
+          action: 'Be more deliberate with pricing changes and strengthen perceived value.'
+        };
+        if (v >= 2.5) return {
+          status: 'Consumer pressure moderate',
+          summary: 'Inflation is still running above an easy comfort zone, but not at panic levels.',
+          action: 'Track whether your customers are still absorbing routine price adjustments.'
+        };
+        return {
+          status: 'Consumer pressure calmer',
+          summary: 'Consumer inflation looks more manageable right now than during hotter periods.',
+          action: 'Use the breathing room to sharpen offers and rebuild margin discipline.'
+        };
+      }
+
+      if (indicator.series === 'PPIACO') {
+        if (v >= 5) return {
+          status: 'Supplier pressure high',
+          summary: 'Upstream producer costs are rising fast, which can squeeze margins before customer prices fully catch up.',
+          action: 'Audit supplier contracts, portion sizes, and margin-sensitive items immediately.'
+        };
+        if (v >= 2) return {
+          status: 'Supplier pressure moderate',
+          summary: 'Supplier-side costs are still climbing enough to matter for purchasing decisions.',
+          action: 'Refresh item costing and watch vendors for quiet price increases.'
+        };
+        return {
+          status: 'Supplier pressure easing',
+          summary: 'Upstream cost pressure looks calmer for now.',
+          action: 'Use stable supplier conditions to tighten pricing consistency.'
+        };
+      }
+
+      if (indicator.series === 'ENERGY_FUEL') {
+        if (v >= 10) return {
+          status: 'Energy pressure high',
+          summary: 'Fuel costs are moving quickly enough to create near-term pressure in freight, commuting, and vendor pricing.',
+          action: 'Watch delivery-heavy items, supplier surcharges, and transport-sensitive expenses closely.'
+        };
+        if (v >= 3) return {
+          status: 'Energy pressure rising',
+          summary: 'Fuel is trending up enough to matter even before it shows up broadly elsewhere.',
+          action: 'Monitor vendors most exposed to transport costs and recheck route or delivery economics.'
+        };
+        return {
+          status: 'Energy pressure stable',
+          summary: 'Fuel is not adding major fresh pressure right now.',
+          action: 'Treat transport costs as stable unless the trend changes sharply.'
+        };
+      }
+
+      if (indicator.series === 'FEDFUNDS') {
+        if (indicator.current >= 5) return {
+          status: 'Financing pressure high',
+          summary: 'Borrowing remains expensive, which raises the hurdle for growth financed through debt.',
+          action: 'Favor projects with quick payback and limit weak-return financing.'
+        };
+        if (indicator.current >= 3) return {
+          status: 'Financing pressure moderate',
+          summary: 'Rates are still meaningful enough to shape credit and equipment decisions.',
+          action: 'Model monthly payments carefully before adding fixed obligations.'
+        };
+        return {
+          status: 'Financing pressure lower',
+          summary: 'Rates look more supportive than in tighter periods.',
+          action: 'Expansion becomes easier to justify when margins are healthy.'
+        };
+      }
+
+      if (indicator.series === 'LABOR_COST') {
+        if (v >= 5) return {
+          status: 'Labor pressure high',
+          summary: 'Wage pressure is rising fast enough to directly threaten labor-heavy margins.',
+          action: 'Review staffing efficiency, scheduling, and price points on labor-intensive offerings.'
+        };
+        if (v >= 3) return {
+          status: 'Labor pressure moderate',
+          summary: 'Labor costs are still trending up at a noticeable pace.',
+          action: 'Watch productivity and protect contribution margins on staff-heavy work.'
+        };
+        return {
+          status: 'Labor pressure calmer',
+          summary: 'Labor cost growth looks more manageable than during tighter labor spikes.',
+          action: 'Use the stability to improve scheduling discipline and retention.'
+        };
+      }
+
+      if (indicator.series === 'M2SL') {
+        if (v >= 8) return {
+          status: 'Monetary backdrop expansionary',
+          summary: 'Money growth suggests the broader inflation backdrop may still be warmer than CPI alone implies.',
+          action: 'Use this as a longer-range purchasing-power signal rather than a same-month operating alarm.'
+        };
+        if (v >= 3) return {
+          status: 'Monetary backdrop supportive',
+          summary: 'Monetary conditions are still expanding enough to matter over time.',
+          action: 'Keep an eye on long-range pricing discipline even if near-term signals look calmer.'
+        };
+        return {
+          status: 'Monetary backdrop calmer',
+          summary: 'Money growth is not adding as much long-range inflation heat right now.',
+          action: 'Lean more on PPI, fuel, labor, and rates for near-term operating calls.'
+        };
+      }
+
+      return {
+        status: 'Mixed signal',
+        summary: 'This indicator is moving, but the business impact depends on context.',
+        action: 'Monitor changes alongside pricing and margin data.'
+      };
+    }
+
     function buildPressureSignal(indicators) {
       const cpi = indicators.find(x => x.series === 'CPIAUCSL');
       const ppi = indicators.find(x => x.series === 'PPIACO');
-      const oil = indicators.find(x => x.series === 'DCOILWTICO');
+      const fuel = indicators.find(x => x.series === 'ENERGY_FUEL');
       const rates = indicators.find(x => x.series === 'FEDFUNDS');
+      const labor = indicators.find(x => x.series === 'LABOR_COST');
       const m2 = indicators.find(x => x.series === 'M2SL');
 
       const components = {
-        cpi: normalizeRange(cpi?.change, 2, 6),
         ppi: normalizeRange(ppi?.change, 1.5, 8),
+        fuel: normalizeRange(fuel?.change, 0, 25),
         rates: normalizeRange(rates?.current, 2.5, 6),
-        oil: normalizeRange(oil?.change, 0, 25),
-        m2: normalizeRange(m2?.change, 0, 10)
+        labor: normalizeRange(labor?.change, 2, 7),
+        cpi: normalizeRange(cpi?.change, 2, 6)
       };
 
       const score = Math.round(
-        components.cpi * pressureWeights.cpi +
         components.ppi * pressureWeights.ppi +
+        components.fuel * pressureWeights.fuel +
         components.rates * pressureWeights.rates +
-        components.oil * pressureWeights.oil +
-        components.m2 * pressureWeights.m2
+        components.labor * pressureWeights.labor +
+        components.cpi * pressureWeights.cpi
       );
 
       const trendComponents = {
-        cpi: trendNormalize(cpi?.change, 1.5, 5),
         ppi: trendNormalize(ppi?.change, 1, 6),
-        oil: trendNormalize(oil?.change, -12, 18),
+        fuel: trendNormalize(fuel?.change, -10, 18),
         rates: trendNormalize(rates?.change, -1, 2),
-        m2: trendNormalize(m2?.change, -2, 8)
+        labor: trendNormalize(labor?.change, 1.5, 5.5),
+        cpi: trendNormalize(cpi?.change, 1.5, 5)
       };
 
       const trendScore = (
-        trendComponents.cpi * trendWeights.cpi +
         trendComponents.ppi * trendWeights.ppi +
-        trendComponents.oil * trendWeights.oil +
+        trendComponents.fuel * trendWeights.fuel +
         trendComponents.rates * trendWeights.rates +
-        trendComponents.m2 * trendWeights.m2
+        trendComponents.labor * trendWeights.labor +
+        trendComponents.cpi * trendWeights.cpi
       );
 
       let tier = 'Low Pressure';
       let icon = '◌';
-      let summary = 'Conditions look comparatively stable. Cost pressure exists, but it is not broad-based enough to force aggressive defensive pricing.';
-      let action = 'Focus on consistency, cost discipline, and small pricing reviews instead of big reactive changes.';
+      let summary = 'Conditions look comparatively manageable. Pressure exists, but it is not broad-based enough to force aggressive defensive pricing.';
+      let action = 'Focus on consistency, cost discipline, and targeted pricing reviews instead of big reactive changes.';
       let badgeStyle = 'border-color: rgba(34,211,197,0.25); background: rgba(34,211,197,0.10); color: var(--teal);';
 
       if (score >= 65) {
         tier = 'High Pressure';
         icon = '▲';
-        summary = 'Multiple signals are flashing at once. Inflation, supplier costs, financing strain, or energy pressure are strong enough to threaten margins.';
-        action = 'Protect margin quickly: recost menu items, tighten purchasing, and avoid adding weak-return debt.';
+        summary = 'Multiple owner-facing cost signals are flashing at once. Supplier, fuel, labor, or financing pressure is strong enough to threaten margins.';
+        action = 'Protect margin quickly: recost key items, tighten purchasing, and be selective with financing.';
         badgeStyle = 'border-color: rgba(239,68,68,0.28); background: rgba(239,68,68,0.12); color: #fca5a5;';
       } else if (score >= 35) {
         tier = 'Moderate Pressure';
         icon = '◐';
-        summary = 'The backdrop is not extreme, but there is enough pressure to justify closer monitoring of pricing, suppliers, and financing costs.';
+        summary = 'The backdrop is not extreme, but there is enough pressure to justify closer monitoring of suppliers, labor, energy, and financing costs.';
         action = 'Review high-cost items, watch vendor increases, and model price changes before margins drift.';
         badgeStyle = 'border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.12); color: #fcd34d;';
       }
@@ -558,16 +628,30 @@
       if (trendScore >= 15) {
         trendLabel = 'Rising';
         trendIcon = '↑';
-        trendNote = 'Pressure is building as more of the tracked signals lean upward instead of easing.';
+        trendNote = 'Pressure is building as more owner-facing signals lean upward instead of easing.';
         trendStyle = 'border-color: rgba(239,68,68,0.24); background: rgba(239,68,68,0.08); color: #fca5a5;';
       } else if (trendScore <= -15) {
         trendLabel = 'Cooling';
         trendIcon = '↓';
-        trendNote = 'Pressure is easing as more of the tracked signals cool instead of accelerating.';
+        trendNote = 'Pressure is easing as more signals cool instead of accelerating.';
         trendStyle = 'border-color: rgba(34,211,197,0.24); background: rgba(34,211,197,0.08); color: var(--teal);';
       }
 
-      return { score, tier, icon, summary, action, badgeStyle, components, trendScore, trendLabel, trendIcon, trendNote, trendStyle };
+      let monetaryLabel = 'Neutral';
+      let monetaryNote = 'Money growth looks balanced enough not to dominate the near-term owner picture.';
+      if (Number.isFinite(m2?.change) && m2.change >= 8) {
+        monetaryLabel = 'Expansionary';
+        monetaryNote = 'M2 growth suggests a warmer long-range monetary backdrop than current operating data alone might imply.';
+      } else if (Number.isFinite(m2?.change) && m2.change < 3) {
+        monetaryLabel = 'Tightening';
+        monetaryNote = 'Money growth looks subdued enough to suggest less macro heat in the background.';
+      }
+
+      return {
+        score, tier, icon, summary, action, badgeStyle, components,
+        trendScore, trendLabel, trendIcon, trendNote, trendStyle,
+        monetaryLabel, monetaryNote
+      };
     }
 
     function renderPressureSignal(indicators) {
@@ -597,11 +681,11 @@
       trendStripEl.style.cssText += pressure.trendStyle;
 
       const rows = [
-        ['CPI', pressure.components.cpi, '35% weight'],
-        ['PPI', pressure.components.ppi, '25% weight'],
+        ['PPI', pressure.components.ppi, '30% weight'],
+        ['Fuel', pressure.components.fuel, '25% weight'],
         ['Rates', pressure.components.rates, '20% weight'],
-        ['Oil', pressure.components.oil, '10% weight'],
-        ['M2', pressure.components.m2, '10% weight']
+        ['Labor', pressure.components.labor, '15% weight'],
+        ['CPI', pressure.components.cpi, '10% weight']
       ];
 
       submetricsEl.innerHTML = rows.map(([label, value, note]) => `
@@ -613,29 +697,16 @@
       `).join('');
     }
 
-   function formatStat(indicator, valueType = 'change') {
+    function formatStat(indicator, valueType = 'change') {
       const value = valueType === 'current' ? indicator.current : indicator.change;
       if (!Number.isFinite(value)) return '—';
 
       if (valueType === 'current') {
-        if (indicator.series === 'M2SL') {
-          return `$${Math.round(indicator.current).toLocaleString()}B`;
-        }
-
-        if (indicator.series === 'DCOILWTICO') {
-          return `$${indicator.current.toFixed(2)}`;
-        }
-
-      // CPI & PPI should be RAW INDEX VALUES (no %)
-        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO') {
-          return indicator.current.toFixed(1);
-        }
-
-        // Fed Funds is actually a % (keep this)
-        if (indicator.series === 'FEDFUNDS') {
-          return `${indicator.current.toFixed(2)}%`;
-        }
-
+        if (indicator.series === 'M2SL') return `$${Math.round(indicator.current).toLocaleString()}B`;
+        if (indicator.series === 'ENERGY_FUEL') return `$${indicator.current.toFixed(2)}`;
+        if (indicator.series === 'FEDFUNDS') return `${indicator.current.toFixed(2)}%`;
+        if (indicator.series === 'LABOR_COST') return `${indicator.current.toFixed(2)}`;
+        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO') return indicator.current.toFixed(1);
         return indicator.current.toFixed(1);
       }
 
@@ -643,56 +714,59 @@
       return `${sign}${indicator.change.toFixed(1)}%`;
     }
 
+    async function loadIndicators() {
+      try {
+        const response = await fetch(MARKET_DATA_URL, { cache: "no-store" });
+        if (!response.ok) throw new Error(`Failed to load market snapshot: ${response.status}`);
+        const data = await response.json();
+        const incoming = Array.isArray(data.indicators) ? data.indicators.map(normalizeIndicator) : [];
+        const bySeries = new Map(incoming.map(item => [item.series, item]));
+        const indicators = indicatorOrder.map(seriesId => bySeries.get(seriesId) || blankIndicators.find(x => x.series === seriesId));
 
-   async function loadIndicators() {
-  try {
-    const response = await fetch(FRED_DATA_URL, { cache: "no-store" });
+        if (!incoming.length) {
+          console.warn("No indicators found in data/market/latest.json");
+          renderPage(blankIndicators);
+          return;
+        }
 
-    if (!response.ok) {
-      throw new Error(`Failed to load local FRED snapshot: ${response.status}`);
+        console.log("Loaded GitHub Actions market snapshot:", indicators);
+        renderPage(indicators);
+      } catch (error) {
+        console.error("Failed to load market snapshot.", error);
+        renderPage(blankIndicators);
+      }
     }
-
-    const data = await response.json();
-    const indicators = data.indicators || [];
-
-    if (!indicators.length) {
-      console.warn("No indicators found in data/fred/latest.json");
-      renderPage(blankIndicators);
-      return;
-    }
-
-    console.log("Loaded GitHub Actions snapshot:", indicators);
-    renderPage(indicators);
-  } catch (error) {
-    console.error("Failed to load GitHub Actions snapshot.", error);
-    renderPage(blankIndicators);
-  }
-}
 
     function renderPage(indicators) {
       renderPressureSignal(indicators);
       const grid = document.getElementById('signalsGrid');
+
       grid.innerHTML = indicators.map(indicator => {
         const x = explanationFor(indicator);
+        const sourceLine = indicator.series === 'ENERGY_FUEL'
+          ? `${indicator.source || 'EIA'} source`
+          : `${indicator.source || 'Official source'} source`;
         return `
           <article class="signal-card">
             <div class="signal-card-top">
               <div>
                 <h3 class="signal-name">${indicator.name}</h3>
-                <div class="signal-series">FRED series: ${indicator.series}</div>
+                <div class="signal-series">${sourceLine} · Series: ${indicator.series}</div>
               </div>
               <div class="signal-chip">${x.status}</div>
             </div>
 
             <div class="signal-stats">
-            <div class="stat-box">
-              <div class="stat-label">
-                ${['CPIAUCSL', 'PPIACO'].includes(indicator.series)
-                  ? 'Index Level'
-                  : 'Current'}
+              <div class="stat-box">
+                <div class="stat-label">
+                  ${['CPIAUCSL', 'PPIACO'].includes(indicator.series)
+                    ? 'Index Level'
+                    : indicator.series === 'LABOR_COST'
+                      ? 'Current Level'
+                      : 'Current'}
+                </div>
+                <div class="stat-value">${formatStat(indicator, 'current')}</div>
               </div>
-              <div class="stat-value">${formatStat(indicator, 'current')}</div>
-            </div>
               <div class="stat-box">
                 <div class="stat-label">Trend</div>
                 <div class="stat-value">${formatStat(indicator, 'change')}</div>
@@ -719,28 +793,28 @@
       }).join('');
 
       const overview = document.getElementById('overviewStats');
-      const cpi = indicators.find(x => x.series === 'CPIAUCSL');
+      const pressure = buildPressureSignal(indicators);
       const ppi = indicators.find(x => x.series === 'PPIACO');
-      const m2 = indicators.find(x => x.series === 'M2SL');
+      const fuel = indicators.find(x => x.series === 'ENERGY_FUEL');
 
-     const fmtMini = (x) => Number.isFinite(x?.change) ? `${x.change > 0 ? '+' : ''}${x.change.toFixed(1)}%` : '—';
+      const fmtMini = (x) => Number.isFinite(x?.change) ? `${x.change > 0 ? '+' : ''}${x.change.toFixed(1)}%` : '—';
 
-        overview.innerHTML = `
-          <div class="signal-mini">
-            <div class="signal-mini-label">Inflation</div>
-            <div class="signal-mini-value">${fmtMini(cpi)}</div>
-            <div class="signal-mini-sub">Consumer inflation is still meaningful enough to pressure pricing decisions.</div>
-          </div>
-          <div class="signal-mini">
-            <div class="signal-mini-label">Supplier pressure</div>
-            <div class="signal-mini-value">${fmtMini(ppi)}</div>
-            <div class="signal-mini-sub">Producer prices suggest wholesalers may still be passing cost increases downstream.</div>
-          </div>
-          <div class="signal-mini">
-            <div class="signal-mini-label">Monetary backdrop</div>
-            <div class="signal-mini-value">${fmtMini(m2)}</div>
-            <div class="signal-mini-sub">M2 growth suggests CPI may not be telling the full long-term inflation story.</div>
-          </div>`;
+      overview.innerHTML = `
+        <div class="signal-mini">
+          <div class="signal-mini-label">Business Pressure</div>
+          <div class="signal-mini-value">${pressure.score}</div>
+          <div class="signal-mini-sub">${pressure.tier} based on supplier, fuel, rates, labor, and customer-price pressure.</div>
+        </div>
+        <div class="signal-mini">
+          <div class="signal-mini-label">Pressure Trend</div>
+          <div class="signal-mini-value">${pressure.trendIcon} ${pressure.trendLabel}</div>
+          <div class="signal-mini-sub">Supplier pressure ${fmtMini(ppi)} and fuel pressure ${fmtMini(fuel)} are the quickest practical signals for owners.</div>
+        </div>
+        <div class="signal-mini">
+          <div class="signal-mini-label">Monetary Backdrop</div>
+          <div class="signal-mini-value">${pressure.monetaryLabel}</div>
+          <div class="signal-mini-sub">${pressure.monetaryNote}</div>
+        </div>`;
     }
 
     loadIndicators();
