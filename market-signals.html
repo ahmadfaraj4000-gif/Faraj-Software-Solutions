@@ -418,8 +418,14 @@
           return `$${indicator.current.toFixed(2)}`;
         }
 
-        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO' || indicator.series === 'FEDFUNDS') {
-          return `${indicator.current.toFixed(1)}%`;
+      // CPI & PPI should be RAW INDEX VALUES (no %)
+        if (indicator.series === 'CPIAUCSL' || indicator.series === 'PPIACO') {
+          return indicator.current.toFixed(1);
+        }
+
+        // Fed Funds is actually a % (keep this)
+        if (indicator.series === 'FEDFUNDS') {
+          return `${indicator.current.toFixed(2)}%`;
         }
 
         return indicator.current.toFixed(1);
@@ -470,10 +476,14 @@
             </div>
 
             <div class="signal-stats">
-              <div class="stat-box">
-                <div class="stat-label">Current</div>
-                <div class="stat-value">${formatStat(indicator, 'current')}</div>
+            <div class="stat-box">
+              <div class="stat-label">
+                ${['CPIAUCSL', 'PPIACO'].includes(indicator.series)
+                  ? 'Index Level'
+                  : 'Current'}
               </div>
+              <div class="stat-value">${formatStat(indicator, 'current')}</div>
+            </div>
               <div class="stat-box">
                 <div class="stat-label">Trend</div>
                 <div class="stat-value">${formatStat(indicator, 'change')}</div>
