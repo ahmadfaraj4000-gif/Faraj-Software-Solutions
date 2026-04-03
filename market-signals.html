@@ -277,26 +277,51 @@
 
       <section class="page-section">
         <div class="market-wide">
-          <h2 class="section-title">Simple formulas behind the dashboard</h2>
+          <h2 class="section-title">How the pressure model is built</h2>
           <p class="section-sub">
-            The value of this page is not just the data — it's the interpretation. These formulas show how the cards turn raw numbers into owner-friendly signals.
+            For transparency, each signal is converted to the same 0–100 scale using a defined maximum. The weighted formula below then turns those normalized scores into one owner-facing pressure reading.
           </p>
           <div class="formula-grid">
-            <div class="formula-card">
-              <h3>Year-over-year change</h3>
-              <p class="formula">YoY % = ((Current Value − Value 12 Months Ago) ÷ Value 12 Months Ago) × 100</p>
-              <p class="product-lead" style="margin:10px 0 0;">Used for CPI, PPI, and M2 to show whether inflation pressure is accelerating or easing.</p>
+            <div class="formula-card" style="grid-column: span 3;">
+              <h3>Pressure calculation</h3>
+              <p class="formula">Pressure Score = (PPI Score × 0.30) + (Fuel Score × 0.25) + (Rates Score × 0.20) + (Labor Score × 0.15) + (CPI Score × 0.10)</p>
+              <p class="product-lead" style="margin:12px 0 0;">Each score is capped at 100 so one signal cannot run away indefinitely. The result maps to Low (0–34), Moderate (35–64), and High (65–100).</p>
             </div>
+
             <div class="formula-card">
-              <h3>Price trend change</h3>
-              <p class="formula">Trend Change % = ((Current Value − Prior Value) ÷ Prior Value) × 100</p>
-              <p class="product-lead" style="margin:10px 0 0;">Used for fuel and energy data to flag transport and supplier cost pressure when it moves sharply.</p>
+              <h3>CPI maximum</h3>
+              <p class="formula">CPI Score = min((CPI YoY ÷ 15) × 100, 100)</p>
+              <p class="product-lead" style="margin:10px 0 0;">15% is treated as an extreme inflation environment, so current CPI is measured against that ceiling before being weighted at 10%.</p>
             </div>
+
             <div class="formula-card">
-              <h3>Pressure score + trend</h3>
-              <p class="formula">Pressure Score = (PPI × 0.30) + (Fuel × 0.25) + (Rates × 0.20) + (Labor × 0.15) + (CPI × 0.10)</p>
-              <p class="formula" style="margin-top:10px;">Trend Signal = (PPI Trend × 0.30) + (Fuel Trend × 0.25) + (Rates Trend × 0.20) + (Labor Trend × 0.15) + (CPI Trend × 0.10)</p>
-              <p class="product-lead" style="margin:10px 0 0;">The score shows current owner-facing pressure after each input is normalized to a 0–100 scale. The trend signal uses the same weights and maps to Rising when above +15, Cooling when below -15, and Stable otherwise. M2 stays separate as a monetary backdrop.</p>
+              <h3>PPI maximum</h3>
+              <p class="formula">PPI Score = min((PPI YoY ÷ 12) × 100, 100)</p>
+              <p class="product-lead" style="margin:10px 0 0;">12% represents very heavy supplier-side inflation, giving PPI a clear upper bound before its 30% weight is applied.</p>
+            </div>
+
+            <div class="formula-card">
+              <h3>Fuel maximum</h3>
+              <p class="formula">Fuel Score = min((Fuel Trend ÷ 40) × 100, 100)</p>
+              <p class="product-lead" style="margin:10px 0 0;">A 40% move is treated as a major transport and supplier-cost shock, which is why fuel carries a strong 25% weight.</p>
+            </div>
+
+            <div class="formula-card">
+              <h3>Rates maximum</h3>
+              <p class="formula">Rates Score = min((|Rate Change| ÷ 6) × 100, 100)</p>
+              <p class="product-lead" style="margin:10px 0 0;">A 6-point rate swing is treated as a meaningful financing shock. The model uses magnitude so major moves register clearly.</p>
+            </div>
+
+            <div class="formula-card">
+              <h3>Labor maximum</h3>
+              <p class="formula">Labor Score = min((Labor YoY ÷ 10) × 100, 100)</p>
+              <p class="product-lead" style="margin:10px 0 0;">10% labor growth is treated as strong wage pressure, making it a practical ceiling before labor is weighted at 15%.</p>
+            </div>
+
+            <div class="formula-card">
+              <h3>At-a-glance maximums</h3>
+              <p class="formula">CPI 15 · PPI 12 · Fuel 40 · Rates 6 · Labor 10</p>
+              <p class="product-lead" style="margin:10px 0 0;">These are the normalization ceilings currently used in the dashboard so visitors can see exactly how the pressure model is calibrated.</p>
             </div>
           </div>
 
