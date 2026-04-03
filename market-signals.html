@@ -357,9 +357,9 @@
         name: 'Energy / Fuel Pressure',
         unit: '% Trend',
         cadence: '30-day change',
-        impact: 'Fuel moves quickly into delivery, freight, commuting, field service, and supplier surcharges.',
+        impact: 'Oil and fuel prices from FRED move quickly into delivery, freight, commuting, field service, and supplier surcharges.',
         comparisonPeriods: 30,
-        sourceLabel: 'EIA'
+        sourceLabel: 'FRED'
       },
       FEDFUNDS: {
         name: 'Interest Rate Pressure',
@@ -788,7 +788,7 @@
       grid.innerHTML = indicators.map(indicator => {
         const x = explanationFor(indicator);
         const sourceLine = indicator.series === 'ENERGY_FUEL'
-          ? `${indicator.source || 'EIA'} source`
+          ? `${indicator.source || 'FRED'} source`
           : `${indicator.source || 'Official source'} source`;
         return `
           <article class="signal-card">
