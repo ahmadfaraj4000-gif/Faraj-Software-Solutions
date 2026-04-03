@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Signals for Small Businesses | Faraj Software Solutions</title>
-  <meta name="description" content="Track inflation, supplier cost pressure, oil prices, interest rates, and money supply with plain-English explanations for restaurant owners and small businesses." />
-  <meta name="keywords" content="economic indicators for small businesses, restaurant inflation dashboard, CPI for restaurant owners, PPI small business, oil prices business costs, M2 money supply business, interest rates small business" />
+  <meta name="description" content="Track inflation, supplier costs, energy prices, interest rates, labor pressure, and monetary conditions with clear, business-focused insights for small and medium-sized businesses." />
+  <meta name="keywords" content="economic indicators for small businesses, business inflation dashboard, CPI for business owners, PPI business costs, fuel costs business, labor cost pressure, interest rates small business, medium sized business economics" />
   <link rel="canonical" href="https://www.farajsolutions.com/market-signals.html" />
   <meta property="og:title" content="Market Signals for Small Businesses | Faraj Software Solutions" />
   <meta property="og:description" content="A simple indicator dashboard showing the macro signals that affect pricing, supplier costs, transport costs, borrowing, and long-term inflation pressure." />
@@ -31,6 +31,16 @@
     .market-lead { max-width: 860px; }
     .signal-overview {
       display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px;
+    }
+    .driver-explainer {
+      margin-top: 14px; padding: 16px 18px; border-radius: 18px;
+      border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);
+    }
+    .driver-explainer-title {
+      font-size: 12px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .driver-explainer-text {
+      margin: 8px 0 0; color: var(--muted); line-height: 1.65;
     }
     .signal-mini {
       padding: 14px; border-radius: 16px; border:1px solid var(--border);
@@ -198,13 +208,17 @@
             <h1 style="margin:0 0 14px;">Market Signals for <span class="accent">Small Businesses</span></h1>
             <p class="lead market-lead">
               Track the indicators that matter most to pricing, supplier costs, transport costs, borrowing decisions,
-              and long-term inflation pressure. This page is built for restaurant owners first, but the signals also matter
-              to service businesses that need clearer pricing and planning decisions.
+              and long-term inflation pressure. This page is built for small and medium-sized businesses that need clearer
+              pricing, cost control, and planning decisions across changing economic conditions.
             </p>
             <p style="color:var(--muted); max-width:700px; line-height:1.65; margin: 0 0 10px;">
-              Real-time economic indicators that impact pricing, labor costs, and profitability for small businesses.
+              A fast, business-focused read on the cost pressures shaping pricing, staffing, purchasing, and profitability.
             </p>
             <div class="signal-overview" id="overviewStats"></div>
+            <div class="driver-explainer">
+              <div class="driver-explainer-title">What’s driving pressure right now</div>
+              <p class="driver-explainer-text" id="driverExplanation">The dashboard will highlight the main drivers of pressure across fuel, supplier, labor, and financing signals.</p>
+            </div>
           </div>
 
           <div class="market-panel pressure-panel" id="pressurePanel">
@@ -237,7 +251,7 @@
                     <div class="pressure-trend-label">Pressure Trend</div>
                     <div class="pressure-trend-value" id="pressureTrendValue">—</div>
                   </div>
-                  <div class="pressure-trend-note" id="pressureTrendNote">The dashboard will show whether overall business pressure is rising, cooling, or holding steady.</div>
+                  <div class="pressure-trend-note" id="pressureTrendNote">Direction based on weighted movement across key cost signals.</div>
                 </div>
                 <div class="signal-action" style="margin-top:0;">
                   <strong id="pressureActionTitle">What this means</strong>
@@ -620,20 +634,46 @@
         badgeStyle = 'border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.12); color: #fcd34d;';
       }
 
+      const driverContributions = [
+        { key: 'ppi', label: 'producer costs', value: trendComponents.ppi * trendWeights.ppi },
+        { key: 'fuel', label: 'fuel', value: trendComponents.fuel * trendWeights.fuel },
+        { key: 'rates', label: 'financing costs', value: trendComponents.rates * trendWeights.rates },
+        { key: 'labor', label: 'labor costs', value: trendComponents.labor * trendWeights.labor },
+        { key: 'cpi', label: 'customer inflation', value: trendComponents.cpi * trendWeights.cpi }
+      ];
+
+      const positiveDrivers = [...driverContributions]
+        .filter(d => d.value > 5)
+        .sort((a, b) => b.value - a.value);
+
+      const negativeDrivers = [...driverContributions]
+        .filter(d => d.value < -5)
+        .sort((a, b) => a.value - b.value);
+
+      const formatDriverList = (drivers) => {
+        const labels = drivers.slice(0, 2).map(d => d.label);
+        if (labels.length === 2) return `${labels[0]} and ${labels[1]}`;
+        return labels[0] || 'mixed signals';
+      };
+
       let trendLabel = 'Stable';
       let trendIcon = '→';
-      let trendNote = 'Pressure looks relatively steady right now, without a strong broad-based shift up or down.';
+      let trendNote = 'Pressure is stable, with mixed movement across fuel, supplier, labor, and rate signals.';
       let trendStyle = 'border-color: rgba(148,163,184,0.22); background: rgba(148,163,184,0.08); color: #cbd5e1;';
 
       if (trendScore >= 15) {
         trendLabel = 'Rising';
         trendIcon = '↑';
-        trendNote = 'Pressure is building as more owner-facing signals lean upward instead of easing.';
+        trendNote = positiveDrivers.length
+          ? `Pressure is rising, driven by ${formatDriverList(positiveDrivers)}.`
+          : 'Pressure is rising as more owner-facing signals lean upward instead of easing.';
         trendStyle = 'border-color: rgba(239,68,68,0.24); background: rgba(239,68,68,0.08); color: #fca5a5;';
       } else if (trendScore <= -15) {
         trendLabel = 'Cooling';
         trendIcon = '↓';
-        trendNote = 'Pressure is easing as more signals cool instead of accelerating.';
+        trendNote = negativeDrivers.length
+          ? `Pressure is cooling as ${formatDriverList(negativeDrivers)} ease.`
+          : 'Pressure is cooling as more signals ease instead of accelerating.';
         trendStyle = 'border-color: rgba(34,211,197,0.24); background: rgba(34,211,197,0.08); color: var(--teal);';
       }
 
@@ -656,6 +696,10 @@
 
     function renderPressureSignal(indicators) {
       const pressure = buildPressureSignal(indicators);
+      const driverEl = document.getElementById('driverExplanation');
+      if (driverEl) {
+        driverEl.textContent = pressure.trendNote;
+      }
       const scoreEl = document.getElementById('pressureScore');
       const badgeEl = document.getElementById('pressureBadge');
       const summaryEl = document.getElementById('pressureSummary');
@@ -677,7 +721,7 @@
       barEl.style.width = `${pressure.score}%`;
 
       trendValueEl.textContent = `${pressure.trendIcon} ${pressure.trendLabel}`;
-      trendNoteEl.textContent = pressure.trendNote;
+      trendNoteEl.textContent = 'Direction based on weighted movement across key cost signals.';
       trendStripEl.style.cssText += pressure.trendStyle;
 
       const rows = [
