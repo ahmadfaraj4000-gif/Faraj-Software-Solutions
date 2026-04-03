@@ -697,11 +697,11 @@
       const m2 = indicators.find(x => x.series === 'M2SL');
 
       const components = {
-        ppi: normalizeRange(ppi?.change, 1.5, 8),
-        fuel: normalizeRange(fuel?.change, 0, 40),
-        rates: normalizeRange(rates?.current, 2.5, 6),
-        labor: normalizeRange(labor?.change, 2, 7),
-        cpi: normalizeRange(cpi?.change, 2, 6)
+        ppi: Math.min(Math.max(Number(ppi?.change) || 0, 0) / 12 * 100, 100),
+        fuel: Math.min(Math.max(Number(fuel?.change) || 0, 0) / 40 * 100, 100),
+        rates: Math.min(Math.abs(Number(rates?.change) || 0) / 6 * 100, 100),
+        labor: Math.min(Math.max(Number(labor?.change) || 0, 0) / 10 * 100, 100),
+        cpi: Math.min(Math.max(Number(cpi?.change) || 0, 0) / 15 * 100, 100)
       };
 
       const score = Math.round(
