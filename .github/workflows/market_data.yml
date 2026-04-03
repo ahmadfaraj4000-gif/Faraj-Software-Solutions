@@ -1,4 +1,4 @@
-name: market data
+name: Update market data
 
 on:
   workflow_dispatch:
@@ -28,7 +28,6 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
-          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
         run: python scripts/update_market_data.py
 
       - name: Commit updated snapshot
