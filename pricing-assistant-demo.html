@@ -882,5 +882,91 @@
       });
     })();
     </script>
+
+  <!-- Floating purchase CTA -->
+  <a href="#pricing-assistant-standard-demo-cta" class="float-cta" id="floatCta" aria-label="View pricing">
+    <span class="float-cta-text">Get Pricing Assistant</span>
+    <span class="float-cta-price">from $49.99</span>
+  </a>
+
+  <style>
+    .float-cta {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #22d3c5, #12afa4);
+      color: #07131f;
+      text-decoration: none;
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-weight: 900;
+      font-size: 13.5px;
+      box-shadow: 0 8px 32px rgba(34,211,197,0.35), 0 2px 8px rgba(0,0,0,0.3);
+      transform: translateY(0);
+      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+      pointer-events: auto;
+    }
+    .float-cta:hover {
+      box-shadow: 0 12px 40px rgba(34,211,197,0.5), 0 2px 8px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
+    }
+    .float-cta.hidden {
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+    }
+    .float-cta-icon { font-size: 15px; }
+    .float-cta-text { letter-spacing: -0.01em; }
+    .float-cta-price {
+      font-size: 11.5px;
+      font-weight: 800;
+      opacity: 0.75;
+      padding-left: 4px;
+      border-left: 1px solid rgba(7,19,31,0.25);
+    }
+    @media (max-width: 480px) {
+      .float-cta { bottom: 20px; right: 16px; padding: 12px 15px; }
+      .float-cta-price { display: none; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('floatCta');
+      var lastScroll = 0;
+      var ticking = false;
+
+      // Start hidden — show only after user scrolls down
+      btn.classList.add('hidden');
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(function () {
+            var current = window.scrollY;
+            if (current < 80) {
+              // Near top — hide
+              btn.classList.add('hidden');
+            } else if (current < lastScroll) {
+              // Scrolling up — hide
+              btn.classList.add('hidden');
+            } else {
+              // Scrolling down — show
+              btn.classList.remove('hidden');
+            }
+            lastScroll = current;
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
