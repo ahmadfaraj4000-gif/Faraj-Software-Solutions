@@ -384,7 +384,7 @@
                 <div class="formula-card">
                   <h3>Fuel maximum</h3>
                   <p class="formula">Fuel Score = min((Fuel Trend ÷ 40) × 100, 100)</p>
-                  <p class="product-lead" style="margin:10px 0 0;">A 40% move is treated as a major transport and supplier-cost shock, which is why fuel carries a strong 25% weight.</p>
+                  <p class="product-lead" style="margin:10px 0 0;">A 40% year-over-year move is treated as a major transport and supplier-cost shock, which is why fuel carries a strong 25% weight.</p>
                 </div>
 
                 <div class="formula-card">
@@ -469,10 +469,10 @@
       },
       ENERGY_FUEL: {
         name: 'Energy / Fuel Pressure',
-        unit: '% Trend',
-        cadence: '30-day change',
-        impact: 'Oil and fuel prices from FRED move quickly into delivery, freight, commuting, field service, and supplier surcharges.',
-        comparisonPeriods: 30,
+        unit: '% YoY',
+        cadence: 'year-over-year',
+        impact: 'Oil and fuel prices from FRED still matter because they flow into delivery, freight, commuting, field service, and supplier surcharges over time.',
+        comparisonPeriods: 12,
         sourceLabel: 'FRED'
       },
       FEDFUNDS: {
@@ -610,20 +610,20 @@
       }
 
       if (indicator.series === 'ENERGY_FUEL') {
-        if (v >= 10) return {
+        if (v >= 20) return {
           status: 'Energy pressure high',
-          summary: 'Fuel costs are moving quickly enough to create near-term pressure in freight, commuting, and vendor pricing.',
-          action: 'Watch delivery-heavy items, supplier surcharges, and transport-sensitive expenses closely.'
+          summary: 'Fuel is materially higher than a year ago, which can keep freight, delivery, and vendor pricing under pressure.',
+          action: 'Watch transport-heavy expenses, supplier surcharges, and route economics closely.'
         };
-        if (v >= 3) return {
-          status: 'Energy pressure rising',
-          summary: 'Fuel is trending up enough to matter even before it shows up broadly elsewhere.',
-          action: 'Monitor vendors most exposed to transport costs and recheck route or delivery economics.'
+        if (v >= 8) return {
+          status: 'Energy pressure elevated',
+          summary: 'Fuel is running high enough versus last year to matter for cost planning.',
+          action: 'Monitor vendors most exposed to transport costs and recheck delivery-sensitive offerings.'
         };
         return {
-          status: 'Energy pressure stable',
-          summary: 'Fuel is not adding major fresh pressure right now.',
-          action: 'Treat transport costs as stable unless the trend changes sharply.'
+          status: 'Energy pressure steadier',
+          summary: 'Fuel is not creating a major year-over-year cost shock right now.',
+          action: 'Treat transport costs as comparatively stable unless the yearly trend changes sharply.'
         };
       }
 
@@ -698,7 +698,7 @@
 
       const components = {
         ppi: normalizeRange(ppi?.change, 1.5, 8),
-        fuel: normalizeRange(fuel?.change, 0, 25),
+        fuel: normalizeRange(fuel?.change, 0, 40),
         rates: normalizeRange(rates?.current, 2.5, 6),
         labor: normalizeRange(labor?.change, 2, 7),
         cpi: normalizeRange(cpi?.change, 2, 6)
@@ -714,7 +714,7 @@
 
       const trendComponents = {
         ppi: trendNormalize(ppi?.change, 1, 6),
-        fuel: trendNormalize(fuel?.change, -10, 18),
+        fuel: trendNormalize(fuel?.change, -15, 25),
         rates: trendNormalize(rates?.change, -1, 2),
         labor: trendNormalize(labor?.change, 1.5, 5.5),
         cpi: trendNormalize(cpi?.change, 1.5, 5)
@@ -966,7 +966,7 @@
         <div class="signal-mini">
           <div class="signal-mini-label">Pressure Trend</div>
           <div class="signal-mini-value">${pressure.trendIcon} ${pressure.trendLabel}</div>
-          <div class="signal-mini-sub">Supplier pressure ${fmtMini(ppi)} and fuel pressure ${fmtMini(fuel)} are the quickest practical signals for owners.</div>
+          <div class="signal-mini-sub">Supplier pressure ${fmtMini(ppi)} and fuel pressure ${fmtMini(fuel)} now uses a year-over-year comparison so it lines up better with the other signals.</div>
         </div>
         <div class="signal-mini">
           <div class="signal-mini-label">Monetary Backdrop</div>
