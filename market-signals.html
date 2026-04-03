@@ -44,14 +44,55 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
       box-shadow: var(--shadow);
     }
-    .api-callout { display:grid; gap: 12px; }
-    .api-note { color: var(--muted); line-height: 1.6; }
-    .pill-row-tight { display:flex; flex-wrap:wrap; gap: 10px; margin-top: 6px; }
-    .pill-tight {
-      font-size: 12px; color: rgba(255,255,255,0.92);
-      padding: 8px 11px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.045);
+    .pressure-panel { display:grid; gap: 14px; }
+    .pressure-top { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; }
+    .pressure-badge {
+      display:inline-flex; align-items:center; gap:8px; padding: 8px 12px; border-radius:999px;
+      font-size:12px; font-weight:900; letter-spacing:0.03em; text-transform:uppercase;
+      border:1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
     }
+    .pressure-score-wrap {
+      display:grid; grid-template-columns: 112px 1fr; gap:14px; align-items:center;
+      padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);
+    }
+    .pressure-score-circle {
+      width: 112px; height: 112px; border-radius: 50%; display:grid; place-items:center;
+      border:1px solid rgba(255,255,255,0.12);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      box-shadow: inset 0 0 35px rgba(255,255,255,0.06);
+    }
+    .pressure-score-number { font-size: 34px; font-weight: 950; letter-spacing: -0.04em; }
+    .pressure-score-sub { font-size: 12px; color: var(--muted2); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pressure-meter { display:grid; gap:10px; }
+    .pressure-trend-strip {
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 12px 14px; border-radius: 14px; border:1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+    .pressure-trend-left { display:grid; gap:3px; }
+    .pressure-trend-label {
+      font-size: 11px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .pressure-trend-value { font-size: 16px; font-weight: 900; letter-spacing:-0.02em; }
+    .pressure-trend-note { font-size: 12px; color: var(--muted2); line-height: 1.45; text-align:right; max-width: 260px; }
+    .pressure-bar {
+      width:100%; height: 12px; border-radius:999px; overflow:hidden;
+      background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08);
+    }
+    .pressure-bar-fill {
+      height:100%; width:0%; border-radius:999px;
+      background: linear-gradient(90deg, rgba(34,211,197,0.9), rgba(245,158,11,0.95), rgba(239,68,68,0.95));
+      transition: width 500ms ease;
+    }
+    .pressure-range { display:flex; justify-content:space-between; gap:8px; font-size:11px; color: var(--muted2); text-transform: uppercase; letter-spacing:0.04em; }
+    .pressure-note { color: var(--muted); line-height: 1.65; }
+    .pressure-submetrics { display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap:10px; }
+    .pressure-mini {
+      padding: 12px; border-radius: 16px; border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04);
+    }
+    .pressure-mini-label { font-size: 11px; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing:0.03em; }
+    .pressure-mini-value { margin-top: 5px; font-size: 18px; font-weight: 900; letter-spacing:-0.03em; }
+    .pressure-mini-sub { margin-top: 4px; font-size: 11px; color: var(--muted2); }
     .page-section { padding: 18px 0 24px; }
     .section-title { margin: 0 0 10px; font-size: 28px; letter-spacing: -0.02em; }
     .section-sub { margin:0; color: var(--muted); max-width: 880px; line-height: 1.65; }
@@ -98,14 +139,14 @@
     .cta-strip p { margin: 6px 0 0; color: var(--muted); max-width: 720px; }
     .data-source-note { margin-top: 16px; color: var(--muted2); font-size: 13px; line-height: 1.6; }
     @media (max-width: 1100px) {
-      .market-intro-grid, .signals-grid, .formula-grid { grid-template-columns: 1fr; }
+      .market-intro-grid, .signals-grid, .formula-grid, .pressure-submetrics { grid-template-columns: 1fr; }
       .signal-overview, .signal-stats { grid-template-columns: 1fr 1fr; }
       .market-wide { width: min(1360px, calc(100% - 28px)); }
     }
     @media (max-width: 700px) {
-      .signal-overview, .signal-stats { grid-template-columns: 1fr; }
+      .signal-overview, .signal-stats, .pressure-submetrics { grid-template-columns: 1fr; }
       .market-hero { padding-top: 24px; }
-      .signal-card-top { flex-direction: column; }
+      .signal-card-top, .pressure-top, .pressure-score-wrap { flex-direction: column; grid-template-columns: 1fr; }
       .market-wide { width: min(1360px, calc(100% - 20px)); }
     }
   </style>
@@ -166,31 +207,46 @@
             <div class="signal-overview" id="overviewStats"></div>
           </div>
 
-          <div class="market-panel api-callout">
-            <div>
-             <div class="glass-title">Auto-updated data snapshot</div>
-              <p class="api-note">
-                This page reads a static JSON snapshot generated by GitHub Actions. The FRED API key stays hidden in
-                GitHub Secrets, and the dashboard refreshes automatically on a schedule.
-              </p>
+          <div class="market-panel pressure-panel" id="pressurePanel">
+            <div class="pressure-top">
+              <div>
+                <div class="glass-title">Business Pressure Signal</div>
+                <p class="pressure-note" id="pressureSummary">
+                  A blended owner view of inflation, supplier costs, energy, borrowing conditions, and monetary backdrop.
+                </p>
+              </div>
+              <div class="pressure-badge" id="pressureBadge">Loading</div>
             </div>
-            <div class="pill-row-tight">
-              <span class="pill-tight">CPIAUCSL</span>
-              <span class="pill-tight">PPIACO</span>
-              <span class="pill-tight">DCOILWTICO</span>
-              <span class="pill-tight">FEDFUNDS</span>
-              <span class="pill-tight">M2SL</span>
+
+            <div class="pressure-score-wrap">
+              <div class="pressure-score-circle">
+                <div style="text-align:center;">
+                  <div class="pressure-score-number" id="pressureScore">—</div>
+                  <div class="pressure-score-sub">Pressure</div>
+                </div>
+              </div>
+              <div class="pressure-meter">
+                <div class="pressure-bar"><div class="pressure-bar-fill" id="pressureBarFill"></div></div>
+                <div class="pressure-range">
+                  <span>Low 0–34</span>
+                  <span>Moderate 35–64</span>
+                  <span>High 65–100</span>
+                </div>
+                <div class="pressure-trend-strip" id="pressureTrendStrip">
+                  <div class="pressure-trend-left">
+                    <div class="pressure-trend-label">Pressure Trend</div>
+                    <div class="pressure-trend-value" id="pressureTrendValue">—</div>
+                  </div>
+                  <div class="pressure-trend-note" id="pressureTrendNote">The dashboard will show whether overall business pressure is rising, cooling, or holding steady.</div>
+                </div>
+                <div class="signal-action" style="margin-top:0;">
+                  <strong id="pressureActionTitle">What this means</strong>
+                  <p id="pressureActionText">The dashboard will summarize whether conditions favor stable pricing, caution, or defensive margin protection.</p>
+                </div>
+              </div>
             </div>
-            <div class="signal-action">
-              <strong>Why this page matters</strong>
-              <p>
-                Owners usually see inflation in the abstract. This page translates it into plain English: what it means for
-                pricing, cost control, and whether you should review margins, negotiate suppliers, or slow down borrowing.
-              </p>
-            </div>
-            <div class="data-source-note">
-              GitHub Actions fetches the latest FRED data, writes a local JSON file, and GitHub Pages serves that file to the dashboard.
-            </div>
+
+            <div class="pressure-submetrics" id="pressureSubmetrics"></div>
           </div>
         </div>
       </section>
@@ -224,9 +280,9 @@
               <p class="product-lead" style="margin:10px 0 0;">Used for oil to flag transport and supplier cost pressure when energy prices move sharply.</p>
             </div>
             <div class="formula-card">
-              <h3>Cost pressure signal</h3>
-              <p class="formula">Pressure Score = Weighted mix of CPI, PPI, Oil, Rates, and M2 trend</p>
-              <p class="product-lead" style="margin:10px 0 0;">A simplified owner view so the page can summarize whether conditions are mild, moderate, or high pressure.</p>
+              <h3>Pressure score + trend</h3>
+              <p class="formula">Pressure Score = (CPI × 0.35) + (PPI × 0.25) + (Rates × 0.20) + (Oil × 0.10) + (M2 × 0.10)</p>
+              <p class="product-lead" style="margin:10px 0 0;">The score shows current pressure after each input is normalized to a 0–100 scale. A separate trend signal then flags whether pressure is rising, cooling, or stable based on the direction of CPI, PPI, oil, rates, and M2.</p>
             </div>
           </div>
 
@@ -242,7 +298,7 @@
           </div>
 
         <p class="data-source-note">
-          This page loads its indicator data from <code>data/fred/latest.json</code>, which is generated automatically by GitHub Actions using your hidden FRED API key.
+          This dashboard reads a local data snapshot so the page stays fast, clean, and simple for business owners.
         </p>
         </div>
       </section>
@@ -405,6 +461,158 @@
       return { status: 'Mixed signal', summary: 'This indicator is moving, but the business impact depends on context.', action: 'Monitor changes alongside pricing and margin data.' };
     }
 
+
+    const pressureWeights = {
+      cpi: 0.35,
+      ppi: 0.25,
+      rates: 0.20,
+      oil: 0.10,
+      m2: 0.10
+    };
+
+    const trendWeights = {
+      cpi: 0.30,
+      ppi: 0.25,
+      oil: 0.20,
+      rates: 0.15,
+      m2: 0.10
+    };
+
+    const clamp = (value, min = 0, max = 100) => Math.max(min, Math.min(max, value));
+
+    function normalizeRange(value, floor, ceiling) {
+      if (!Number.isFinite(value)) return 50;
+      return clamp(((value - floor) / (ceiling - floor)) * 100);
+    }
+
+    function trendNormalize(value, floor, ceiling) {
+      if (!Number.isFinite(value)) return 0;
+      const scaled = ((value - floor) / (ceiling - floor)) * 200 - 100;
+      return clamp(scaled, -100, 100);
+    }
+
+    function buildPressureSignal(indicators) {
+      const cpi = indicators.find(x => x.series === 'CPIAUCSL');
+      const ppi = indicators.find(x => x.series === 'PPIACO');
+      const oil = indicators.find(x => x.series === 'DCOILWTICO');
+      const rates = indicators.find(x => x.series === 'FEDFUNDS');
+      const m2 = indicators.find(x => x.series === 'M2SL');
+
+      const components = {
+        cpi: normalizeRange(cpi?.change, 2, 6),
+        ppi: normalizeRange(ppi?.change, 1.5, 8),
+        rates: normalizeRange(rates?.current, 2.5, 6),
+        oil: normalizeRange(oil?.change, 0, 25),
+        m2: normalizeRange(m2?.change, 0, 10)
+      };
+
+      const score = Math.round(
+        components.cpi * pressureWeights.cpi +
+        components.ppi * pressureWeights.ppi +
+        components.rates * pressureWeights.rates +
+        components.oil * pressureWeights.oil +
+        components.m2 * pressureWeights.m2
+      );
+
+      const trendComponents = {
+        cpi: trendNormalize(cpi?.change, 1.5, 5),
+        ppi: trendNormalize(ppi?.change, 1, 6),
+        oil: trendNormalize(oil?.change, -12, 18),
+        rates: trendNormalize(rates?.change, -1, 2),
+        m2: trendNormalize(m2?.change, -2, 8)
+      };
+
+      const trendScore = (
+        trendComponents.cpi * trendWeights.cpi +
+        trendComponents.ppi * trendWeights.ppi +
+        trendComponents.oil * trendWeights.oil +
+        trendComponents.rates * trendWeights.rates +
+        trendComponents.m2 * trendWeights.m2
+      );
+
+      let tier = 'Low Pressure';
+      let icon = '◌';
+      let summary = 'Conditions look comparatively stable. Cost pressure exists, but it is not broad-based enough to force aggressive defensive pricing.';
+      let action = 'Focus on consistency, cost discipline, and small pricing reviews instead of big reactive changes.';
+      let badgeStyle = 'border-color: rgba(34,211,197,0.25); background: rgba(34,211,197,0.10); color: var(--teal);';
+
+      if (score >= 65) {
+        tier = 'High Pressure';
+        icon = '▲';
+        summary = 'Multiple signals are flashing at once. Inflation, supplier costs, financing strain, or energy pressure are strong enough to threaten margins.';
+        action = 'Protect margin quickly: recost menu items, tighten purchasing, and avoid adding weak-return debt.';
+        badgeStyle = 'border-color: rgba(239,68,68,0.28); background: rgba(239,68,68,0.12); color: #fca5a5;';
+      } else if (score >= 35) {
+        tier = 'Moderate Pressure';
+        icon = '◐';
+        summary = 'The backdrop is not extreme, but there is enough pressure to justify closer monitoring of pricing, suppliers, and financing costs.';
+        action = 'Review high-cost items, watch vendor increases, and model price changes before margins drift.';
+        badgeStyle = 'border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.12); color: #fcd34d;';
+      }
+
+      let trendLabel = 'Stable';
+      let trendIcon = '→';
+      let trendNote = 'Pressure looks relatively steady right now, without a strong broad-based shift up or down.';
+      let trendStyle = 'border-color: rgba(148,163,184,0.22); background: rgba(148,163,184,0.08); color: #cbd5e1;';
+
+      if (trendScore >= 15) {
+        trendLabel = 'Rising';
+        trendIcon = '↑';
+        trendNote = 'Pressure is building as more of the tracked signals lean upward instead of easing.';
+        trendStyle = 'border-color: rgba(239,68,68,0.24); background: rgba(239,68,68,0.08); color: #fca5a5;';
+      } else if (trendScore <= -15) {
+        trendLabel = 'Cooling';
+        trendIcon = '↓';
+        trendNote = 'Pressure is easing as more of the tracked signals cool instead of accelerating.';
+        trendStyle = 'border-color: rgba(34,211,197,0.24); background: rgba(34,211,197,0.08); color: var(--teal);';
+      }
+
+      return { score, tier, icon, summary, action, badgeStyle, components, trendScore, trendLabel, trendIcon, trendNote, trendStyle };
+    }
+
+    function renderPressureSignal(indicators) {
+      const pressure = buildPressureSignal(indicators);
+      const scoreEl = document.getElementById('pressureScore');
+      const badgeEl = document.getElementById('pressureBadge');
+      const summaryEl = document.getElementById('pressureSummary');
+      const actionTitleEl = document.getElementById('pressureActionTitle');
+      const actionTextEl = document.getElementById('pressureActionText');
+      const barEl = document.getElementById('pressureBarFill');
+      const submetricsEl = document.getElementById('pressureSubmetrics');
+      const trendValueEl = document.getElementById('pressureTrendValue');
+      const trendNoteEl = document.getElementById('pressureTrendNote');
+      const trendStripEl = document.getElementById('pressureTrendStrip');
+      if (!scoreEl || !badgeEl || !summaryEl || !actionTextEl || !barEl || !submetricsEl || !trendValueEl || !trendNoteEl || !trendStripEl) return;
+
+      scoreEl.textContent = pressure.score;
+      badgeEl.textContent = `${pressure.icon} ${pressure.tier}`;
+      badgeEl.style.cssText = pressure.badgeStyle;
+      summaryEl.textContent = pressure.summary;
+      actionTitleEl.textContent = pressure.tier;
+      actionTextEl.textContent = pressure.action;
+      barEl.style.width = `${pressure.score}%`;
+
+      trendValueEl.textContent = `${pressure.trendIcon} ${pressure.trendLabel}`;
+      trendNoteEl.textContent = pressure.trendNote;
+      trendStripEl.style.cssText += pressure.trendStyle;
+
+      const rows = [
+        ['CPI', pressure.components.cpi, '35% weight'],
+        ['PPI', pressure.components.ppi, '25% weight'],
+        ['Rates', pressure.components.rates, '20% weight'],
+        ['Oil', pressure.components.oil, '10% weight'],
+        ['M2', pressure.components.m2, '10% weight']
+      ];
+
+      submetricsEl.innerHTML = rows.map(([label, value, note]) => `
+        <div class="pressure-mini">
+          <div class="pressure-mini-label">${label}</div>
+          <div class="pressure-mini-value">${Math.round(value)}</div>
+          <div class="pressure-mini-sub">${note}</div>
+        </div>
+      `).join('');
+    }
+
    function formatStat(indicator, valueType = 'change') {
       const value = valueType === 'current' ? indicator.current : indicator.change;
       if (!Number.isFinite(value)) return '—';
@@ -462,6 +670,7 @@
 }
 
     function renderPage(indicators) {
+      renderPressureSignal(indicators);
       const grid = document.getElementById('signalsGrid');
       grid.innerHTML = indicators.map(indicator => {
         const x = explanationFor(indicator);
