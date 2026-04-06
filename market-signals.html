@@ -326,7 +326,7 @@
                     <div class="pressure-trend-label">Pressure Trend</div>
                     <div class="pressure-trend-value" id="pressureTrendValue">—</div>
                   </div>
-                  <div class="pressure-trend-note" id="pressureTrendNote">Direction based on weighted movement across key cost signals.</div>
+                  <div class="pressure-trend-note" id="pressureTrendNote">Direction based on faster-moving cost signals, not the same weighting used for the pressure level.</div>
                 </div>
                 <div class="signal-action" style="margin-top:0;">
                   <strong id="pressureActionTitle">What this means</strong>
@@ -522,10 +522,10 @@
     };
 
     const trendWeights = {
-      ppi: 0.30,
-      fuel: 0.25,
-      rates: 0.20,
-      labor: 0.15,
+      fuel: 0.30,
+      ppi: 0.25,
+      labor: 0.20,
+      rates: 0.15,
       cpi: 0.10
     };
 
@@ -749,11 +749,11 @@
       );
 
       const trendComponents = {
-        ppi: trendNormalize(ppi?.change, 1, 6),
-        fuel: trendNormalize(fuel?.change, -15, 25),
+        ppi: trendNormalize(ppi?.change, 0.5, 5.5),
+        fuel: trendNormalize(fuel?.change, -20, 20),
         rates: trendNormalize(rates?.change, -1, 2),
-        labor: trendNormalize(labor?.change, 1.5, 5.5),
-        cpi: trendNormalize(cpi?.change, 1.5, 5)
+        labor: trendNormalize(labor?.change, 1.5, 5),
+        cpi: trendNormalize(cpi?.change, 1.5, 4.5)
       };
 
       const trendScore = (
@@ -808,21 +808,21 @@
 
       let trendLabel = 'Stable';
       let trendIcon = '→';
-      let trendNote = 'Pressure is stable, with mixed movement across fuel, supplier, labor, and rate signals.';
+      let trendNote = 'Pressure is stable, with mixed movement across the faster-moving cost signals that drive direction.';
       let trendStyle = 'border-color: rgba(148,163,184,0.22); background: rgba(148,163,184,0.08); color: #cbd5e1;';
 
       if (trendScore >= 15) {
         trendLabel = 'Rising';
         trendIcon = '↑';
         trendNote = positiveDrivers.length
-          ? `Pressure is rising, driven by ${formatDriverList(positiveDrivers)}.`
+          ? `Pressure is rising, led by faster-moving signals in ${formatDriverList(positiveDrivers)}.`
           : 'Pressure is rising as more owner-facing signals lean upward instead of easing.';
         trendStyle = 'border-color: rgba(239,68,68,0.24); background: rgba(239,68,68,0.08); color: #fca5a5;';
       } else if (trendScore <= -15) {
         trendLabel = 'Cooling';
         trendIcon = '↓';
         trendNote = negativeDrivers.length
-          ? `Pressure is cooling as ${formatDriverList(negativeDrivers)} ease.`
+          ? `Pressure is cooling as faster-moving signals in ${formatDriverList(negativeDrivers)} ease.`
           : 'Pressure is cooling as more signals ease instead of accelerating.';
         trendStyle = 'border-color: rgba(34,211,197,0.24); background: rgba(34,211,197,0.08); color: var(--teal);';
       }
@@ -1021,7 +1021,7 @@
         <div class="signal-mini">
           <div class="signal-mini-label">Pressure Trend</div>
           <div class="signal-mini-value">${pressure.trendIcon} ${pressure.trendLabel}</div>
-          <div class="signal-mini-sub">Supplier pressure ${fmtMini(ppi)} and fuel pressure ${fmtMini(fuel)} now uses a year-over-year comparison so it lines up better with the other signals.</div>
+          <div class="signal-mini-sub">Trend now emphasizes faster-moving signals like fuel and supplier costs so direction reacts faster than the core pressure score.</div>
         </div>
         <div class="signal-mini">
           <div class="signal-mini-label">Monetary Backdrop</div>
