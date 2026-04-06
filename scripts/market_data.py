@@ -17,6 +17,7 @@ BLS_TIMESERIES_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 
 BLS_LABOR_SERIES = "CES0500000003"
 
+
 def is_number(value) -> bool:
     try:
         f = float(value)
@@ -24,23 +25,78 @@ def is_number(value) -> bool:
     except Exception:
         return False
 
+
 def to_float(value):
     return float(value) if is_number(value) else None
+
 
 def pct_change(current, previous):
     if current is None or previous is None or previous == 0:
         return None
     return ((current - previous) / previous) * 100.0
 
+
 def point_change(current, previous):
     if current is None or previous is None:
         return None
     return current - previous
 
+
 def round_or_none(value, digits=1):
     if value is None or not math.isfinite(value):
         return None
     return round(value, digits)
+
+
+def trend_normalize(value, floor, ceiling):
+    if value is None or not math.isfinite(value):
+        return 0
+    scaled = ((value - floor) / (ceiling - floor)) * 200 - 100
+    return max(-100, min(100, scaled))
+
+
+def compute_trend_score(indicators):
+    def get(series):
+        return next((x for x in indicators if x["series"] == series), None)
+
+    ppi = get("PPIFIS")
+    fuel = get("ENERGY_FUEL")
+    rates = get("FEDFUNDS")
+    labor = get("LABOR_COST")
+    cpi = get("CPIAUCSL")
+
+    trend_weights = {
+        "fuel": 0.30,
+        "ppi": 0.25,
+        "labor": 0.20,
+        "rates": 0.15,
+        "cpi": 0.10,
+    }
+
+    components = {
+        "ppi": trend_normalize(ppi["change"], 0.5, 5.5) if ppi else 0,
+        "fuel": trend_normalize(fuel["change"], -20, 20) if fuel else 0,
+        "rates": trend_normalize(rates["change"], -1, 2) if rates else 0,
+        "labor": trend_normalize(labor["change"], 1.5, 5) if labor else 0,
+        "cpi": trend_normalize(cpi["change"], 1.5, 4.5) if cpi else 0,
+    }
+
+    score = sum(components[k] * trend_weights[k] for k in components)
+
+    if score >= 15:
+        label = "Rising"
+    elif score <= -15:
+        label = "Cooling"
+    else:
+        label = "Stable"
+
+    return {
+        "score": round(score, 1),
+        "label": label,
+        "components": {k: round(v, 1) for k, v in components.items()},
+        "weights": trend_weights,
+    }
+
 
 def fred_observations(series_id: str, limit: int = 24):
     params = {
@@ -61,6 +117,7 @@ def fred_observations(series_id: str, limit: int = 24):
         obs.append({"date": row.get("date"), "value": value})
     return obs
 
+
 def latest_and_12mo_ago_fred(series_id: str):
     obs = fred_observations(series_id, limit=18)
     if not obs:
@@ -68,6 +125,7 @@ def latest_and_12mo_ago_fred(series_id: str):
     current = obs[0]["value"]
     twelve_ago = obs[12]["value"] if len(obs) > 12 else obs[-1]["value"]
     return current, twelve_ago
+
 
 def latest_and_12mo_ago_daily_fred(series_id: str):
     obs = fred_observations(series_id, limit=450)
@@ -92,6 +150,7 @@ def latest_and_12mo_ago_daily_fred(series_id: str):
         raise ValueError(f"No 12-month comparison observation found for {series_id}")
 
     return current_value, best_match["value"]
+
 
 def bls_series_data(series_id: str):
     current_year = datetime.now(timezone.utc).year
@@ -124,6 +183,7 @@ def bls_series_data(series_id: str):
     current = rows[0]["value"]
     twelve_ago = rows[12]["value"] if len(rows) > 12 else rows[-1]["value"]
     return current, twelve_ago
+
 
 def build_snapshot():
     cpi_current, cpi_prev12 = latest_and_12mo_ago_fred("CPIAUCSL")
@@ -207,15 +267,20 @@ def build_snapshot():
         },
     ]
 
+    trend_signal = compute_trend_score(indicators)
+
     return {
         "updated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "indicators": indicators,
+        "trend_signal": trend_signal,
     }
+
 
 def main():
     snapshot = build_snapshot()
     OUTPUT_PATH.write_text(json.dumps(snapshot, indent=2), encoding="utf-8")
     print(f"Wrote {OUTPUT_PATH}")
+
 
 if __name__ == "__main__":
     main()
