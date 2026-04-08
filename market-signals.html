@@ -135,105 +135,238 @@
     .signal-impact strong, .signal-explainer strong, .signal-action strong { display:block; margin-bottom: 6px; }
     .signal-impact p, .signal-explainer p, .signal-action p { margin:0; color: var(--muted); line-height: 1.6; }
     .signal-action { border-color: rgba(34,211,197,0.22); background: rgba(34,211,197,0.06); }
-    .formula-grid { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
-    .formula-card {
-      padding: 18px; border-radius: 18px; border:1px solid var(--border); background: rgba(255,255,255,0.04);
-    }
-    .formula-card h3 { margin: 0 0 8px; font-size: 18px; }
-    .formula { color: var(--teal); font-weight: 900; line-height: 1.5; }
-    .formula-toggle {
-      margin-top: 18px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.035);
-      overflow: hidden;
-    }
-    .formula-toggle summary {
-      list-style: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 18px 20px;
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-    .formula-toggle summary::-webkit-details-marker { display: none; }
-    .formula-toggle summary::after {
-      content: '+';
-      font-size: 28px;
-      font-weight: 300;
-      color: var(--teal);
-      line-height: 1;
-      transition: transform 0.2s ease;
-      flex-shrink: 0;
-    }
-    .formula-toggle[open] summary::after { transform: rotate(45deg); }
-    .formula-toggle-body {
-      padding: 0 20px 20px;
-    }
-    .formula-intro {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-      max-width: 920px;
-    }
-    .max-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .max-pill {
-      padding: 12px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
-      text-align: center;
-    }
-    .max-pill-label {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .max-pill-value {
-      margin-top: 6px;
-      font-size: 20px;
-      font-weight: 950;
-      letter-spacing: -0.03em;
-      color: #fff;
-    }
-    .cta-strip {
-      margin-top: 24px; padding: 22px; border-radius: 24px; border:1px solid rgba(34,211,197,0.24);
-      background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
-      display:flex; justify-content:space-between; gap: 18px; align-items:center; flex-wrap:wrap;
-    }
-    .cta-strip p { margin: 6px 0 0; color: var(--muted); max-width: 720px; }
-    .data-source-note { margin-top: 16px; color: var(--muted2); font-size: 13px; line-height: 1.6; }
-    @media (max-width: 1100px) {
-      .market-intro-grid, .signals-grid, .formula-grid, .pressure-submetrics { grid-template-columns: 1fr; }
-      .signal-overview, .signal-stats { grid-template-columns: 1fr 1fr; }
-      .market-wide { width: min(1360px, calc(100% - 28px)); }
-    }
-    @media (max-width: 700px) {
-      .signal-overview, .signal-stats, .pressure-submetrics { grid-template-columns: 1fr; }
-      .market-hero { padding-top: 24px; }
-      .signal-card-top, .pressure-top, .pressure-score-wrap { flex-direction: column; grid-template-columns: 1fr; }
-      .market-wide { width: min(1360px, calc(100% - 20px)); }
-      .formula-card { padding: 16px; }
-      .formula-card h3 { font-size: 16px; }
-      .formula { font-size: 14px; line-height: 1.6; word-break: break-word; overflow-wrap: anywhere; }
-      .formula-toggle summary { padding: 16px 16px; font-size: 17px; }
-      .formula-toggle-body { padding: 0 16px 16px; }
-      .formula-card .product-lead, .formula-intro { font-size: 13px; line-height: 1.6; }
-      .max-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .max-pill { padding: 11px 8px; }
-      .max-pill-value { font-size: 18px; }
-    }
+    .formula-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.formula-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  min-width: 0;
+}
+
+.formula-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.formula {
+  color: var(--teal);
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.formula-toggle {
+  margin-top: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.035);
+  overflow: hidden;
+}
+
+.formula-toggle summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.formula-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.formula-toggle summary::after {
+  content: '+';
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--teal);
+  line-height: 1;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.formula-toggle[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.formula-toggle-body {
+  padding: 0 20px 20px;
+}
+
+.formula-intro {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 920px;
+}
+.formula-swipe-note {
+  display: none;
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+
+@media (max-width: 900px) {
+  .formula-swipe-note {
+    display: block;
+  }
+}
+
+/* 👇 SWIPE VERSION */
+@media (max-width: 900px) {
+  .formula-grid {
+    grid-auto-flow: column;
+    grid-auto-columns: 90%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 12px;
+    padding-bottom: 10px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .formula-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .formula-card {
+    scroll-snap-align: start;
+  }
+
+  .formula-card[style*="grid-column: span 3"] {
+    grid-column: auto !important;
+  }
+}
+
+.max-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.max-pill {
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  text-align: center;
+}
+
+.max-pill-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.max-pill-value {
+  margin-top: 6px;
+  font-size: 20px;
+  font-weight: 950;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.cta-strip {
+  margin-top: 24px;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(34,211,197,0.24);
+  background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cta-strip p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  max-width: 720px;
+}
+
+.data-source-note {
+  margin-top: 16px;
+  color: var(--muted2);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* 🚨 CRITICAL FIX (removes grid override bug) */
+@media (max-width: 1100px) {
+  .market-intro-grid,
+  .signals-grid,
+  .pressure-submetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .signal-overview,
+  .signal-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .market-wide {
+    width: min(1360px, calc(100% - 28px));
+  }
+}
+
+@media (max-width: 700px) {
+  .signal-overview,
+  .signal-stats,
+  .pressure-submetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .market-hero {
+    padding-top: 24px;
+  }
+
+  .signal-card-top,
+  .pressure-top,
+  .pressure-score-wrap {
+    flex-direction: column;
+    grid-template-columns: 1fr;
+  }
+
+  .market-wide {
+    width: min(1360px, calc(100% - 20px));
+  }
+
+  .formula-card {
+    padding: 16px;
+  }
+
+  .formula-card h3 {
+    font-size: 16px;
+  }
+
+  .formula {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .max-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
   </style>
 </head>
 <body>
@@ -362,7 +495,7 @@
             <summary>View the maximums and calculation</summary>
             <div class="formula-toggle-body">
               <p class="formula-intro">Each signal is normalized against a defined ceiling, capped at 100, and then weighted into one blended pressure score. This keeps the math visible without crowding the page on mobile.</p>
-
+              <p class="formula-swipe-note">Swipe to see each card →</p>
               <div class="formula-grid">
                 <div class="formula-card" style="grid-column: span 3;">
                   <h3>Pressure calculation</h3>

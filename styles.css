@@ -1010,3 +1010,66 @@ h1 {
   .nav { align-items: center; }
   .nav-links { flex-wrap: nowrap; justify-content: flex-start; }
 }
+
+/* ───────── FIX MOBILE SIDE GAPS / SAFARI BUG ───────── */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+/* Ensure full background coverage */
+.bg {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+/* Fix iOS safe area spacing */
+.market-wide,
+.container {
+  width: min(1360px, calc(100% - 24px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ───────── CTA BUTTON FIX (STACK CLEAN ON MOBILE) ───────── */
+@media (max-width: 700px) {
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ───────── FOOTER FIX ───────── */
+@media (max-width: 700px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .footer-right {
+    flex-wrap: wrap;
+  }
+}
+
+/* ───────── PREVENT RANDOM OVERFLOW ELEMENTS ───────── */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ───────── SAFARI LANDSCAPE FIX ───────── */
+@media (orientation: landscape) and (max-width: 900px) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
