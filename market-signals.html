@@ -952,7 +952,9 @@
             <div class="signal-card-top">
               <div>
                 <h3 class="signal-name">${indicator.name}</h3>
-                <div class="signal-series">${sourceLine} · Series: ${indicator.series}</div>
+                <div class="signal-series">
+                ${sourceLine} · Series: ${indicator.series === 'ENERGY_FUEL' ? 'DCOILWTICO' : indicator.series}
+                </div>
               </div>
               <div class="signal-chip">${x.status}</div>
             </div>
