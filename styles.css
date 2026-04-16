@@ -788,8 +788,6 @@ h1 {
 /* ─── Resources dropdown ─────────────────────────────────────────────── */
 .resources-menu {
   position: relative;
-  padding-bottom: 14px;
-  margin-bottom: -14px;
 }
 
 .resources-trigger {
@@ -828,7 +826,7 @@ h1 {
 
 .resources-dropdown {
   position: absolute;
-  top: calc(100% + 2px);
+  top: calc(100% + 10px);
   right: 0;
   min-width: 260px;
   padding: 10px;
@@ -852,22 +850,6 @@ h1 {
   visibility: visible;
   transform: translateY(0);
   pointer-events: auto;
-}
-
-.resources-dropdown::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -14px;
-  height: 14px;
-}
-
-.support-inline-btn {
-  padding: 10px 14px;
-  min-height: auto;
-  width: 100%;
-  text-align: center;
 }
 
 .resources-item {
@@ -909,167 +891,5 @@ h1 {
   .nav-links {
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-}
-/* ─── Hamburger mobile menu ──────────────────────────────── */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  flex-shrink: 0;
-}
-.hamburger:hover { background: transparent; }
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 2.5px;
-  border-radius: 999px;
-  background: #fff;
-  transition: transform 0.22s ease, opacity 0.22s ease, width 0.22s ease;
-}
-.hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.hamburger.is-open span:nth-child(2) { opacity: 0; width: 0; }
-.hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-@media (max-width: 700px) {
-  .hamburger { display: flex; }
-
-  /* Mobile menu: anchor below sticky header instead of covering the whole viewport */
-  .nav-links {
-    display: none !important;
-    position: fixed;
-    top: 73px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 99;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    padding: max(14px, env(safe-area-inset-top)) 20px calc(32px + env(safe-area-inset-bottom));
-    background: rgba(9,17,27,0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-  }
-  .nav-links.is-open {
-    display: flex !important;
-  }
-
-  .nav-link {
-    font-size: 16px;
-    padding: 16px 14px;
-    border-radius: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .resources-menu {
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-  .resources-trigger {
-    width: 100%;
-    font-size: 16px;
-    padding: 16px 14px;
-    border-radius: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    justify-content: space-between;
-  }
-  .resources-dropdown {
-    position: static !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    pointer-events: auto !important;
-    box-shadow: none;
-    background: rgba(255,255,255,0.03);
-    border: none;
-    border-radius: 0;
-    min-width: 0;
-    padding: 6px 0 6px 16px;
-    display: none;
-    transition: none;
-  }
-  .resources-menu.res-open .resources-dropdown { display: grid; }
-  .resources-menu.res-open .resources-caret { transform: rotate(180deg); }
-}
-
-@media (max-width: 560px) {
-  /* Override existing 560px rule that re-wraps nav-links */
-  .nav { align-items: center; }
-  .nav-links { flex-wrap: nowrap; justify-content: flex-start; }
-}
-
-/* ───────── FIX MOBILE SIDE GAPS / SAFARI BUG ───────── */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100dvh;
-}
-
-/* Ensure full background coverage */
-.bg {
-  width: 100%;
-  min-height: 100dvh;
-}
-
-/* Fix iOS safe area spacing */
-.market-wide,
-.container {
-  width: min(1360px, calc(100% - 24px));
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ───────── CTA BUTTON FIX (STACK CLEAN ON MOBILE) ───────── */
-@media (max-width: 700px) {
-  .hero-cta {
-    flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
-  }
-}
-
-/* ───────── FOOTER FIX ───────── */
-@media (max-width: 700px) {
-  .footer-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .footer-right {
-    flex-wrap: wrap;
-  }
-}
-
-/* ───────── PREVENT RANDOM OVERFLOW ELEMENTS ───────── */
-img, video, canvas, svg {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ───────── SAFARI LANDSCAPE FIX ───────── */
-@media (orientation: landscape) and (max-width: 900px) {
-  body {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
   }
 }
