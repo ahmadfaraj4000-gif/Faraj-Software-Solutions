@@ -13,26 +13,51 @@
 </head>
 <body>
   <div class="bg">
-    <header class="header">
+        <header class="header">
       <div class="container nav">
-        <a href="index.html" style="text-decoration:none; color:inherit;">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
           <div class="brand">
-            <div class="mark" aria-hidden="true"><span class="mark-bar b1"></span><span class="mark-bar b2"></span><span class="mark-bar b3"></span></div>
-            <div class="brand-text"><div class="brand-title">Faraj Software Solutions</div><div class="brand-sub">Modern tools for real-world business decisions</div></div>
+            <div class="mark" aria-hidden="true">
+              <span class="mark-bar b1"></span>
+              <span class="mark-bar b2"></span>
+              <span class="mark-bar b3"></span>
+            </div>
+            <div class="brand-text">
+              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-sub">Modern tools for real-world business decisions</div>
+            </div>
           </div>
         </a>
+
+        <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
         <div class="nav-links">
-          <a class="nav-link" href="index.html#products">Products</a>
-          <a class="nav-link" href="index.html#support">Support</a>
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="custom-software.html">Custom Software</a>
+          <a class="nav-link" href="market-signals.html">Market Signals</a>
           <div class="resources-menu">
-            <button class="resources-trigger" type="button">Resources <span class="resources-caret">▾</span></button>
-            <div class="resources-dropdown">
+            <button class="resources-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+              Free Tools
+              <span class="resources-caret">▾</span>
+            </button>
+            <div class="resources-dropdown" role="menu" aria-label="Free Tools">
               <a class="resources-item" href="pricing-assistant-demo.html">Pricing Assistant Web Demo</a>
-              <a class="resources-item" href="spa-calculator-demo.html">Spa Service Cost Demo</a>
+              <a class="resources-item" href="spa-calculator-demo.html">Spa Cost Estimator Demo</a>
               <a class="resources-item" href="shift-planner-demo.html">Shift Planner Web Demo</a>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <a class="mobile-link" href="index.html">Home</a>
+        <a class="mobile-link" href="custom-software.html">Custom Software</a>
+        <a class="mobile-link" href="market-signals.html">Market Signals</a>
+        <a class="mobile-link" href="pricing-assistant-demo.html">Pricing Assistant Web Demo</a>
+        <a class="mobile-link" href="spa-calculator-demo.html">Spa Cost Estimator Demo</a>
+        <a class="mobile-link" href="shift-planner-demo.html">Shift Planner Web Demo</a>
       </div>
     </header>
     <main class="placeholder-wrap">
@@ -49,5 +74,58 @@
       </div>
     </main>
   </div>
+<script>
+(function () {
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  const resTrigger = document.querySelector('.resources-trigger');
+  const resMenu = document.querySelector('.resources-menu');
+
+  function closeMenu() {
+    if (!btn || !menu) return;
+    menu.classList.remove('open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleMenu() {
+    if (!btn || !menu) return;
+    const open = menu.classList.toggle('open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  }
+
+  if (btn && menu) {
+    btn.addEventListener('click', toggleMenu);
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  if (resTrigger && resMenu) {
+    resTrigger.addEventListener('click', function (e) {
+      if (window.innerWidth <= 860) {
+        e.preventDefault();
+      }
+      const expanded = resTrigger.getAttribute('aria-expanded') === 'true';
+      resTrigger.setAttribute('aria-expanded', String(!expanded));
+      resMenu.classList.toggle('is-open', !expanded);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!resMenu.contains(e.target)) {
+        resMenu.classList.remove('is-open');
+        resTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 860) {
+      closeMenu();
+    }
+  });
+})();
+</script>
 </body>
 </html>
