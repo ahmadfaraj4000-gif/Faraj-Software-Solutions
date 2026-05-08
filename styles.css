@@ -1088,3 +1088,46 @@ h1 {
 @media(max-width:860px){
   .local-link-grid{grid-template-columns:1fr;}
 }
+/* Add to your styles.css */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated gradient border on the hero itself */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 197, 0.15),
+    rgba(34, 211, 197, 0.4),
+    rgba(34, 211, 197, 0.15),
+    transparent
+  );
+  border-radius: 32px;
+  z-index: -1;
+  animation: borderSweep 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes borderSweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
