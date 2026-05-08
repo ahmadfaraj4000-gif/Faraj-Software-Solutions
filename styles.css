@@ -1008,9 +1008,83 @@ h1 {
   background: rgba(255,255,255,0.04);
   color: var(--teal);
 }
+/* Small SEO internal links strip - compact, not a major page section */
+.local-seo-links{
+  padding:18px 0 26px;
+}
 
-/* Final mobile nav overrides */
-@media (max-width: 860px) {
-  .nav-links { display: none !important; }
-  .hamburger { display: inline-flex !important; }
+.local-seo-links .section-title{
+  font-size:22px;
+  line-height:1.15;
+  margin:0 0 6px;
+}
+
+.local-seo-links .section-sub{
+  max-width:720px;
+  font-size:13.5px;
+  line-height:1.55;
+  margin:0;
+  color:var(--muted);
+}
+
+.local-seo-links .kicker{
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.local-link-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:14px;
+}
+
+.local-link-card{
+  display:block;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.035);
+  border-radius:16px;
+  padding:14px 14px 13px;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease;
+}
+
+.local-link-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(34,211,197,.28);
+  background:rgba(34,211,197,.055);
+}
+
+.local-link-no{
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.08em;
+  color:var(--teal);
+  margin-bottom:6px;
+}
+
+.local-link-card h3{
+  margin:0 0 6px;
+  font-size:15px;
+  line-height:1.25;
+  color:#fff;
+}
+
+.local-link-card p{
+  margin:0;
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.45;
+}
+
+.local-link-cta{
+  display:inline-flex;
+  margin-top:9px;
+  color:var(--teal);
+  font-size:11px;
+  font-weight:900;
+}
+
+@media(max-width:860px){
+  .local-link-grid{grid-template-columns:1fr;}
 }
