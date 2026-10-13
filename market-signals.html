@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market Signals for Small Businesses | Faraj Software Solutions</title>
+  <title>Market Signals for Small Businesses | Reimage Tech</title>
   <meta name="description" content="Track inflation, supplier costs, energy prices, interest rates, labor pressure, and monetary conditions with clear, business-focused insights for small and medium-sized businesses." />
   <meta name="keywords" content="economic indicators for small businesses, business inflation dashboard, CPI for business owners, PPI business costs, fuel costs business, labor cost pressure, interest rates small business, medium sized business economics" />
   <link rel="canonical" href="https://www.farajsolutions.com/market-signals.html" />
-  <meta property="og:title" content="Market Signals for Small Businesses | Faraj Software Solutions" />
+  <meta property="og:title" content="Market Signals for Small Businesses | Reimage Tech" />
   <meta property="og:description" content="A simple indicator dashboard showing the macro signals that affect pricing, supplier costs, transport costs, borrowing, and long-term inflation pressure." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.farajsolutions.com/market-signals.html" />
@@ -24,7 +24,7 @@
     .market-kicker {
       display:inline-flex; align-items:center; gap:8px;
       padding: 7px 12px; border-radius: 999px;
-      background: rgba(34,211,197,0.10); border:1px solid rgba(34,211,197,0.22);
+      background: rgba(8,119,232,0.10); border:1px solid rgba(8,119,232,0.22);
       color: var(--teal); font-size: 12px; font-weight: 900; letter-spacing: 0.02em;
       margin-bottom: 12px;
     }
@@ -91,7 +91,7 @@
     }
     .pressure-bar-fill {
       height:100%; width:0%; border-radius:999px;
-      background: linear-gradient(90deg, rgba(34,211,197,0.9), rgba(245,158,11,0.95), rgba(239,68,68,0.95));
+      background: linear-gradient(90deg, rgba(8,119,232,0.9), rgba(245,158,11,0.95), rgba(239,68,68,0.95));
       transition: width 500ms ease;
     }
     .pressure-range { display:flex; justify-content:space-between; gap:8px; font-size:11px; color: var(--muted2); text-transform: uppercase; letter-spacing:0.04em; }
@@ -119,7 +119,7 @@
     .signal-series { color: var(--muted2); font-size: 12px; font-weight: 800; margin-top: 6px; }
     .signal-chip {
       padding: 7px 10px; border-radius: 999px; font-size: 12px; font-weight: 900;
-      border:1px solid rgba(34,211,197,0.25); background: rgba(34,211,197,0.10); color: var(--teal);
+      border:1px solid rgba(8,119,232,0.25); background: rgba(8,119,232,0.10); color: var(--teal);
       white-space: nowrap;
     }
     .signal-stats { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0 16px; }
@@ -134,7 +134,7 @@
     }
     .signal-impact strong, .signal-explainer strong, .signal-action strong { display:block; margin-bottom: 6px; }
     .signal-impact p, .signal-explainer p, .signal-action p { margin:0; color: var(--muted); line-height: 1.6; }
-    .signal-action { border-color: rgba(34,211,197,0.22); background: rgba(34,211,197,0.06); }
+    .signal-action { border-color: rgba(8,119,232,0.22); background: rgba(8,119,232,0.06); }
     .formula-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -281,15 +281,15 @@
   font-size: 20px;
   font-weight: 950;
   letter-spacing: -0.03em;
-  color: #fff;
+  color: var(--text);
 }
 
 .cta-strip {
   margin-top: 24px;
   padding: 22px;
   border-radius: 24px;
-  border: 1px solid rgba(34,211,197,0.24);
-  background: linear-gradient(145deg, rgba(34,211,197,0.08), rgba(18,175,164,0.03));
+  border: 1px solid rgba(8,119,232,0.24);
+  background: linear-gradient(145deg, rgba(8,119,232,0.08), rgba(3,72,191,0.03));
   display: flex;
   justify-content: space-between;
   gap: 18px;
@@ -368,6 +368,8 @@
   }
 }
   </style>
+<link rel="stylesheet" href="shared/reimage.css">
+<script type="module" src="brand-config.js"></script>
 </head>
 <body>
   <div class="bg">
@@ -381,7 +383,7 @@
               <span class="mark-bar b3"></span>
             </div>
             <div class="brand-text">
-              <div class="brand-title">Faraj Software Solutions</div>
+              <div class="brand-title">Reimage Tech</div>
               <div class="brand-sub">Modern tools for real-world business decisions</div>
             </div>
           </div>
@@ -396,7 +398,7 @@
           <a class="nav-link" href="shift-planner.html">Shift Planner</a>
           <a class="nav-link" href="custom-software.html">Custom Software</a>
           <a class="nav-link" href="market-signals.html">Market Signals</a>
-          <a class="nav-link chip" href="https://login.farajsoftwaresolutions.com">Client Portal</a>
+          <a class="nav-link chip" data-brand-link="portalUrl" href="https://login.reimagebstech.com">Client Portal</a>
         </div>
       </div>
 
@@ -405,7 +407,7 @@
         <a class="mobile-link" href="shift-planner.html">Shift Planner</a>
         <a class="mobile-link" href="custom-software.html">Custom Software</a>
         <a class="mobile-link" href="market-signals.html">Market Signals</a>
-        <a class="mobile-link" href="https://login.farajsoftwaresolutions.com">Client Portal</a>
+        <a class="mobile-link" data-brand-link="portalUrl" href="https://login.reimagebstech.com">Client Portal</a>
       </div>
     </header>
 
@@ -570,7 +572,7 @@
       <footer class="footer">
         <div class="market-wide footer-inner">
           <div class="footer-left">
-            <div class="footer-title">Faraj Software Solutions</div>
+            <div class="footer-title">Reimage Tech</div>
             <div class="footer-sub">Custom software and business tools for pricing, planning, and operations.</div>
           </div>
           <div class="footer-right">
@@ -902,7 +904,7 @@
       let icon = '◌';
       let summary = 'Conditions look comparatively manageable. Pressure exists, but it is not broad-based enough to force aggressive defensive pricing.';
       let action = 'Focus on consistency, cost discipline, and targeted pricing reviews instead of big reactive changes.';
-      let badgeStyle = 'border-color: rgba(34,211,197,0.25); background: rgba(34,211,197,0.10); color: var(--teal);';
+      let badgeStyle = 'border-color: rgba(8,119,232,0.25); background: rgba(8,119,232,0.10); color: var(--teal);';
 
       if (score >= 65) {
         tier = 'High Pressure';
@@ -958,7 +960,7 @@
         trendNote = negativeDrivers.length
           ? `Pressure is cooling as faster-moving signals in ${formatDriverList(negativeDrivers)} ease.`
           : 'Pressure is cooling as more signals ease instead of accelerating.';
-        trendStyle = 'border-color: rgba(34,211,197,0.24); background: rgba(34,211,197,0.08); color: var(--teal);';
+        trendStyle = 'border-color: rgba(8,119,232,0.24); background: rgba(8,119,232,0.08); color: var(--teal);';
       }
 
       let monetaryLabel = 'Neutral';

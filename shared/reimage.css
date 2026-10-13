@@ -1,0 +1,130 @@
+/* Shared white-first Reimage Tech surfaces. Imported after product styles. */
+:root {
+  --bg: #fff;
+  --bg2: #f5f7fa;
+  --panel: #fff;
+  --panel2: #f5f7fa;
+  --border: #dfe5ec;
+  --text: #071426;
+  --muted: #526174;
+  --muted2: #657083;
+  --teal: #0877e8;
+  --teal2: #0348bf;
+  --orange: #f28c45;
+  --shadow: 0 12px 36px #0714260c;
+  color-scheme: light;
+}
+body {
+  background: #f5f7fa;
+  color: #071426;
+}
+.header,
+.portal-header {
+  background: #fff;
+  border-bottom: 1px solid #dfe5ec;
+}
+input,
+textarea,
+select,
+.field {
+  background: #fff !important;
+  color: #071426 !important;
+  border: 1px solid #c8d2df !important;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #657083 !important;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f28c45;
+  outline-offset: 3px;
+}
+.card,
+.panel,
+.auth-card,
+.login-card,
+.blocked-card,
+.product-card,
+.portal-gate-card,
+.modal,
+.modal-card {
+  background: #fff;
+  color: #071426;
+  border: 1px solid #dfe5ec;
+  box-shadow: 0 12px 32px #0714260a;
+}
+.btn.primary,
+.btn-primary,
+button.primary {
+  background: #0877e8;
+  color: #fff;
+  border-color: #0877e8;
+}
+.mark,
+.brand-mark {
+  background: #fff3e8;
+  border-color: #f28c4566;
+  color: #0877e8;
+}
+.footer,
+.portal-footer {
+  background: #fff;
+  color: #526174;
+}
+@media print {
+  body {
+    background: #fff;
+  }
+  button,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+}
+.btn.primary,
+.btn.buy,
+.btn-primary,
+.sticky-button,
+.nav-btn.primary,
+.trial-btn {
+  color: #fff !important;
+  background: #0877e8 !important;
+}
+.badge,
+.pill,
+.chip {
+  border-color: #dfe5ec;
+}
+.hero,
+.section,
+.panel,
+.feature-card,
+.pricing-card {
+  color: #071426;
+}
+.pricing-sidebar {
+  background: #fff !important;
+  border-right: 1px solid #dfe5ec;
+}
+body:has(.container) {
+  background: #fff;
+}
+.edition-card--pro,
+.edition-card {
+  background: #fff !important;
+  border: 1px solid #dfe5ec !important;
+  box-shadow: 0 12px 32px #07142608 !important;
+}
+#shift-planner .edition-card {
+  border-top: 3px solid #f28c45 !important;
+}
+.btn.primary .btn-sub {
+  color: #fff !important;
+  opacity: 0.85;
+}
+.hamburger span {
+  background: #071426 !important;
+}

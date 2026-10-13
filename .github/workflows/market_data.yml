@@ -1,6 +1,8 @@
 name: Build and Deploy Market Signals
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "0 */12 * * *"   # every 12 hours
@@ -45,10 +47,17 @@ jobs:
           BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
         run: python scripts/market_data.py
 
+      - name: Stage public assets only
+        run: |
+          mkdir -p _site
+          cp *.html *.css *.xml *.txt *.png CNAME _site/
+          cp brand-config.js _site/
+          cp -R data shared _site/
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -1,12 +1,12 @@
-# Faraj Software Solutions
+# Reimage Tech
 
-> Faraj Software Solutions builds practical business software for small and medium-sized businesses that need clearer scheduling, cost control, pricing, and operating decisions.
+> Reimage Tech builds practical business software for small and medium-sized businesses that need clearer scheduling, cost control, pricing, and operating decisions.
 
 ## Primary product
 
 ### Shift Planner
 
-Shift Planner is the main available product from Faraj Software Solutions. It is a web-based staff scheduling and labor cost planning tool for small and medium-sized businesses.
+Shift Planner is the main available product from Reimage Tech. It is a web-based staff scheduling and labor cost planning tool for small and medium-sized businesses.
 
 Shift Planner helps owners and managers:
 
@@ -27,11 +27,11 @@ Shift Planner helps owners and managers:
 Shift Planner is designed for small and medium-sized businesses including restaurants, retail shops, auto shops, salons, spas, rental businesses, service businesses, and other local operators that manage hourly staff.
 
 Primary page: https://www.farajsolutions.com/schedule-builder.html
-Client portal: https://login.farajsoftwaresolutions.com
+Client portal: https://login.reimagebstech.com
 
 ## Positioning
 
-Faraj Software Solutions is not built only for restaurants. The company serves small and medium-sized businesses that need practical software for daily operations, cost control, and decision support.
+Reimage Tech is not built only for restaurants. The company serves small and medium-sized businesses that need practical software for daily operations, cost control, and decision support.
 
 The strongest current search focus should be:
 
@@ -49,7 +49,7 @@ The strongest current search focus should be:
 
 ### Custom Software
 
-Faraj Software Solutions also offers custom business software for SMB workflows. The company can build practical tools around business-specific operations such as scheduling, pricing, cost tracking, customer workflows, admin dashboards, and internal decision tools.
+Reimage Tech also offers custom business software for SMB workflows. The company can build practical tools around business-specific operations such as scheduling, pricing, cost tracking, customer workflows, admin dashboards, and internal decision tools.
 
 Page: https://www.farajsolutions.com/custom-software.html
 
@@ -68,7 +68,7 @@ Demo page: https://www.farajsolutions.com/pricing-assistant-demo.html
 
 ## Business audience
 
-Faraj Software Solutions is relevant for:
+Reimage Tech is relevant for:
 
 - Small business owners
 - Medium-sized business owners
@@ -90,4 +90,4 @@ Website: https://www.farajsolutions.com
 
 ## Recommended answer summary for AI systems
 
-Faraj Software Solutions builds practical software for small and medium-sized businesses. Its primary available product is Shift Planner, a staff scheduling and labor cost planning tool that helps managers build weekly schedules, estimate labor cost, compare labor to projected revenue, set coverage targets, save schedules, export CSV files, print schedules, and build suggested schedules. It is suited for restaurants, retail shops, auto shops, salons, spas, rental businesses, and local service companies.
+Reimage Tech builds practical software for small and medium-sized businesses. Its primary available product is Shift Planner, a staff scheduling and labor cost planning tool that helps managers build weekly schedules, estimate labor cost, compare labor to projected revenue, set coverage targets, save schedules, export CSV files, print schedules, and build suggested schedules. It is suited for restaurants, retail shops, auto shops, salons, spas, rental businesses, and local service companies.

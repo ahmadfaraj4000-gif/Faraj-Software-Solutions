@@ -1,8 +1,8 @@
 {
-  "name": "farajsolutions-site",
+  "name": "reimage-tech",
   "version": "1.0.0",
   "private": true,
-  "description": "Faraj Software Solutions site with FRED API backend proxy",
+  "description": "Reimage Tech public website and market data",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
